@@ -12,11 +12,13 @@ const characterModule = {
   },
   actions: {
     fetchCharacters({ commit }) {
-      plainAxiosInstance.get('/characters').then(response => {
-        const characters = response.data;
-        commit('SET_CHARACTERS', characters);
-      });
-      // commit('SET_CHARACTERS', characters);
+      plainAxiosInstance
+        .get('/characters')
+        .then(response => {
+          const characters = response.data;
+          commit('SET_CHARACTERS', characters);
+        })
+        .catch(error => console.log('something', error));
     }
   },
   getters: {}

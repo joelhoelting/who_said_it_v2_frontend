@@ -1,14 +1,13 @@
 <template>
-  <div class="Play">
-    <Counter />
+  <div class="container">
+    <h1>Characters</h1>
+    <h1 v-for="character in character.characters" :key="character.id">{{character.name}}</h1>
   </div>
 </template>
 
 <script>
-import Counter from '@/components/Counter';
+import { mapState } from 'vuex';
 export default {
-  components: {
-    Counter
-  }
+  computed: mapState(['character'])
 };
 </script>
