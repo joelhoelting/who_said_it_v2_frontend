@@ -1,0 +1,29 @@
+html,
+body {
+  color: $white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+button {
+  font-family: 'Baloo', cursive;
+}
+
+a {
+  &:link,
+  &:active,
+  &:focus,
+  &:visited {
+    color: inherit;
+  }
+  text-decoration: none;
+  font-family: 'Baloo', cursive;
+  &:hover {
+    text-decoration: underline;
+  }
+}

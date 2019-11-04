@@ -1,0 +1,12 @@
+@for $i from 1 through 10 {
+  .fade-up-#{$i * 100}-enter-active,
+  .fade-up-#{$i * 100}-leave-active {
+    transition: all #{$i * 100}ms ease;
+  }
+
+  .fade-direction-#{$i * 100}-enter,
+  .fade-direction-#{$i * 100}-leave-to {
+    opacity: 0;
+    transform: translateY(#{$i * 100}px);
+  }
+}
