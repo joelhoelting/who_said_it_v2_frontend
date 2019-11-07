@@ -2,7 +2,7 @@
   <div class="play-container">
     <h1 class="title milkshake center">Select Characters</h1>
     <div class="card-container">
-      <CharacterCard
+      <CharacterSelectCard
         v-for="character in character.characters"
         :key="character.id"
         :character="character"
@@ -14,7 +14,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
-import CharacterCard from '@/components/pages/play/CharacterCard.vue';
+import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
 
 export default {
   data() {
@@ -23,7 +23,7 @@ export default {
     };
   },
   components: {
-    CharacterCard
+    CharacterSelectCard
   },
   mounted() {
     this.fetchCharacters()
@@ -41,12 +41,11 @@ export default {
 
 <style lang="scss" scoped>
 h1.title {
-  font-size: 2rem;
+  font-size: 3rem;
   margin-top: 0;
 }
 .card-container {
   display: flex;
-  background: grey;
   flex-wrap: wrap;
 }
 </style>
