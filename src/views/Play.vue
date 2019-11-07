@@ -12,15 +12,30 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import CharacterCard from '@/components/pages/play/CharacterCard.vue';
 
 export default {
+  data() {
+    return {
+      charactersLoaded: false
+    };
+  },
   components: {
     CharacterCard
   },
-  computed: mapState(['character'])
+  mounted() {
+    this.fetchCharacters()
+      .then(response => {
+        this.charactersLoaded = true;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  computed: mapState(['character']),
+  methods: mapActions('character', ['fetchCharacters'])
 };
 </script>
 
