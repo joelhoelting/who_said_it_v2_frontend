@@ -18,7 +18,7 @@ const characterModule = {
           const characters = response.data;
           commit('SET_CHARACTERS', characters);
         })
-        .catch(error => console.log('something', error));
+        .catch(error => console.log('Failed to fetch characters', error));
     }
   },
   getters: {}

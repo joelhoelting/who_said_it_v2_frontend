@@ -19,9 +19,11 @@ export default {};
 
 <style lang="scss" scoped>
 header {
-  position: absolute;
+  position: fixed;
   height: 100px;
   width: 100%;
+  top: 0;
+  left: 0;
   nav {
     height: 100%;
     display: flex;

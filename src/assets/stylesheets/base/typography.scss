@@ -11,7 +11,7 @@ h5,
 h6,
 li,
 button {
-  font-family: 'Baloo', cursive;
+  font-family: 'Baloo', sans-serif;
 }
 
 a {
@@ -26,4 +26,13 @@ a {
   &:hover {
     text-decoration: underline;
   }
+}
+
+.milkshake {
+  font-family: 'Milkshake', 'cursive';
+  font-weight: normal;
+}
+
+.center {
+  text-align: center;
 }

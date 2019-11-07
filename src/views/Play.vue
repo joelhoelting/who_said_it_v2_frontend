@@ -1,26 +1,37 @@
 <template>
-  <div class="container">
-    <h1>Select Characters</h1>
-    <div v-for="character in character.characters" :key="character.id">
-      <h1>{{character.name}}</h1>
-      <img :src="getCharacterImage(character.slug)" />
+  <div class="play-container">
+    <h1 class="title milkshake center">Select Characters</h1>
+    <div class="card-container">
+      <CharacterCard
+        v-for="character in character.characters"
+        :key="character.id"
+        :character="character"
+      />
     </div>
-    <h1>{{title}}</h1>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import images from '@/mixins/images.js';
+
+import CharacterCard from '@/components/pages/play/CharacterCard.vue';
 
 export default {
-  computed: mapState(['character']),
-  mixins: [images]
+  components: {
+    CharacterCard
+  },
+  computed: mapState(['character'])
 };
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  font-family: 'Milkshake';
+h1.title {
+  font-size: 2rem;
+  margin-top: 0;
+}
+.card-container {
+  display: flex;
+  background: grey;
+  flex-wrap: wrap;
 }
 </style>
