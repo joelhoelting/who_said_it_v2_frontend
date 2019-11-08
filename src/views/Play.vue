@@ -3,9 +3,11 @@
     <h1 class="title milkshake center">Select Characters</h1>
     <div class="card-container">
       <CharacterSelectCard
-        v-for="character in character.characters"
+        v-for="(character, index) in character.characters"
         :key="character.id"
         :character="character"
+        v-bind:active="charactersLoaded"
+        :cardIndex="index"
       />
     </div>
   </div>
@@ -28,7 +30,9 @@ export default {
   mounted() {
     this.fetchCharacters()
       .then(response => {
-        this.charactersLoaded = true;
+        setTimeout(() => {
+          this.charactersLoaded = true;
+        });
       })
       .catch(error => {
         console.log(error);

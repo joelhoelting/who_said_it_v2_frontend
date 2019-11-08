@@ -1,5 +1,5 @@
 <template>
-  <div class="character-card">
+  <div class="character-card" :class="activeClass">
     <div class="character-card__inner">
       <div
         class="character-card__front"
@@ -30,7 +30,14 @@ import images from '@/mixins/images.js';
 
 export default {
   props: {
-    character: Object
+    character: Object,
+    cardIndex: Number,
+    active: Boolean
+  },
+  computed: {
+    activeClass() {
+      return this.active ? `active-${this.cardIndex}` : undefined;
+    }
   },
   mixins: [images]
 };
@@ -42,6 +49,57 @@ export default {
   perspective: 1000px;
   margin: 10px;
   cursor: pointer;
+  opacity: 0;
+  transition: opacity 5000ms ease;
+  &.active-0 {
+    transition: opacity 500ms ease 0ms;
+    opacity: 1;
+  }
+  &.active-1 {
+    transition: opacity 500ms ease 100ms;
+    opacity: 1;
+  }
+  &.active-2 {
+    transition: opacity 500ms ease 200ms;
+    opacity: 1;
+  }
+  &.active-3 {
+    transition: opacity 500ms ease 300ms;
+    opacity: 1;
+  }
+  &.active-4 {
+    transition: opacity 500ms ease 400ms;
+    opacity: 1;
+  }
+  &.active-5 {
+    transition: opacity 500ms ease 500ms;
+    opacity: 1;
+  }
+  &.active-6 {
+    transition: opacity 500ms ease 600ms;
+    opacity: 1;
+  }
+  &.active-7 {
+    transition: opacity 500ms ease 700ms;
+    opacity: 1;
+  }
+  &.active-8 {
+    transition: opacity 500ms ease 800ms;
+    opacity: 1;
+  }
+  &.active-9 {
+    transition: opacity 500ms ease 900ms;
+    opacity: 1;
+  }
+  &.active-10 {
+    transition: opacity 500ms ease 1000ms;
+    opacity: 1;
+  }
+  &.active-11 {
+    transition: opacity 500ms ease 1100ms;
+    opacity: 1;
+  }
+  transition: opacity 200ms ease;
   &:hover .character-card__inner {
     transform: rotateY(180deg);
   }
