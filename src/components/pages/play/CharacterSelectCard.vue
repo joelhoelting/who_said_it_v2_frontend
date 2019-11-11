@@ -1,5 +1,5 @@
 <template>
-  <div class="character-card" :class="activeClass" :style="activeStyle">
+  <div class="character-card">
     <div class="character-card__inner">
       <div
         class="character-card__front"

@@ -2,11 +2,11 @@
   <div class="play-container">
     <h1 class="title milkshake center">Select Characters</h1>
     <transition-group
+      class="card-container"
+      tag="div"
       @before-enter="beforeEnter"
       @enter="enter"
       @after-enter="afterEnter"
-      tag="div"
-      class="card-container"
     >
       <CharacterSelectCard
         v-for="(character, index) in characters"
@@ -41,6 +41,7 @@ export default {
         this.characters = response;
       })
       .catch(error => {
+        console.log('Fetch failed, using backup character data');
         this.characters = error.characters;
       });
   },

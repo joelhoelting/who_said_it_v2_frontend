@@ -25,7 +25,9 @@ const characterModule = {
           })
           .catch(error => {
             commit('SET_CHARACTERS', charactersBackup);
-            throw Object.assign(new Error(error), { characters: charactersBackup });
+            throw Object.assign(new Error(error), {
+              characters: charactersBackup
+            });
           });
       }
 
