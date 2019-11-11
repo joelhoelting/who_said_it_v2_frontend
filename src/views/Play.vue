@@ -1,13 +1,7 @@
 <template>
   <div class="play-container">
     <h1 class="title milkshake center">Select Characters</h1>
-    <transition-group
-      class="card-container"
-      tag="div"
-      @before-enter="beforeEnter"
-      @enter="enter"
-      @after-enter="afterEnter"
-    >
+    <transition-group class="card-container" tag="div" @before-enter="beforeEnter" @enter="enter">
       <CharacterSelectCard
         v-for="(character, index) in characters"
         :key="character.id"
@@ -19,7 +13,7 @@
 </template>
 
 <script>
-import { TweenLite } from 'gsap';
+import gsap from 'gsap';
 import { mapState, mapActions } from 'vuex';
 
 import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
@@ -54,43 +48,18 @@ export default {
     beforeEnter(el) {
       el.style.opacity = 0;
       el.style.left = '50px';
-
-      if (!this.animating) {
-        this.animating = true;
-      }
     },
     enter(el, done) {
       const delay = el.dataset.index * 100;
 
       setTimeout(() => {
-        TweenLite.to(el, 0.5, {
+        gsap.to(el, 0.5, {
           opacity: 1,
           left: 0,
           onComplete: done
         });
       }, delay);
-    },
-    afterEnter(el) {
-      if (+el.dataset.index === this.character.characters.length - 1) {
-        this.animating = false;
-      }
     }
-    // beforeLeave() {
-    //   if (!this.animating) {
-    //     this.animating = true;
-    //   }
-    // },
-    // leave(el, done) {
-    //   TweenLite.to(el, 0.5, {
-    //     opacity: 0,
-    //     onComplete: done
-    //   });
-    // },
-    // afterLeave(el) {
-    //   if (+el.dataset.index === this.character.characters.length - 1) {
-    //     this.animating = false;
-    //   }
-    // }
   }
 };
 </script>
