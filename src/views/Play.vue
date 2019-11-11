@@ -19,11 +19,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 import { TweenLite } from 'gsap';
+import { mapState, mapActions } from 'vuex';
+
 import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
 
 export default {
+  name: 'play',
   data() {
     return {
       characters: [],
@@ -70,7 +72,6 @@ export default {
     afterEnter(el) {
       if (+el.dataset.index === this.character.characters.length - 1) {
         this.animating = false;
-        console.log('done');
       }
     }
     // beforeLeave() {

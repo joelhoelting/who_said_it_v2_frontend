@@ -30,22 +30,7 @@ import images from '@/mixins/images.js';
 
 export default {
   props: {
-    character: Object,
-    cardIndex: Number,
-    active: Boolean
-  },
-  computed: {
-    activeClass() {
-      return this.active ? `active-delay-${this.cardIndex}` : undefined;
-    },
-    activeStyle() {
-      const activeStyleObj = {
-        transition: `opacity 500ms ease ${this.cardIndex * 100}ms`,
-        opacity: 1
-      };
-
-      return this.active ? activeStyleObj : undefined;
-    }
+    character: Object
   },
   mixins: [images]
 };
