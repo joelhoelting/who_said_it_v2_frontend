@@ -43,7 +43,7 @@ export default {
         transition: `opacity 500ms ease ${this.cardIndex * 100}ms`,
         opacity: 1
       };
-      console.log(activeStyleObj);
+
       return this.active ? activeStyleObj : undefined;
     }
   },
@@ -57,7 +57,7 @@ export default {
   perspective: 1000px;
   margin: 10px;
   cursor: pointer;
-  opacity: 0;
+  position: relative;
   &:hover .character-card__inner {
     transform: rotateY(180deg);
   }

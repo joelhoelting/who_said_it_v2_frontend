@@ -1,27 +1,33 @@
 <template>
   <div class="play-container">
     <h1 class="title milkshake center">Select Characters</h1>
-    <div class="card-container">
+    <transition-group
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter"
+      tag="div"
+      class="card-container"
+    >
       <CharacterSelectCard
-        v-for="(character, index) in character.characters"
+        v-for="(character, index) in characters"
         :key="character.id"
         :character="character"
-        v-bind:active="charactersLoaded"
-        :cardIndex="index"
+        :data-index="index"
       />
-    </div>
+    </transition-group>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-
+import { TweenLite } from 'gsap';
 import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
 
 export default {
   data() {
     return {
-      charactersLoaded: false
+      characters: [],
+      animating: false
     };
   },
   components: {
@@ -30,16 +36,60 @@ export default {
   mounted() {
     this.fetchCharacters()
       .then(response => {
-        setTimeout(() => {
-          this.charactersLoaded = true;
-        });
+        this.characters = response;
       })
       .catch(error => {
-        console.log(error);
+        this.characters = error.characters;
       });
   },
+  destroyed() {
+    this.characters = [];
+  },
   computed: mapState(['character']),
-  methods: mapActions('character', ['fetchCharacters'])
+  methods: {
+    ...mapActions('character', ['fetchCharacters', 'clearCharacters']),
+    beforeEnter(el) {
+      el.style.opacity = 0;
+      el.style.left = '50px';
+
+      if (!this.animating) {
+        this.animating = true;
+      }
+    },
+    enter(el, done) {
+      const delay = el.dataset.index * 100;
+
+      setTimeout(() => {
+        TweenLite.to(el, 0.5, {
+          opacity: 1,
+          left: 0,
+          onComplete: done
+        });
+      }, delay);
+    },
+    afterEnter(el) {
+      if (+el.dataset.index === this.character.characters.length - 1) {
+        this.animating = false;
+        console.log('done');
+      }
+    }
+    // beforeLeave() {
+    //   if (!this.animating) {
+    //     this.animating = true;
+    //   }
+    // },
+    // leave(el, done) {
+    //   TweenLite.to(el, 0.5, {
+    //     opacity: 0,
+    //     onComplete: done
+    //   });
+    // },
+    // afterLeave(el) {
+    //   if (+el.dataset.index === this.character.characters.length - 1) {
+    //     this.animating = false;
+    //   }
+    // }
+  }
 };
 </script>
 

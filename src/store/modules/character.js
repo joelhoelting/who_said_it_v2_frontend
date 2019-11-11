@@ -1,4 +1,5 @@
 import { plainAxiosInstance } from '@/axios';
+import charactersBackup from '@/data/backup/characters';
 
 const characterModule = {
   namespaced: true,
@@ -21,9 +22,11 @@ const characterModule = {
           .then(response => {
             let characters = response.data;
             commit('SET_CHARACTERS', characters);
-            return characters;
           })
-          .catch(error => console.log('Failed to fetch characters', error));
+          .catch(error => {
+            commit('SET_CHARACTERS', charactersBackup);
+            throw Object.assign(new Error(error), { characters: charactersBackup });
+          });
       }
 
       return state.characters;
