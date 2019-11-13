@@ -6,7 +6,7 @@
         <router-link to="/play">Play Game</router-link>
       </div>
       <div>
-        <router-link to="/login">Sign In</router-link>
+        <router-link to="/signin">Sign In</router-link>
         <router-link to="/signup">Sign Up</router-link>
       </div>
     </nav>

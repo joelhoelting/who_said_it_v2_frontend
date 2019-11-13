@@ -10,4 +10,23 @@ const plainAxiosInstance = axios.create({
   }
 });
 
-export { plainAxiosInstance };
+const authorizedAxiosInstance = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+authorizedAxiosInstance.interceptors.request.use(config => {
+  const method = config.method.toUpperCase();
+  if (method !== 'OPTIONS' && method !== 'GET') {
+    config.headers = {
+      ...config.headers,
+      Authorization: localStorage.jwt
+    };
+  }
+  return config;
+});
+
+export { plainAxiosInstance, authorizedAxiosInstance };
