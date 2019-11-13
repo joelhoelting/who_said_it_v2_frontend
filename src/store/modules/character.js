@@ -22,6 +22,7 @@ const characterModule = {
           .then(response => {
             let characters = response.data;
             commit('SET_CHARACTERS', characters);
+            return characters;
           })
           .catch(error => {
             commit('SET_CHARACTERS', charactersBackup);

@@ -35,7 +35,7 @@ export default {
         this.characters = response;
       })
       .catch(error => {
-        console.log('Fetch failed, using backup character data');
+        console.log('Failed to GET characters, using backup character data');
         this.characters = error.characters;
       });
   },
