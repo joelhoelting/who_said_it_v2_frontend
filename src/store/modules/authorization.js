@@ -4,16 +4,18 @@ const authorizationModule = {
   namespaced: true,
   state: {
     status: '',
-    token: localStorage.getItem('token') || '',
+    jwt: localStorage.getItem('jwt') || '',
     user: {}
   },
   mutations: {
     AUTH_REQUEST(state) {
       state.status = 'pending';
     },
-    AUTH_SUCCESS(state, token, user) {
+    AUTH_SUCCESS(state, jwt, user) {
+      localStorage.setItem('jwt', jwt);
+
       state.status = 'success';
-      state.token = token;
+      state.jwt = jwt;
       state.user = user;
     },
     AUTH_ERROR(state) {
@@ -21,61 +23,53 @@ const authorizationModule = {
     },
     logout(state) {
       state.status = '';
-      state.token = '';
+      state.jwt = '';
     }
   },
   actions: {
-    signin({ commit }, user) {
+    signin({ commit }, credentials) {
       return new Promise((resolve, reject) => {
         commit('AUTH_REQUEST');
 
-        const { email, password } = user;
+        const { email, password } = credentials;
+
         plainAxiosInstance
           .post('/signin', { email, password })
           .then(response => {
-            console.log(response);
-            // commit('AUTH_SUCCESS', token, user);
+            const { jwt, user } = response.data;
+            commit('AUTH_SUCCESS', jwt, user);
+
             resolve(response);
           })
           .catch(err => {
             commit('AUTH_ERROR');
-            localStorage.removeItem('token');
+            localStorage.removeItem('jwt');
+            reject(err);
+          });
+      });
+    },
+    signup({ commit }, credentials) {
+      return new Promise((resolve, reject) => {
+        commit('AUTH_REQUEST');
+
+        const { email, password, password_confirmation } = credentials;
+
+        plainAxiosInstance
+          .post('/signup', { email, password, password_confirmation })
+          .then(response => {
+            const { jwt, user } = response.data;
+            console.log('response', response);
+            commit('AUTH_SUCCESS', jwt, user);
+
+            resolve(response);
+          })
+          .catch(err => {
+            commit('AUTH_ERROR', err);
+            localStorage.removeItem('jwt');
             reject(err);
           });
       });
     }
-    // register({ commit }, user) {
-    //   return new Promise((resolve, reject) => {
-    //     commit('auth_request');
-    //     axios({
-    //       url: 'http://localhost:3000/register',
-    //       data: user,
-    //       method: 'POST'
-    //     })
-    //       .then(response => {
-    //         const token = response.data.token;
-    //         const user = response.data.user;
-    //         localStorage.setItem('token', token);
-    //         // Add the following line:
-    //         axios.defaults.headers.common['Authorization'] = token;
-    //         commit('AUTH_SUCCESS', token, user);
-    //         resolve(response);
-    //       })
-    //       .catch(err => {
-    //         commit('AUTH_ERROR', err);
-    //         localStorage.removeItem('token');
-    //         reject(err);
-    //       });
-    //   });
-    // },
-    // logout({ commit }) {
-    //   return new Promise((resolve, reject) => {
-    //     commit('logout');
-    //     localStorage.removeItem('token');
-    //     delete axios.defaults.headers.common['Authorization'];
-    //     resolve();
-    //   });
-    // }
   }
 };
 

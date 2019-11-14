@@ -14,7 +14,7 @@
         <input
           type="password"
           v-model="password_confirmation"
-          id="confirm-password"
+          id="password_confirmation"
           placeholder="Confirm Password"
         />
       </label>
@@ -35,13 +35,15 @@ export default {
   },
   methods: {
     signup() {
-      this.$http.plain
-        .post('/signup', {
-          email: this.email,
-          password: this.password,
-          password_confirmation: this.password_confirmation
+      let { email, password, password_confirmation } = this;
+
+      this.$store
+        .dispatch('authorization/signup', {
+          email,
+          password,
+          password_confirmation
         })
-        .then(response => console.log(response))
+        .then(response => console.log('response', response))
         .catch(error => console.log(error));
     }
   }
