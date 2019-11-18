@@ -13,17 +13,20 @@ const characterModule = {
     }
   },
   actions: {
-    fetchCharacters({ commit, state }) {
+    fetchCharacters({ commit, dispatch, state }) {
       let characterCount = state.characters.length;
 
       if (characterCount === 0) {
+        dispatch('toggleLoading', null, { root: true });
         return new Promise((resolve, reject) => {
           plainAxiosInstance
             .get('/characters')
             .then(response => {
               let characters = response.data;
               commit('SET_CHARACTERS', characters);
+
               resolve(characters);
+              dispatch('toggleLoading', null, { root: true });
             })
             .catch(error => {
               commit('SET_CHARACTERS', charactersBackup);
@@ -41,28 +44,3 @@ const characterModule = {
 };
 
 export default characterModule;
-
-// login({ commit }, user) {
-//   return new Promise((resolve, reject) => {
-//     commit('auth_request');
-//     axios({
-//       url: 'http://localhost:3000/login',
-//       data: user,
-//       method: 'POST'
-//     })
-//       .then(resp => {
-//         const token = resp.data.token;
-//         const user = resp.data.user;
-//         localStorage.setItem('token', token);
-//         // Add the following line:
-//         axios.defaults.headers.common['Authorization'] = token;
-//         commit('auth_success', token, user);
-//         resolve(resp);
-//       })
-//       .catch(err => {
-//         commit('auth_error');
-//         localStorage.removeItem('token');
-//         reject(err);
-//       });
-//   });
-// },

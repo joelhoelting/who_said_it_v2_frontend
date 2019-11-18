@@ -11,7 +11,17 @@ export default new Vuex.Store({
     authorization,
     character
   },
-  state: {},
-  mutations: {},
-  actions: {}
+  state: {
+    loading: false
+  },
+  mutations: {
+    TOGGLE_LOADING(state) {
+      state.loading = !state.loading;
+    }
+  },
+  actions: {
+    toggleLoading({ commit }) {
+      commit('TOGGLE_LOADING');
+    }
+  }
 });

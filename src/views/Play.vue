@@ -1,6 +1,7 @@
 <template>
   <div class="play-container">
     <h1 class="title milkshake center">Select Characters</h1>
+
     <transition-group class="card-container" tag="div" @before-enter="beforeEnter" @enter="enter">
       <CharacterSelectCard
         v-for="(character, index) in characters"
@@ -9,6 +10,8 @@
         :data-index="index"
       />
     </transition-group>
+
+    <Loader v-if="loading" />
   </div>
 </template>
 
@@ -17,17 +20,18 @@ import gsap from 'gsap';
 import { mapState, mapActions } from 'vuex';
 
 import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
+import Loader from '@/components/includes/Loader';
 
 export default {
   name: 'play',
   data() {
     return {
-      characters: [],
-      animating: false
+      characters: []
     };
   },
   components: {
-    CharacterSelectCard
+    CharacterSelectCard,
+    Loader
   },
   mounted() {
     this.fetchCharacters()
@@ -42,9 +46,14 @@ export default {
   destroyed() {
     this.characters = [];
   },
-  computed: mapState(['character']),
+  computed: {
+    ...mapState(['character', 'loading'])
+  },
   methods: {
-    ...mapActions('character', ['fetchCharacters', 'clearCharacters']),
+    ...mapActions({
+      fetchCharacters: 'character/fetchCharacters',
+      toggleLoading: 'toggleLoading'
+    }),
     beforeEnter(el) {
       el.style.opacity = 0;
       el.style.left = '50px';
