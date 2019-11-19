@@ -21,13 +21,15 @@ const authorizationModule = {
     AUTH_ERROR(state) {
       state.status = 'error';
     },
-    logout(state) {
+    SIGN_OUT(state) {
+      localStorage.removeItem('jwt');
+
       state.status = '';
       state.jwt = '';
     }
   },
   actions: {
-    signin({ commit }, credentials) {
+    signIn({ commit }, credentials) {
       return new Promise((resolve, reject) => {
         commit('AUTH_REQUEST');
 
@@ -48,7 +50,7 @@ const authorizationModule = {
           });
       });
     },
-    signup({ commit }, credentials) {
+    signUp({ commit }, credentials) {
       return new Promise((resolve, reject) => {
         commit('AUTH_REQUEST');
 
@@ -69,7 +71,14 @@ const authorizationModule = {
             reject(err);
           });
       });
+    },
+    signOut({ commit }) {
+      commit('SIGN_OUT');
     }
+  },
+  getters: {
+    isLoggedIn: state => !!state.jwt,
+    authStatus: state => state.status
   }
 };
 

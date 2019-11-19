@@ -33,19 +33,6 @@ export default {
     CharacterSelectCard,
     Loader
   },
-  mounted() {
-    this.fetchCharacters()
-      .then(response => {
-        this.characters = response;
-      })
-      .catch(error => {
-        console.log('Failed to GET characters, using backup character data');
-        this.characters = error.characters;
-      });
-  },
-  destroyed() {
-    this.characters = [];
-  },
   computed: {
     ...mapState(['character', 'loading'])
   },
@@ -69,6 +56,19 @@ export default {
         });
       }, delay);
     }
+  },
+  mounted() {
+    this.fetchCharacters()
+      .then(response => {
+        this.characters = response;
+      })
+      .catch(error => {
+        console.log('Failed to GET characters, using backup character data');
+        this.characters = error.characters;
+      });
+  },
+  destroyed() {
+    this.characters = [];
   }
 };
 </script>
