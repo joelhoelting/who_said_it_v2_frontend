@@ -1,7 +1,7 @@
 <template>
-  <div class="play-container">
+  <div class="play-container" v-if="!loading">
     <h1 class="play-container__title milkshake center">Select Characters</h1>
-
+    <DifficultyButtons />
     <transition-group class="card-container" tag="div" @before-enter="beforeEnter" @enter="enter">
       <CharacterSelectCard
         v-for="(character, index) in characters"
@@ -20,6 +20,7 @@ import gsap from 'gsap';
 import { mapState, mapActions } from 'vuex';
 
 import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
+import DifficultyButtons from '@/components/pages/play/DifficultyButtons';
 import Loader from '@/components/includes/Loader';
 
 export default {
@@ -31,6 +32,7 @@ export default {
   },
   components: {
     CharacterSelectCard,
+    DifficultyButtons,
     Loader
   },
   computed: {
