@@ -1,5 +1,9 @@
 <template>
-  <div class="character-card">
+  <div
+    class="character-card"
+    @click="selected = !selected"
+    :class="selected ? 'selected' : undefined"
+  >
     <div class="character-card__inner">
       <div
         class="character-card__front"
@@ -29,9 +33,15 @@
 import images from '@/mixins/images.js';
 
 export default {
+  data() {
+    return {
+      selected: false
+    };
+  },
   props: {
     character: Object
   },
+  methods: {},
   mixins: [images]
 };
 </script>
@@ -43,8 +53,11 @@ export default {
   margin: 10px;
   cursor: pointer;
   position: relative;
-  &:hover .character-card__inner {
+  &.selected .character-card__inner {
     transform: rotateY(180deg);
+  }
+  &:hover .character-card__inner .character-card__front {
+    border: 5px solid #fff;
   }
   .character-card__inner {
     position: relative;
@@ -80,6 +93,7 @@ export default {
     .character-card__front {
       border: 2px solid #000;
       box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+      transition: border 200ms ease;
       .character-card__text-container {
         position: absolute;
         bottom: 0;

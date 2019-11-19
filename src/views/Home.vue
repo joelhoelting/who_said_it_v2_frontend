@@ -13,7 +13,7 @@ import gsap from 'gsap';
 import AnimatedTitle from '@/components/pages/home/AnimatedTitle';
 
 export default {
-  name: 'home',
+  name: 'Home',
   mounted() {
     this.animateCTA();
   },

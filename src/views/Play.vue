@@ -1,6 +1,6 @@
 <template>
   <div class="play-container">
-    <h1 class="title milkshake center">Select Characters</h1>
+    <h1 class="play-container__title milkshake center">Select Characters</h1>
 
     <transition-group class="card-container" tag="div" @before-enter="beforeEnter" @enter="enter">
       <CharacterSelectCard
@@ -23,7 +23,7 @@ import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue
 import Loader from '@/components/includes/Loader';
 
 export default {
-  name: 'play',
+  name: 'Play',
   data() {
     return {
       characters: []
@@ -74,7 +74,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h1.title {
+.play-container__title {
   font-size: 3rem;
   margin-top: 0;
 }
