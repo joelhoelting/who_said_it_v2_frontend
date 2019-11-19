@@ -41,6 +41,7 @@ export default {
   methods: {
     ...mapActions({
       fetchCharacters: 'character/fetchCharacters',
+      resetGameState: 'game/resetGameState',
       toggleLoading: 'toggleLoading'
     }),
     beforeEnter(el) {
@@ -70,7 +71,7 @@ export default {
       });
   },
   destroyed() {
-    this.characters = [];
+    this.resetGameState();
   }
 };
 </script>

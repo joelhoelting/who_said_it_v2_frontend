@@ -1,8 +1,8 @@
 <template>
   <div
     class="character-card"
-    @click="selected = !selected"
-    :class="selected ? 'selected' : undefined"
+    @click="addOrRemoveCharacterFromGame(character.id)"
+    :class="isSelected"
   >
     <div class="character-card__inner">
       <div
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import images from '@/mixins/images.js';
 
 export default {
@@ -38,11 +39,24 @@ export default {
       selected: false
     };
   },
+  computed: {
+    ...mapState('game', ['characters']),
+    isSelected() {
+      return {
+        selected: this.characters.includes(this.character.id)
+      };
+    }
+  },
+  methods: {
+    ...mapActions('game', ['addOrRemoveCharacterFromGame']),
+    isButtonSelected(difficulty) {
+      return this.difficulty === difficulty ? 'selected' : undefined;
+    }
+  },
+  mixins: [images],
   props: {
     character: Object
-  },
-  methods: {},
-  mixins: [images]
+  }
 };
 </script>
 

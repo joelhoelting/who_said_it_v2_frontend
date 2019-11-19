@@ -26,13 +26,10 @@ export default {
     ...mapState('game', ['difficulty'])
   },
   methods: {
-    ...mapActions('game', ['setDifficulty', 'resetState']),
+    ...mapActions('game', ['setDifficulty']),
     isButtonSelected(difficulty) {
       return this.difficulty === difficulty ? 'selected' : undefined;
     }
-  },
-  destroyed() {
-    this.resetState();
   }
 };
 </script>
@@ -48,6 +45,7 @@ export default {
     width: 200px;
     font-size: 1.4rem;
     margin: 0 0.3em;
+    transition: border 300ms ease;
     &.selected {
       border: 3px solid white;
     }
