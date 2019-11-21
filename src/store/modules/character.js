@@ -13,11 +13,12 @@ const characterModule = {
     }
   },
   actions: {
-    fetchCharacters({ commit, dispatch, state }) {
+    fetchCharacters({ commit, dispatch, state, rootState }) {
       let characterCount = state.characters.length;
 
       if (characterCount === 0) {
-        dispatch('toggleLoading', null, { root: true });
+        dispatch('enableLoading', null, { root: true });
+
         return new Promise((resolve, reject) => {
           plainAxiosInstance
             .get('/characters')
@@ -26,14 +27,16 @@ const characterModule = {
               commit('SET_CHARACTERS', characters);
 
               resolve(characters);
-              dispatch('toggleLoading', null, { root: true });
+              dispatch('disableLoading', null, { root: true });
             })
             .catch(error => {
               commit('SET_CHARACTERS', charactersBackup);
+
               const errorObj = Object.assign(new Error(error), {
                 characters: charactersBackup
               });
               reject(errorObj);
+              dispatch('disableLoading', null, { root: true });
             });
         });
       }

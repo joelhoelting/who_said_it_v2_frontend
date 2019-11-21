@@ -17,13 +17,19 @@ export default new Vuex.Store({
     loading: false
   },
   mutations: {
-    TOGGLE_LOADING(state) {
-      state.loading = !state.loading;
+    ENABLE_LOADING(state) {
+      state.loading = true;
+    },
+    DISABLE_LOADING(state) {
+      state.loading = false;
     }
   },
   actions: {
-    toggleLoading({ commit }) {
-      commit('TOGGLE_LOADING');
+    enableLoading({ commit }) {
+      commit('ENABLE_LOADING');
+    },
+    disableLoading({ commit }) {
+      commit('DISABLE_LOADING');
     }
   }
 });

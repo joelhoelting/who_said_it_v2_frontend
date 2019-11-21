@@ -1,15 +1,34 @@
 <template>
-  <div class="loader-container">
+  <div class="loader-container" :style="styleObject">
     <div class="loader">Loading...</div>
   </div>
 </template>
 
+<script>
+export default {
+  props: {
+    height: String
+  },
+  data() {
+    return {
+      styleObject: {
+        height: this.height
+      }
+    };
+  }
+};
+</script>
+
 <style lang="scss" scoped>
 .loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
+  z-index: -1;
 }
 
 .loader,

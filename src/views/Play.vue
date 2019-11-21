@@ -1,7 +1,9 @@
 <template>
-  <div class="play-container" v-if="!loading">
-    <h1 class="play-container__title milkshake center">Select Characters</h1>
-    <DifficultyButtons />
+  <div class="play-container">
+    <transition name="fade">
+      <h1 v-if="!loading" class="play-container__title milkshake center">Select Characters</h1>
+    </transition>
+    <DifficultyToolBar v-if="!loading" />
     <transition-group class="card-container" tag="div" @before-enter="beforeEnter" @enter="enter">
       <CharacterSelectCard
         v-for="(character, index) in characters"
@@ -10,7 +12,6 @@
         :data-index="index"
       />
     </transition-group>
-
     <Loader v-if="loading" />
   </div>
 </template>
@@ -20,19 +21,20 @@ import gsap from 'gsap';
 import { mapState, mapActions } from 'vuex';
 
 import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
-import DifficultyButtons from '@/components/pages/play/DifficultyButtons';
+import DifficultyToolBar from '@/components/pages/play/DifficultyToolbar';
 import Loader from '@/components/includes/Loader';
 
 export default {
   name: 'Play',
   data() {
     return {
-      characters: []
+      characters: [],
+      mounted: false
     };
   },
   components: {
     CharacterSelectCard,
-    DifficultyButtons,
+    DifficultyToolBar,
     Loader
   },
   computed: {
@@ -41,8 +43,7 @@ export default {
   methods: {
     ...mapActions({
       fetchCharacters: 'character/fetchCharacters',
-      resetGameState: 'game/resetGameState',
-      toggleLoading: 'toggleLoading'
+      resetGameState: 'game/resetGameState'
     }),
     beforeEnter(el) {
       el.style.opacity = 0;
@@ -61,6 +62,8 @@ export default {
     }
   },
   mounted() {
+    this.mounted = true;
+
     this.fetchCharacters()
       .then(response => {
         this.characters = response;
@@ -79,7 +82,7 @@ export default {
 <style lang="scss" scoped>
 .play-container__title {
   font-size: 3rem;
-  margin-top: 0;
+  margin: 0;
 }
 .card-container {
   display: flex;

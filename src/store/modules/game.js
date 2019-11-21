@@ -47,7 +47,7 @@ const characterModule = {
       }
     },
     resetGameState({ commit }) {
-      commit('RESET_STATE');
+      commit('RESET_GAME_STATE');
     },
     setDifficulty({ commit }, difficulty) {
       commit('SET_DIFFICULTY', difficulty);
