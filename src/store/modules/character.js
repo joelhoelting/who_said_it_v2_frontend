@@ -26,8 +26,10 @@ const characterModule = {
               let characters = response.data;
               commit('SET_CHARACTERS', characters);
 
-              resolve(characters);
-              dispatch('disableLoading', null, { root: true });
+              setTimeout(() => {
+                resolve(characters);
+                dispatch('disableLoading', null, { root: true });
+              }, 300);
             })
             .catch(error => {
               commit('SET_CHARACTERS', charactersBackup);
@@ -35,8 +37,11 @@ const characterModule = {
               const errorObj = Object.assign(new Error(error), {
                 characters: charactersBackup
               });
-              reject(errorObj);
-              dispatch('disableLoading', null, { root: true });
+
+              setTimeout(() => {
+                reject(errorObj);
+                dispatch('disableLoading', null, { root: true });
+              }, 300);
             });
         });
       }

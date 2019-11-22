@@ -1,9 +1,9 @@
 const images = {
   methods: {
-    getCharacterImage(filename) {
+    getCharacterImageMixin(filename) {
       return require(`@/assets/images/characters/${filename}.jpg`);
     },
-    getCharacterBackgroundImage(filename, gradientRGBA) {
+    getCharacterBackgroundImageMixin(filename, gradientRGBA) {
       const requiredFilename = require(`@/assets/images/characters/${filename}.jpg`);
 
       if (gradientRGBA) {

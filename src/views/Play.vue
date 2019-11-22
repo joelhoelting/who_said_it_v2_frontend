@@ -12,7 +12,6 @@
         :data-index="index"
       />
     </transition-group>
-    <Loader v-if="loading" />
   </div>
 </template>
 
@@ -22,7 +21,6 @@ import { mapState, mapActions } from 'vuex';
 
 import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
 import DifficultyToolBar from '@/components/pages/play/DifficultyToolbar';
-import Loader from '@/components/includes/Loader';
 
 export default {
   name: 'Play',
@@ -34,8 +32,7 @@ export default {
   },
   components: {
     CharacterSelectCard,
-    DifficultyToolBar,
-    Loader
+    DifficultyToolBar
   },
   computed: {
     ...mapState(['character', 'loading'])

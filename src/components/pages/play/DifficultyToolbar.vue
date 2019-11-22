@@ -26,7 +26,7 @@ export default {
     ...mapState('game', ['difficulty'])
   },
   methods: {
-    ...mapActions('game', ['setDifficulty']),
+    ...mapActions('game', ['setDifficulty', 'resetCharacters']),
     isButtonSelected(difficulty) {
       return this.difficulty === difficulty ? 'selected' : undefined;
     }

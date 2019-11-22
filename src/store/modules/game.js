@@ -32,6 +32,9 @@ const characterModule = {
     },
     REMOVE_CHARACTER_FROM_GAME(state, character_id) {
       state.characters.splice(state.characters.indexOf(character_id), 1);
+    },
+    RESET_CHARACTERS(state) {
+      state.characters = [];
     }
   },
   actions: {
@@ -46,11 +49,17 @@ const characterModule = {
         console.log('Notification: too many characters');
       }
     },
+    resetCharacters({ commit }) {
+      commit('RESET_CHARACTERS');
+    },
     resetGameState({ commit }) {
       commit('RESET_GAME_STATE');
     },
-    setDifficulty({ commit }, difficulty) {
-      commit('SET_DIFFICULTY', difficulty);
+    setDifficulty({ commit, dispatch, state }, difficulty) {
+      if (state.difficulty !== difficulty) {
+        commit('RESET_CHARACTERS');
+        commit('SET_DIFFICULTY', difficulty);
+      }
     }
   }
 };

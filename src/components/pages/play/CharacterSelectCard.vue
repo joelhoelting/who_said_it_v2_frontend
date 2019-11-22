@@ -7,7 +7,7 @@
     <div class="character-card__inner">
       <div
         class="character-card__front"
-        :style="getCharacterBackgroundImage(character.slug, '0,0,0,0.2')"
+        :style="getCharacterBackgroundImageMixin(character.slug, '0,0,0,0.2')"
       >
         <div class="character-card__text-container">
           <p>{{character.name}}</p>
@@ -15,7 +15,7 @@
       </div>
       <div
         class="character-card__back"
-        :style="getCharacterBackgroundImage(character.slug, '0,0,0,0.5')"
+        :style="getCharacterBackgroundImageMixin(character.slug, '0,0,0,0.5')"
       >
         <img
           class="character-card__checkmark"
