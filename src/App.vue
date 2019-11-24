@@ -2,7 +2,7 @@
   <div id="app">
     <Header />
     <router-view />
-    <Loader v-if="loading" />
+    <loader v-if="loadingOverlayActive" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@
 import './assets/stylesheets/main.scss';
 
 import Header from '@/components/includes/Header';
-import Loader from '@/components/includes/Loader';
+import Loader from '@/components/includes/Loader/LoadingOverlay';
 import { mapState } from 'vuex';
 
 export default {
@@ -20,7 +20,7 @@ export default {
     Loader
   },
   computed: {
-    ...mapState(['loading'])
+    ...mapState(['loadingOverlayActive'])
   }
 };
 </script>

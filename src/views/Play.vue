@@ -1,10 +1,20 @@
 <template>
   <div class="play-container">
     <transition name="fade">
-      <h1 v-if="!loading" class="play-container__title milkshake center">Select Characters</h1>
+      <h1
+        v-if="!loadingOverlayActive"
+        class="play-container__title milkshake center"
+      >Select Characters</h1>
     </transition>
-    <DifficultyToolBar v-if="!loading" />
-    <transition-group class="card-container" tag="div" @before-enter="beforeEnter" @enter="enter">
+    <transition name="fade">
+      <difficulty-toolbar v-if="!loadingOverlayActive" />
+    </transition>
+    <transition-group
+      class="card-container"
+      tag="div"
+      @before-enter="cardBeforeEnter"
+      @enter="cardEnter"
+    >
       <CharacterSelectCard
         v-for="(character, index) in characters"
         :key="character.id"
@@ -12,15 +22,29 @@
         :data-index="index"
       />
     </transition-group>
+    <transition name="fade">
+      <div class="btn-container" v-if="!loadingOverlayActive">
+        <button
+          :class="{ disabled: isButtonDisabled }"
+          :disabled="isButtonDisabled"
+          @click="startGame"
+          class="btn btn--start"
+        >
+          <span v-if="!loadingAnimationActive">{{ displayButtonMsg }}</span>
+          <loading-animation v-if="loadingAnimationActive" />
+        </button>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import gsap from 'gsap';
-import { mapState, mapActions } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
-import DifficultyToolBar from '@/components/pages/play/DifficultyToolbar';
+import DifficultyToolbar from '@/components/pages/play/DifficultyToolbar.vue';
+import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 
 export default {
   name: 'Play',
@@ -32,21 +56,40 @@ export default {
   },
   components: {
     CharacterSelectCard,
-    DifficultyToolBar
+    DifficultyToolbar,
+    LoadingAnimation
   },
   computed: {
-    ...mapState(['character', 'loading'])
+    ...mapState([
+      'character',
+      'game',
+      'loadingOverlayActive',
+      'loadingAnimationActive'
+    ]),
+    ...mapGetters('game', ['charactersRequiredToStartGame']),
+    isButtonDisabled() {
+      return (
+        this.charactersRequiredToStartGame !== 0 || this.loadingAnimationActive
+      );
+    },
+    displayButtonMsg() {
+      if (this.loadingAnimationActive) {
+        return 'Loading...';
+      }
+
+      return this.isButtonDisabled
+        ? `Select ${this.charactersRequiredToStartGame} Characters`
+        : 'Play Game';
+    }
   },
   methods: {
-    ...mapActions({
-      fetchCharacters: 'character/fetchCharacters',
-      resetGameState: 'game/resetGameState'
-    }),
-    beforeEnter(el) {
+    ...mapActions('character', ['fetchCharacters']),
+    ...mapActions('game', ['createGame', 'resetGameState']),
+    cardBeforeEnter(el) {
       el.style.opacity = 0;
       el.style.left = '50px';
     },
-    enter(el, done) {
+    cardEnter(el, done) {
       const delay = el.dataset.index * 100;
 
       setTimeout(() => {
@@ -56,6 +99,11 @@ export default {
           onComplete: done
         });
       }, delay);
+    },
+    startGame() {
+      this.createGame().then(response => {
+        console.log(response);
+      });
     }
   },
   mounted() {
@@ -77,12 +125,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.play-container__title {
-  font-size: 3rem;
-  margin: 0;
-}
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
+.play-container {
+  .play-container__title {
+    font-size: 3rem;
+    margin: 0;
+  }
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .btn-container {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.1);
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .btn--start {
+      display: block;
+      font-size: 2rem;
+      padding: 20px 100px;
+      width: 20em;
+    }
+  }
 }
 </style>

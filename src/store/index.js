@@ -14,22 +14,35 @@ export default new Vuex.Store({
     game
   },
   state: {
-    loading: false
+    loadingOverlayActive: false,
+    loadingAnimationActive: false
   },
   mutations: {
-    ENABLE_LOADING(state) {
-      state.loading = true;
+    ENABLE_LOADING_OVERLAY(state) {
+      state.loadingOverlayActive = true;
     },
-    DISABLE_LOADING(state) {
-      state.loading = false;
+    DISABLE_LOADING_OVERLAY(state) {
+      state.loadingOverlayActive = false;
+    },
+    ENABLE_LOADING_ANIMATION(state) {
+      state.loadingAnimationActive = true;
+    },
+    DISABLE_LOADING_ANIMATION(state) {
+      state.loadingAnimationActive = false;
     }
   },
   actions: {
-    enableLoading({ commit }) {
-      commit('ENABLE_LOADING');
+    enableLoadingOverlay({ commit }) {
+      commit('ENABLE_LOADING_OVERLAY');
     },
-    disableLoading({ commit }) {
-      commit('DISABLE_LOADING');
+    disableLoadingOverlay({ commit }) {
+      commit('DISABLE_LOADING_OVERLAY');
+    },
+    enableLoadingAnimation({ commit }) {
+      commit('ENABLE_LOADING_ANIMATION');
+    },
+    disableLoadingAnimation({ commit }) {
+      commit('ENABLE_LOADING_ANIMATION');
     }
   }
 });

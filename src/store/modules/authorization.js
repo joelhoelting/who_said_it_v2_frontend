@@ -43,10 +43,10 @@ const authorizationModule = {
 
             resolve(response);
           })
-          .catch(err => {
+          .catch(error => {
             commit('AUTH_ERROR');
             localStorage.removeItem('jwt');
-            reject(err);
+            reject(error);
           });
       });
     },

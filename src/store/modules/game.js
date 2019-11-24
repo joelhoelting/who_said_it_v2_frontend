@@ -1,4 +1,5 @@
-// import { plainAxiosInstance } from '@/axios';
+import { authorizedAxiosInstance } from '@/axios';
+import { plainAxiosInstance } from '../../axios';
 
 const getDefaultState = () => {
   return {
@@ -49,6 +50,30 @@ const characterModule = {
         console.log('Notification: too many characters');
       }
     },
+    createGame({ commit, dispatch, state, rootGetters }) {
+      let { characters, difficulty } = state;
+
+      // Determines whether to use plain vs. authorized Axios instance
+      let axiosInstance = rootGetters['authorization/isLoggedIn']
+        ? authorizedAxiosInstance
+        : plainAxiosInstance;
+
+      dispatch('enableLoadingAnimation', null, { root: true });
+
+      return new Promise((resolve, reject) => {
+        axiosInstance
+          .post('/games', {
+            characters,
+            difficulty
+          })
+          .then(response => {
+            resolve(response);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
     resetCharacters({ commit }) {
       commit('RESET_CHARACTERS');
     },
@@ -57,9 +82,16 @@ const characterModule = {
     },
     setDifficulty({ commit, dispatch, state }, difficulty) {
       if (state.difficulty !== difficulty) {
-        commit('RESET_CHARACTERS');
+        dispatch('resetCharacters');
         commit('SET_DIFFICULTY', difficulty);
       }
+    }
+  },
+  getters: {
+    charactersRequiredToStartGame: state => {
+      const currentCharLength = state.characters.length;
+
+      return difficultyRules[state.difficulty] - currentCharLength;
     }
   }
 };

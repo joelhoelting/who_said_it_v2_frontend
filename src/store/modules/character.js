@@ -17,7 +17,7 @@ const characterModule = {
       let characterCount = state.characters.length;
 
       if (characterCount === 0) {
-        dispatch('enableLoading', null, { root: true });
+        dispatch('enableLoadingOverlay', null, { root: true });
 
         return new Promise((resolve, reject) => {
           plainAxiosInstance
@@ -28,7 +28,7 @@ const characterModule = {
 
               setTimeout(() => {
                 resolve(characters);
-                dispatch('disableLoading', null, { root: true });
+                dispatch('disableLoadingOverlay', null, { root: true });
               }, 300);
             })
             .catch(error => {
@@ -40,7 +40,7 @@ const characterModule = {
 
               setTimeout(() => {
                 reject(errorObj);
-                dispatch('disableLoading', null, { root: true });
+                dispatch('disableLoadingOverlay', null, { root: true });
               }, 300);
             });
         });
