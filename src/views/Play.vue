@@ -1,12 +1,6 @@
 <template>
   <div class="play-container">
     <transition name="fade">
-      <h1
-        v-if="!loadingOverlayActive"
-        class="play-container__title milkshake center"
-      >Select Characters</h1>
-    </transition>
-    <transition name="fade">
       <difficulty-toolbar v-if="!loadingOverlayActive" />
     </transition>
     <transition-group
@@ -126,10 +120,6 @@ export default {
 
 <style lang="scss" scoped>
 .play-container {
-  .play-container__title {
-    font-size: 3rem;
-    margin: 0;
-  }
   .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -140,14 +130,14 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 250px;
+    height: 150px;
     display: flex;
     align-items: center;
     justify-content: center;
 
     .btn--start {
       display: block;
-      font-size: 2rem;
+      font-size: 1.4rem;
       padding: 20px 100px;
       width: 20em;
     }

@@ -4,8 +4,8 @@ import Signin from '@/views/Signin.vue';
 import Signup from '@/views/Signup.vue';
 
 export default [
-  { path: '/', component: Home },
-  { path: '/play', component: Play },
-  { path: '/signin', component: Signin },
-  { path: '/signup', component: Signup }
+  { name: 'home', path: '/', component: Home },
+  { name: 'play', path: '/play', component: Play },
+  { name: 'signin', path: '/signin', component: Signin },
+  { name: 'signup', path: '/signup', component: Signup }
 ];

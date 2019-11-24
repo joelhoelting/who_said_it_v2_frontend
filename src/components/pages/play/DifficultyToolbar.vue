@@ -39,7 +39,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 2em 0;
+  margin: 0 0 2em;
   .btn--difficulty {
     height: 50px;
     width: 200px;

@@ -3,7 +3,7 @@
 }
 
 .fade-enter-active {
-  transition: opacity 1s;
+  transition: opacity 500ms;
 }
 
 .fade-leave {
@@ -11,6 +11,6 @@
 }
 
 .fade-leave-active {
-  transition: opacity 1s;
+  transition: opacity 200ms;
   opacity: 0;
 }
