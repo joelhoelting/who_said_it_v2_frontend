@@ -5,9 +5,6 @@
         <router-link to="/">Home</router-link>
         <router-link to="/play">Play Game</router-link>
       </div>
-      <transition name="fade">
-        <h1 v-if="currentRouteName" class="page-title milkshake center">{{currentRouteName}}</h1>
-      </transition>
       <div v-if="!isLoggedIn">
         <router-link to="/signin">Sign In</router-link>
         <router-link to="/signup">Sign Up</router-link>
@@ -50,6 +47,7 @@ header {
   width: 100%;
   top: 0;
   left: 0;
+  z-index: 1;
   nav {
     height: 100%;
     display: flex;
@@ -61,10 +59,6 @@ header {
     }
     button {
       margin: 0 0.5em;
-    }
-    .page-title {
-      font-size: 3rem;
-      margin: 0;
     }
   }
 }

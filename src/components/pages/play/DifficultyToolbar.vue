@@ -44,10 +44,12 @@ export default {
     height: 50px;
     width: 200px;
     font-size: 1.4rem;
-    margin: 0 0.3em;
-    transition: border 300ms ease;
+    margin: 0 0.5em;
+    transition: border 300ms ease, transform 300ms ease;
+    transform: scale(1);
     &.selected {
       border: 3px solid white;
+      transform: scale(1.1);
     }
   }
 }

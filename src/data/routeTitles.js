@@ -1,4 +1,4 @@
 export default {
-  home: false,
-  play: 'Select Characters'
+  Home: false,
+  Play: 'Select Characters'
 };

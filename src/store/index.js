@@ -42,7 +42,7 @@ export default new Vuex.Store({
       commit('ENABLE_LOADING_ANIMATION');
     },
     disableLoadingAnimation({ commit }) {
-      commit('ENABLE_LOADING_ANIMATION');
+      commit('DISABLE_LOADING_ANIMATION');
     }
   }
 });

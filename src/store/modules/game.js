@@ -67,7 +67,10 @@ const characterModule = {
             difficulty
           })
           .then(response => {
-            resolve(response);
+            setTimeout(() => {
+              resolve(response);
+              dispatch('disableLoadingAnimation', null, { root: true });
+            }, 300);
           })
           .catch(error => {
             reject(error);

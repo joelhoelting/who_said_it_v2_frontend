@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Header />
-    <router-view />
+    <transition name="fade">
+      <router-view />
+    </transition>
     <loader v-if="loadingOverlayActive" />
   </div>
 </template>

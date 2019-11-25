@@ -1,23 +1,24 @@
 <template>
-  <div class="play-container">
-    <transition name="fade">
-      <difficulty-toolbar v-if="!loadingOverlayActive" />
-    </transition>
-    <transition-group
-      class="card-container"
-      tag="div"
-      @before-enter="cardBeforeEnter"
-      @enter="cardEnter"
-    >
-      <CharacterSelectCard
-        v-for="(character, index) in characters"
-        :key="character.id"
-        :character="character"
-        :data-index="index"
-      />
-    </transition-group>
-    <transition name="fade">
-      <div class="btn-container" v-if="!loadingOverlayActive">
+  <div class="outer-container">
+    <div class="play-container">
+      <h1 class="play-container__title milkshake center">Select Characters</h1>
+      <!-- <difficulty-toolbar v-if="!loadingOverlayActive" /> -->
+      <difficulty-toolbar />
+      <transition-group
+        class="card-container"
+        tag="div"
+        @before-enter="cardBeforeEnter"
+        @enter="cardEnter"
+      >
+        <CharacterSelectCard
+          v-for="(character, index) in characters"
+          :key="character.id"
+          :character="character"
+          :data-index="index"
+        />
+      </transition-group>
+      <!-- <div class="btn-container" v-if="!loadingOverlayActive"> -->
+      <div class="btn-container">
         <button
           :class="{ disabled: isButtonDisabled }"
           :disabled="isButtonDisabled"
@@ -28,7 +29,7 @@
           <loading-animation v-if="loadingAnimationActive" />
         </button>
       </div>
-    </transition>
+    </div>
   </div>
 </template>
 
@@ -96,7 +97,7 @@ export default {
     },
     startGame() {
       this.createGame().then(response => {
-        console.log(response);
+        this.$router.push('/games/new');
       });
     }
   },
@@ -120,6 +121,11 @@ export default {
 
 <style lang="scss" scoped>
 .play-container {
+  .play-container__title {
+    font-size: 3rem;
+    margin: 0;
+    padding: 0.5em 0;
+  }
   .card-container {
     display: flex;
     flex-wrap: wrap;
