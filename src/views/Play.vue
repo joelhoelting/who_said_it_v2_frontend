@@ -45,8 +45,7 @@ export default {
   name: 'Play',
   data() {
     return {
-      characters: [],
-      mounted: false
+      characters: []
     };
   },
   components: {
@@ -102,15 +101,18 @@ export default {
     }
   },
   mounted() {
-    this.mounted = true;
-
     this.fetchCharacters()
       .then(response => {
-        this.characters = response;
+        console.log('Succeeded to GET characters from API');
+        setTimeout(() => {
+          this.characters = response;
+        }, 300);
       })
       .catch(error => {
-        console.log('Failed to GET characters, using backup character data');
-        this.characters = error.characters;
+        console.log('Failed to GET characters, using local character data');
+        setTimeout(() => {
+          this.characters = error.characters;
+        }, 300);
       });
   },
   destroyed() {
