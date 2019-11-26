@@ -2,7 +2,7 @@ import Home from '@/views/Home.vue';
 import Play from '@/views/Play.vue';
 import Signin from '@/views/Signin.vue';
 import Signup from '@/views/Signup.vue';
-import NewGame from '@/views/Games/NewGame.vue';
+import GameNew from '@/views/Games/GameNew.vue';
 import Games from '@/views/Games';
 
 export default [
@@ -14,6 +14,6 @@ export default [
     name: 'Games',
     path: '/games',
     component: Games,
-    children: [{ name: 'NewGame', path: 'new', component: NewGame }]
+    children: [{ name: 'GameNew', path: 'new', component: GameNew }]
   }
 ];

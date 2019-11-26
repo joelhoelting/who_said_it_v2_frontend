@@ -1,5 +1,5 @@
 <template>
-  <div class="container form-container">
+  <div class="container flex-center-container">
     <form @submit.prevent="signUp">
       <label for="email">
         Email Address

@@ -1,8 +1,7 @@
 <template>
   <div class="outer-container">
-    <div class="play-container">
-      <h1 class="play-container__title milkshake center">Select Characters</h1>
-      <!-- <difficulty-toolbar v-if="!loadingOverlayActive" /> -->
+    <div class="container">
+      <h1 class="title milkshake center">Select Characters</h1>
       <difficulty-toolbar />
       <transition-group
         class="card-container"
@@ -94,6 +93,9 @@ export default {
     }
   },
   mounted() {
+    // Reset game state (game module)
+    this.resetGameState();
+    // Fetch characters (character module)
     this.fetchCharacters()
       .then(response => {
         console.log('Succeeded to GET characters from API');
@@ -107,16 +109,13 @@ export default {
           this.characters = error.characters;
         }, 250);
       });
-  },
-  destroyed() {
-    this.resetGameState();
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.play-container {
-  .play-container__title {
+.container {
+  .title {
     font-size: 3rem;
     margin: 0;
     padding: 0.5em 0;

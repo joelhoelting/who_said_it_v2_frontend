@@ -35,6 +35,12 @@ const characterModule = {
     },
     RESET_CHARACTERS(state) {
       state.characters = [];
+    },
+    SET_QUOTES(state, quotes) {
+      state.quotes = quotes;
+    },
+    TOGGLE_GAME_IN_PROGRESS(state) {
+      state.inProgress = !state.inProgress;
     }
   },
   actions: {
@@ -48,6 +54,12 @@ const characterModule = {
       } else {
         console.log('Notification: too many characters');
       }
+    },
+    setQuotes({ commit }, quotes) {
+      commit('SET_QUOTES', quotes);
+    },
+    toggleGameInProgress({ commit }) {
+      commit('TOGGLE_GAME_IN_PROGRESS');
     },
     createGame({ commit, dispatch, state, rootGetters }) {
       let { characters, difficulty } = state;
@@ -64,13 +76,19 @@ const characterModule = {
             difficulty
           })
           .then(response => {
+            commit('SET_QUOTES');
+            console.log(response);
             setTimeout(() => {
               resolve(response);
               dispatch('disableLoadingAnimation', null, { root: true });
             }, 300);
           })
           .catch(error => {
-            reject(error);
+            setTimeout(() => {
+              reject(error);
+              dispatch('disableLoadingAnimation', null, { root: true });
+              console.log(error, 'Notification: Connection Failure: Please check your connection');
+            }, 500);
           });
       });
     },

@@ -1,6 +1,6 @@
 <template>
   <div class="outer-container">
-    <div class="container home-container">
+    <div class="container flex-center-container">
       <AnimatedTitle />
       <div ref="ctaRef" class="cta-container">
         <h1>The Game of Deciding Who Said What</h1>
