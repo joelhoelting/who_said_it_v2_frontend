@@ -54,17 +54,10 @@ export default {
     LoadingAnimation
   },
   computed: {
-    ...mapState([
-      'character',
-      'game',
-      'loadingOverlayActive',
-      'loadingAnimationActive'
-    ]),
+    ...mapState(['character', 'game', 'loadingOverlayActive', 'loadingAnimationActive']),
     ...mapGetters('game', ['charactersRequiredToStartGame']),
     isButtonDisabled() {
-      return (
-        this.charactersRequiredToStartGame !== 0 || this.loadingAnimationActive
-      );
+      return this.charactersRequiredToStartGame !== 0 || this.loadingAnimationActive;
     },
     displayButtonMsg() {
       if (this.loadingAnimationActive) {
@@ -84,10 +77,10 @@ export default {
       el.style.left = '50px';
     },
     cardEnter(el, done) {
-      const delay = el.dataset.index * 100;
+      const delay = el.dataset.index * 80;
 
       setTimeout(() => {
-        gsap.to(el, 0.5, {
+        gsap.to(el, 0.4, {
           opacity: 1,
           left: 0,
           onComplete: done
@@ -106,13 +99,13 @@ export default {
         console.log('Succeeded to GET characters from API');
         setTimeout(() => {
           this.characters = response;
-        }, 300);
+        }, 250);
       })
       .catch(error => {
         console.log('Failed to GET characters, using local character data');
         setTimeout(() => {
           this.characters = error.characters;
-        }, 300);
+        }, 250);
       });
   },
   destroyed() {

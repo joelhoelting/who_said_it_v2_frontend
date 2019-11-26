@@ -29,7 +29,7 @@ const characterModule = {
               setTimeout(() => {
                 resolve(characters);
                 dispatch('disableLoadingOverlay', null, { root: true });
-              }, 300);
+              }, 500);
             })
             .catch(error => {
               commit('SET_CHARACTERS', charactersBackup);
@@ -41,7 +41,7 @@ const characterModule = {
               setTimeout(() => {
                 reject(errorObj);
                 dispatch('disableLoadingOverlay', null, { root: true });
-              }, 300);
+              }, 500);
             });
         });
       }

@@ -1,5 +1,4 @@
-import { authorizedAxiosInstance } from '@/axios';
-import { plainAxiosInstance } from '../../axios';
+import { authorizedAxiosInstance, plainAxiosInstance } from '@/axios';
 
 const getDefaultState = () => {
   return {
@@ -53,10 +52,8 @@ const characterModule = {
     createGame({ commit, dispatch, state, rootGetters }) {
       let { characters, difficulty } = state;
 
-      // Determines whether to use plain vs. authorized Axios instance
-      let axiosInstance = rootGetters['authorization/isLoggedIn']
-        ? authorizedAxiosInstance
-        : plainAxiosInstance;
+      const isLoggedIn = rootGetters['authorization/isLoggedIn'];
+      const axiosInstance = isLoggedIn ? authorizedAxiosInstance : plainAxiosInstance;
 
       dispatch('enableLoadingAnimation', null, { root: true });
 
