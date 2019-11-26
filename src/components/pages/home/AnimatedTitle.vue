@@ -198,7 +198,7 @@ svg {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
   stroke-width: 22;
-  animation: drawon 0.8s linear forwards;
+  animation: drawon 0.8s linear forwards 200ms;
 }
 
 #clip_w2 {
@@ -206,7 +206,7 @@ svg {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
   stroke-width: 17;
-  animation: drawon 0.8s linear forwards 0.35s;
+  animation: drawon 0.8s linear forwards 0.55s;
 }
 
 #clip_ho1 {
@@ -214,7 +214,7 @@ svg {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
   stroke-width: 13;
-  animation: drawon 0.8s linear forwards 0.6s;
+  animation: drawon 0.8s linear forwards 0.8s;
 }
 
 #clip_ho2 {
@@ -222,7 +222,7 @@ svg {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
   stroke-width: 15;
-  animation: drawon 0.8s linear forwards 0.9s;
+  animation: drawon 0.8s linear forwards 1.1s;
 }
 
 #clip_s {
@@ -230,7 +230,7 @@ svg {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
   stroke-width: 18;
-  animation: drawon 0.8s linear forwards 1.2s;
+  animation: drawon 0.8s linear forwards 1.4s;
 }
 
 #clip_aid1 {
@@ -238,7 +238,7 @@ svg {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
   stroke-width: 15;
-  animation: drawon 0.8s linear forwards 1.5s;
+  animation: drawon 0.8s linear forwards 1.7s;
 }
 
 #clip_aid2 {
@@ -246,7 +246,7 @@ svg {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
   stroke-width: 15;
-  animation: drawon 0.8s linear forwards 1.6s;
+  animation: drawon 0.8s linear forwards 1.8s;
 }
 
 #clip_aid3 {
@@ -254,7 +254,7 @@ svg {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
   stroke-width: 19;
-  animation: drawon 0.8s linear forwards 1.8s;
+  animation: drawon 0.8s linear forwards 2s;
 }
 
 #clip_aid4 {
@@ -262,7 +262,7 @@ svg {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
   stroke-width: 16;
-  animation: drawon 0.8s linear forwards 1.9s;
+  animation: drawon 0.8s linear forwards 2.1s;
 }
 
 #clip_dot {
@@ -270,7 +270,7 @@ svg {
   stroke-dasharray: 300;
   stroke-dashoffset: 300;
   stroke-width: 16;
-  animation: drawon 1s linear forwards 2.2s;
+  animation: drawon 1s linear forwards 2.4s;
 }
 
 #clip_i {
@@ -278,7 +278,7 @@ svg {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
   stroke-width: 15;
-  animation: drawon 0.8s linear forwards 2.4s;
+  animation: drawon 0.8s linear forwards 2.6s;
 }
 
 #clip_t {
@@ -286,7 +286,7 @@ svg {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
   stroke-width: 24;
-  animation: drawon 1s linear forwards 2.7s;
+  animation: drawon 1s linear forwards 2.9s;
 }
 
 @keyframes question {
@@ -304,7 +304,7 @@ svg {
 
 #question {
   fill: #fff;
-  animation: question 400ms ease-in-out forwards 3s;
+  animation: question 400ms ease-in-out forwards 3.2s;
   transform: matrix(0.1, 0, 0, 0.1, 480, 50);
   opacity: 0;
 }

@@ -23,7 +23,7 @@ authorizedAxiosInstance.interceptors.request.use(config => {
   if (method !== 'OPTIONS' && method !== 'GET') {
     config.headers = {
       ...config.headers,
-      Authorization: localStorage.jwt
+      Authorization: `Bearer ${localStorage.jwt}`
     };
   }
   return config;

@@ -1,6 +1,6 @@
 <template>
-  <div class="container form-container">
-    <form @submit.prevent="signup">
+  <div class="container flex-center-container">
+    <form @submit.prevent="signUp">
       <label for="email">
         Email Address
         <input type="email" v-model="email" id="email" placeholder="Email Address" />
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'login',
+  name: 'SignUp',
   data() {
     return {
       email: '',
@@ -34,16 +34,17 @@ export default {
     };
   },
   methods: {
-    signup() {
+    signUp() {
       let { email, password, password_confirmation } = this;
 
       this.$store
-        .dispatch('authorization/signup', {
+        .dispatch('authorization/signUp', {
           email,
           password,
           password_confirmation
         })
-        .then(response => console.log('response', response))
+        // .then(() => this.$router.push('/'))
+        .then(() => console.log('push router'))
         .catch(error => console.log(error));
     }
   }

@@ -1,6 +1,6 @@
 <template>
-  <div class="container form-container">
-    <form @submit.prevent="signin">
+  <div class="container flex-center-container">
+    <form @submit.prevent="signIn">
       <label for="email">
         Email Address
         <input type="email" v-model="email" id="email" placeholder="your@email.com" />
@@ -18,7 +18,7 @@
 // import gsap from 'gsap';
 
 export default {
-  name: 'signin',
+  name: 'SignIn',
   data() {
     return {
       email: '',
@@ -26,11 +26,11 @@ export default {
     };
   },
   methods: {
-    signin() {
+    signIn() {
       let { email, password } = this;
 
       this.$store
-        .dispatch('authorization/signin', { email, password })
+        .dispatch('authorization/signIn', { email, password })
         // .then(() => this.$router.push('/'))
         .then(() => console.log('push router'))
         .catch(err => console.log(err));
