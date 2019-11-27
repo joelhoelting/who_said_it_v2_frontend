@@ -57,7 +57,6 @@
       </clipPath>
     </defs>
     <title>Who Said It?</title>
-
     <g id="w-2">
       <g clip-path="url(#clip-path-7)">
         <path
@@ -66,14 +65,12 @@
           transform="translate(-39.3 -22.9)"
           fill="none"
           stroke-miterlimit="10"
-          stroke-width="25"
         />
         <path
           id="clip_w2"
           d="M101.5,90.5c2.5,2.8,4.4,9.6,8.3,10.5a13.4,13.4,0,0,0,9.7-2.1c8.8-5.8,14.3-17.2,17.7-26.8s5.5-21.2,6.5-32.1q.3-3.7.5-7.5t.2-6"
           transform="translate(-38 -19.4)"
           fill="none"
-          stroke-width="25"
         />
       </g>
     </g>
@@ -86,7 +83,6 @@
           fill="none"
           stroke-linecap="round"
           stroke-miterlimit="10"
-          stroke-width="25"
         />
         <path
           id="clip_ho2"
@@ -95,7 +91,6 @@
           fill="none"
           stroke-linecap="round"
           stroke-miterlimit="10"
-          stroke-width="25"
         />
       </g>
     </g>
@@ -107,7 +102,6 @@
           transform="translate(-38 -19.4)"
           fill="none"
           stroke-miterlimit="10"
-          stroke-width="25"
         />
       </g>
     </g>
@@ -119,7 +113,6 @@
           transform="translate(-38 -19.4)"
           fill="none"
           stroke-miterlimit="10"
-          stroke-width="25"
         />
         <path
           id="clip_aid2"
@@ -127,7 +120,6 @@
           transform="translate(-38 -19.4)"
           fill="none"
           stroke-miterlimit="10"
-          stroke-width="25"
         />
         <path
           id="clip_aid3"
@@ -135,7 +127,6 @@
           transform="translate(-39.3 -22.9)"
           fill="none"
           stroke-miterlimit="10"
-          stroke-width="25"
         />
         <path
           id="clip_aid4"
@@ -143,7 +134,6 @@
           transform="translate(-39.3 -22.9)"
           fill="none"
           stroke-miterlimit="10"
-          stroke-width="25"
         />
       </g>
     </g>
@@ -169,7 +159,6 @@
           transform="translate(-38 -19.4)"
           fill="none"
           stroke-miterlimit="10"
-          stroke-width="25"
         />
       </g>
     </g>
@@ -181,140 +170,142 @@
           transform="translate(-38 -19.4)"
           fill="none"
           stroke-miterlimit="10"
-          stroke-width="25"
         />
       </g>
     </g>
     <g id="question">
       <path
         d="M582.3,37.3a10,10,0,0,0-3.9.8,10.9,10.9,0,0,0-5.8,5.8,11.6,11.6,0,0,0-.9,4.7,12.6,12.6,0,0,0,.4,3.3,12.3,12.3,0,0,0,.8,2.3l.8,1.6a2.2,2.2,0,0,1,.4,1q0,1.1-1.8,1a12,12,0,0,1-4.3-.9,18.3,18.3,0,0,1-4.4-2.4,13.6,13.6,0,0,1-3.4-3.7,8.5,8.5,0,0,1-1.4-4.7,10.9,10.9,0,0,1,1.8-6.1,16.9,16.9,0,0,1,5-4.8,25,25,0,0,1,7.4-3.2,35.6,35.6,0,0,1,9-1.1q10.4,0,16.2,4.2T604,47.4a15.6,15.6,0,0,1-1.8,7.5,30,30,0,0,1-4.7,6.4,54.8,54.8,0,0,1-6.3,5.7l-6.7,5.1q-3.2,2.5-5.8,4.9a14.5,14.5,0,0,0-3.7,5.1,4.8,4.8,0,0,1-1.2,1.8,3.9,3.9,0,0,1-1.8.8,17.5,17.5,0,0,0-3.8.9,7.7,7.7,0,0,1-2.6.6,1.7,1.7,0,0,1-1-.4,1.5,1.5,0,0,1-.5-1.3,9.9,9.9,0,0,1,1.8-5.4,51,51,0,0,1,4.6-5.9q2.7-3.1,6-6.5a74.6,74.6,0,0,0,6-7,42.3,42.3,0,0,0,4.6-7.6,19.3,19.3,0,0,0,1.8-8.2,6.4,6.4,0,0,0-2-5.1A6.7,6.7,0,0,0,582.3,37.3ZM559.5,99.8a7.1,7.1,0,0,1,.7-2.9,11.1,11.1,0,0,1,1.8-2.8,9.7,9.7,0,0,1,2.6-2.1,6.3,6.3,0,0,1,3.1-.8,5.5,5.5,0,0,1,3.9,1.4,5.1,5.1,0,0,1,1.5,3.9,8.4,8.4,0,0,1-.6,3,9.8,9.8,0,0,1-1.7,2.8,9.2,9.2,0,0,1-2.6,2.2,6.8,6.8,0,0,1-3.3.8,5.3,5.3,0,0,1-4-1.5A5.6,5.6,0,0,1,559.5,99.8Z"
-        transform="translate(-38 -19.4)"
       />
     </g>
   </svg>
 </template>
 
-<style lang="scss">
-  @keyframes drawon {
-    100% {
-      stroke-dashoffset: 0;
-    }
+<style lang="scss" scoped>
+@keyframes drawon {
+  100% {
+    stroke-dashoffset: 0;
   }
+}
 
-  svg {
-    max-width: 1000px;
-    width: 100%;
-  }
+svg {
+  max-width: 1000px;
+  width: 100%;
+}
 
-  #clip_w1 {
-    stroke: #fff;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    stroke-width: 24;
-    animation: drawon 0.8s linear forwards;
-  }
+#clip_w1 {
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  stroke-width: 22;
+  animation: drawon 0.8s linear forwards 200ms;
+}
 
-  #clip_w2 {
-    stroke: #fff;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    stroke-width: 17;
-    animation: drawon 0.8s linear forwards 0.35s;
-  }
+#clip_w2 {
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  stroke-width: 17;
+  animation: drawon 0.8s linear forwards 0.55s;
+}
 
-  #clip_ho1 {
-    stroke: #fff;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    stroke-width: 13;
-    animation: drawon 0.8s linear forwards 0.6s;
-  }
+#clip_ho1 {
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  stroke-width: 13;
+  animation: drawon 0.8s linear forwards 0.8s;
+}
 
-  #clip_ho2 {
-    stroke: #fff;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    stroke-width: 15;
-    animation: drawon 0.8s linear forwards 0.9s;
-  }
+#clip_ho2 {
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  stroke-width: 15;
+  animation: drawon 0.8s linear forwards 1.1s;
+}
 
-  #clip_s {
-    stroke: #fff;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    stroke-width: 18;
-    animation: drawon 0.8s linear forwards 1.2s;
-  }
+#clip_s {
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  stroke-width: 18;
+  animation: drawon 0.8s linear forwards 1.4s;
+}
 
-  #clip_aid1 {
-    stroke: #fff;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    stroke-width: 15;
-    animation: drawon 0.8s linear forwards 1.5s;
-  }
+#clip_aid1 {
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  stroke-width: 15;
+  animation: drawon 0.8s linear forwards 1.7s;
+}
 
-  #clip_aid2 {
-    stroke: #fff;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    stroke-width: 15;
-    animation: drawon 0.8s linear forwards 1.6s;
-  }
+#clip_aid2 {
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  stroke-width: 15;
+  animation: drawon 0.8s linear forwards 1.8s;
+}
 
-  #clip_aid3 {
-    stroke: #fff;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    stroke-width: 19;
-    animation: drawon 0.8s linear forwards 1.8s;
-  }
+#clip_aid3 {
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  stroke-width: 19;
+  animation: drawon 0.8s linear forwards 2s;
+}
 
-  #clip_aid4 {
-    stroke: #fff;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    stroke-width: 16;
-    animation: drawon 0.8s linear forwards 1.9s;
-  }
+#clip_aid4 {
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  stroke-width: 16;
+  animation: drawon 0.8s linear forwards 2.1s;
+}
 
-  #clip_dot {
-    stroke: #fff;
-    stroke-dasharray: 300;
-    stroke-dashoffset: 300;
-    stroke-width: 16;
-    animation: drawon 1s linear forwards 2.2s;
-  }
+#clip_dot {
+  stroke: #fff;
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  stroke-width: 16;
+  animation: drawon 1s linear forwards 2.4s;
+}
 
-  #clip_i {
-    stroke: #fff;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    stroke-width: 15;
-    animation: drawon 0.8s linear forwards 2.4s;
-  }
+#clip_i {
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  stroke-width: 15;
+  animation: drawon 0.8s linear forwards 2.6s;
+}
 
-  #clip_t {
-    stroke: #fff;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    stroke-width: 24;
-    animation: drawon 1s linear forwards 2.7s;
-  }
+#clip_t {
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  stroke-width: 24;
+  animation: drawon 1s linear forwards 2.9s;
+}
 
-  @keyframes question {
-    0% {
-      transform-origin: center;
-      transform: scale(0);
-    }
-    100% {
-      transform: scale(1);
-    }
+@keyframes question {
+  0% {
+    opacity: 0;
   }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: matrix(1, 0, 0, 1, -38, -19.4);
+  }
+}
 
-  #question {
-    fill: #fff;
-    transform: scale(0);
-    animation: question 0.5s ease-out forwards 3s;
-  }
+#question {
+  fill: #fff;
+  animation: question 400ms ease-in-out forwards 3.2s;
+  transform: matrix(0.1, 0, 0, 0.1, 480, 50);
+  opacity: 0;
+}
 </style>

@@ -1,30 +1,49 @@
 <template>
-  <div class="container home-container">
-    <AnimatedTitle />
-    <transition name="fade-direction-100" enter-active-class="fade-up-1000-enter-active">
-      <h1 v-if="show">The Game of Deciding Who Said What</h1>
-    </transition>
-    <transition name="fade-direction-100" enter-active-class="fade-up-1000-enter-active">
-      <router-link class="btn btn--primary" v-if="show" to="/play" tag="button">Play Game</router-link>
-    </transition>
+  <div class="outer-container">
+    <div class="container flex-center-container">
+      <AnimatedTitle />
+      <div ref="ctaRef" class="cta-container">
+        <h1>The Game of Deciding Who Said What</h1>
+        <router-link class="btn btn--play" to="/play" tag="button">Play Game</router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import gsap from 'gsap';
 import AnimatedTitle from '@/components/pages/home/AnimatedTitle';
 
 export default {
-  name: 'home',
-  data() {
-    return {
-      show: false
-    };
-  },
-  mounted: function() {
-    this.show = true;
+  name: 'Home',
+  mounted() {
+    this.animateCTA();
   },
   components: {
     AnimatedTitle
+  },
+  methods: {
+    animateCTA() {
+      const { ctaRef } = this.$refs;
+
+      gsap.fromTo(
+        ctaRef,
+        { opacity: 0, top: '100px' },
+        { opacity: 1, duration: 0.8, top: 0, ease: 'power2.out' }
+      );
+    }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.cta-container {
+  position: relative;
+  .btn--play {
+    display: block;
+    margin: 0 auto;
+    padding: 20px 100px;
+    font-size: 1.6rem;
+  }
+}
+</style>

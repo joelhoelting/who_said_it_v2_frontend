@@ -1,6 +1,6 @@
 <template>
-  <div class="container form-container">
-    <form @submit.prevent="login">
+  <div class="container flex-center-container">
+    <form @submit.prevent="signIn">
       <label for="email">
         Email Address
         <input type="email" v-model="email" id="email" placeholder="your@email.com" />
@@ -15,8 +15,10 @@
 </template>
 
 <script>
+// import gsap from 'gsap';
+
 export default {
-  name: 'login',
+  name: 'SignIn',
   data() {
     return {
       email: '',
@@ -24,15 +26,14 @@ export default {
     };
   },
   methods: {
-    login() {
-      this.$http.plain
-        .post('/signin', { email: this.email, password: this.password })
-        .then(response => this.signInSuccessful(response))
-        .catch(error => this.signInFailed(error));
-    },
-    signInSuccessful(response) {
-      localStorage.jwt = response.data.jwt;
-      localStorage.signedIn = true;
+    signIn() {
+      let { email, password } = this;
+
+      this.$store
+        .dispatch('authorization/signIn', { email, password })
+        // .then(() => this.$router.push('/'))
+        .then(() => console.log('push router'))
+        .catch(err => console.log(err));
     }
   }
 };

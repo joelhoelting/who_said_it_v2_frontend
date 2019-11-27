@@ -18,7 +18,8 @@ module.exports = {
         named: 'never',
         asyncArrow: 'always'
       }
-    ]
+    ],
+    camelcase: 0
   },
 
   parserOptions: {
