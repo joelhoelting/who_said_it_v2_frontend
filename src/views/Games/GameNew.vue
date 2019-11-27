@@ -7,7 +7,12 @@
       </div>
     </div>
     <footer-bar>
-      <h1>Hello World</h1>
+      <character-game-card
+        v-for="(character, index) in game.characters"
+        :key="character.id"
+        :character="character"
+        :data-index="index"
+      />
     </footer-bar>
   </div>
 </template>
@@ -15,12 +20,14 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 
+import CharacterGameCard from '@/components/pages/games/new/CharacterGameCard.vue';
 import PageTitle from '@/components/includes/Text/PageTitle';
 import FooterBar from '@/components/includes/FooterBar';
 
 export default {
   name: 'GameNew',
   components: {
+    CharacterGameCard,
     PageTitle,
     FooterBar
   },

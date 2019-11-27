@@ -3,10 +3,44 @@ import { authorizedAxiosInstance, plainAxiosInstance } from '@/axios';
 const getDefaultState = () => {
   return {
     difficulty: 'easy',
-    characters: [],
-    characterIds: [],
+    characters: [
+      {
+        description: 'Stand-up comedian, chain smoker and raging misanthropist.',
+        id: 2,
+        name: 'Bill Hicks',
+        slug: 'bill_hicks'
+      },
+      {
+        description: '45th U.S. President. Eats pizza with a fork and knife. Potential harbinger of the apocalypse.',
+        id: 3,
+        name: 'Donald Trump',
+        slug: 'donald_trump'
+      }
+    ],
+    characterIds: [2, 3],
     currentQuote: 0,
-    quotes: [],
+    quotes: [
+      {
+        content: 'Uranium is big, big stuff because it means the ultimate?',
+        id: 90
+      },
+      {
+        content: 'Uranium is big, big stuff because it means the ultimate?',
+        id: 90
+      },
+      {
+        content: 'Uranium is big, big stuff because it means the ultimate?',
+        id: 90
+      },
+      {
+        content: 'Uranium is big, big stuff because it means the ultimate?',
+        id: 90
+      },
+      {
+        content: 'Uranium is big, big stuff because it means the ultimate?',
+        id: 90
+      }
+    ],
     gameState: [],
     inProgress: false,
     completed: false
@@ -86,10 +120,10 @@ const characterModule = {
           })
           .then(response => {
             const quotes = response.data.game_quotes;
-            console.log(response);
             dispatch('setQuotes', quotes);
             dispatch('setGameCharacters');
             dispatch('toggleGameInProgress');
+            console.log(state);
 
             setTimeout(() => {
               resolve(response);

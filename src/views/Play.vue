@@ -9,7 +9,7 @@
         @before-enter="cardBeforeEnter"
         @enter="cardEnter"
       >
-        <CharacterSelectCard
+        <character-select-card
           v-for="(character, index) in characters"
           :key="character.id"
           :character="character"
@@ -121,12 +121,6 @@ export default {
   .card-container {
     display: flex;
     flex-wrap: wrap;
-  }
-  .btn--start {
-    display: block;
-    font-size: 1.4rem;
-    padding: 20px 100px;
-    width: 20em;
   }
 }
 </style>
