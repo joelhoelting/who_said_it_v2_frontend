@@ -48,6 +48,9 @@ const characterModule = {
 
       return state.characters;
     }
+  },
+  getters: {
+    findCharacterById: state => id => state.characters.filter(character => character.id === id)
   }
 };
 

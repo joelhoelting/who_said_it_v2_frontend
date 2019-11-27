@@ -5,15 +5,27 @@ import Signup from '@/views/Signup.vue';
 import GameNew from '@/views/Games/GameNew.vue';
 import Games from '@/views/Games';
 
+const withPrefix = (prefix, routes) =>
+  routes.map(route => {
+    route.path = prefix + route.path;
+    return route;
+  });
+
 export default [
   { name: 'Home', path: '/', component: Home },
   { name: 'Play', path: '/play', component: Play },
   { name: 'SignIn', path: '/signin', component: Signin },
   { name: 'SignUp', path: '/signup', component: Signup },
-  {
-    name: 'Games',
-    path: '/games',
-    component: Games,
-    children: [{ name: 'GameNew', path: 'new', component: GameNew }]
-  }
+  ...withPrefix('/games', [
+    {
+      name: 'GamesIndex',
+      path: '/',
+      component: Games
+    },
+    {
+      name: 'GameNew',
+      path: '/new',
+      component: GameNew
+    }
+  ])
 ];

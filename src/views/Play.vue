@@ -1,7 +1,7 @@
 <template>
   <div class="outer-container">
     <div class="container">
-      <h1 class="title milkshake center">Select Characters</h1>
+      <page-title>Select Characters</page-title>
       <difficulty-toolbar />
       <transition-group
         class="card-container"
@@ -16,8 +16,7 @@
           :data-index="index"
         />
       </transition-group>
-      <!-- <div class="btn-container" v-if="!loadingOverlayActive"> -->
-      <div class="btn-container">
+      <footer-bar>
         <button
           :class="{ disabled: isButtonDisabled }"
           :disabled="isButtonDisabled"
@@ -27,7 +26,7 @@
           <span v-if="!loadingAnimationActive">{{ displayButtonMsg }}</span>
           <loading-animation v-if="loadingAnimationActive" />
         </button>
-      </div>
+      </footer-bar>
     </div>
   </div>
 </template>
@@ -36,9 +35,11 @@
 import gsap from 'gsap';
 import { mapActions, mapGetters, mapState } from 'vuex';
 
+import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
 import DifficultyToolbar from '@/components/pages/play/DifficultyToolbar.vue';
-import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
+import PageTitle from '@/components/includes/Text/PageTitle';
+import FooterBar from '@/components/includes/FooterBar';
 
 export default {
   name: 'Play',
@@ -50,7 +51,9 @@ export default {
   components: {
     CharacterSelectCard,
     DifficultyToolbar,
-    LoadingAnimation
+    LoadingAnimation,
+    PageTitle,
+    FooterBar
   },
   computed: {
     ...mapState(['character', 'game', 'loadingOverlayActive', 'loadingAnimationActive']),
@@ -115,32 +118,15 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  .title {
-    font-size: 3rem;
-    margin: 0;
-    padding: 0.5em 0;
-  }
   .card-container {
     display: flex;
     flex-wrap: wrap;
   }
-  .btn-container {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.1);
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .btn--start {
-      display: block;
-      font-size: 1.4rem;
-      padding: 20px 100px;
-      width: 20em;
-    }
+  .btn--start {
+    display: block;
+    font-size: 1.4rem;
+    padding: 20px 100px;
+    width: 20em;
   }
 }
 </style>

@@ -4,6 +4,7 @@ const getDefaultState = () => {
   return {
     difficulty: 'easy',
     characters: [],
+    currentQuote: 0,
     quotes: [],
     gameState: [],
     inProgress: false,
@@ -76,8 +77,10 @@ const characterModule = {
             difficulty
           })
           .then(response => {
-            commit('SET_QUOTES');
-            console.log(response);
+            const quotes = response.data.game_quotes;
+            dispatch('setQuotes', quotes);
+            dispatch('toggleGameInProgress');
+
             setTimeout(() => {
               resolve(response);
               dispatch('disableLoadingAnimation', null, { root: true });
@@ -110,7 +113,8 @@ const characterModule = {
       const currentCharLength = state.characters.length;
 
       return difficultyRules[state.difficulty] - currentCharLength;
-    }
+    },
+    getCurrentQuote: state => (state.quotes.length > 0 ? state.quotes[state.currentQuote].content : false)
   }
 };
 

@@ -1,22 +1,54 @@
 <template>
-  <div class="container">
-    <form @submit.prevent="signIn">
-      <label for="email">
-        Email Address
-        <input type="email" v-model="email" id="email" placeholder="your@email.com" />
-      </label>
-      <label for="password">
-        Password
-        <input type="password" v-model="password" id="password" placeholder="Password" />
-      </label>
-      <button type="submit" value="Submit">Submit</button>
-    </form>
+  <div class="outer-container">
+    <div class="container">
+      <page-title>Who Said It?</page-title>
+      <div class="quote-box">
+        <p>"{{getCurrentQuote}}"</p>
+      </div>
+    </div>
+    <footer-bar>
+      <h1>Hello World</h1>
+    </footer-bar>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapGetters, mapState } from 'vuex';
+
+import PageTitle from '@/components/includes/Text/PageTitle';
+import FooterBar from '@/components/includes/FooterBar';
+
+export default {
+  name: 'GameNew',
+  components: {
+    PageTitle,
+    FooterBar
+  },
+  computed: {
+    ...mapState(['game']),
+    ...mapGetters('game', ['getCurrentQuote'])
+  },
+  mounted() {
+    // if (!this.game.inProgress) {
+    //   this.$router.push('/play');
+    // }
+  }
+};
 </script>
 
-<style>
-</style>
+<style lang="scss" scoped>
+.quote-box {
+  height: calc(50% - 200px);
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  p {
+    font-size: 2rem;
+    padding: 1em;
+  }
+}
+</style>>
