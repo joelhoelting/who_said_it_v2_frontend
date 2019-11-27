@@ -4,8 +4,7 @@ import charactersBackup from '@/data/backup/characters';
 const characterModule = {
   namespaced: true,
   state: {
-    characters: [],
-    count: 0
+    characters: []
   },
   mutations: {
     SET_CHARACTERS(state, characters) {
@@ -13,7 +12,7 @@ const characterModule = {
     }
   },
   actions: {
-    fetchCharacters({ commit, dispatch, state, rootState }) {
+    fetchCharacters({ commit, dispatch, state }) {
       let characterCount = state.characters.length;
 
       if (characterCount === 0) {
@@ -27,7 +26,10 @@ const characterModule = {
               commit('SET_CHARACTERS', characters);
 
               setTimeout(() => {
-                resolve(characters);
+                resolve({
+                  characters,
+                  delay: 0
+                });
                 dispatch('disableLoadingOverlay', null, { root: true });
               }, 500);
             })
@@ -35,7 +37,8 @@ const characterModule = {
               commit('SET_CHARACTERS', charactersBackup);
 
               const errorObj = Object.assign(new Error(error), {
-                characters: charactersBackup
+                characters: charactersBackup,
+                delay: 0
               });
 
               setTimeout(() => {
@@ -46,11 +49,14 @@ const characterModule = {
         });
       }
 
-      return state.characters;
+      return {
+        characters: state.characters,
+        delay: 250
+      };
     }
   },
   getters: {
-    findCharacterById: state => id => state.characters.filter(character => character.id === id)
+    findCharacterById: state => id => state.characters.filter(character => character.id === id)[0]
   }
 };
 

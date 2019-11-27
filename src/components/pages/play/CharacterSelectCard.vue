@@ -40,10 +40,10 @@ export default {
     };
   },
   computed: {
-    ...mapState('game', ['characters']),
+    ...mapState('game', ['characterIds']),
     isSelected() {
       return {
-        selected: this.characters.includes(this.character.id)
+        selected: this.characterIds.includes(this.character.id)
       };
     }
   },

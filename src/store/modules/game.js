@@ -4,6 +4,7 @@ const getDefaultState = () => {
   return {
     difficulty: 'easy',
     characters: [],
+    characterIds: [],
     currentQuote: 0,
     quotes: [],
     gameState: [],
@@ -29,16 +30,19 @@ const characterModule = {
       state.difficulty = difficulty;
     },
     ADD_CHARACTER_TO_GAME(state, character_id) {
-      state.characters.push(character_id);
+      state.characterIds.push(character_id);
     },
     REMOVE_CHARACTER_FROM_GAME(state, character_id) {
-      state.characters.splice(state.characters.indexOf(character_id), 1);
+      state.characterIds.splice(state.characterIds.indexOf(character_id), 1);
     },
     RESET_CHARACTERS(state) {
-      state.characters = [];
+      state.characterIds = [];
     },
     SET_QUOTES(state, quotes) {
       state.quotes = quotes;
+    },
+    SET_GAME_CHARACTERS(state, characters) {
+      state.characters = characters;
     },
     TOGGLE_GAME_IN_PROGRESS(state) {
       state.inProgress = !state.inProgress;
@@ -46,11 +50,11 @@ const characterModule = {
   },
   actions: {
     addOrRemoveCharacterFromGame({ commit, state }, character_id) {
-      if (state.characters.includes(character_id)) {
+      if (state.characterIds.includes(character_id)) {
         return commit('REMOVE_CHARACTER_FROM_GAME', character_id);
       }
 
-      if (state.characters.length < difficultyRules[state.difficulty]) {
+      if (state.characterIds.length < difficultyRules[state.difficulty]) {
         commit('ADD_CHARACTER_TO_GAME', character_id);
       } else {
         console.log('Notification: too many characters');
@@ -59,11 +63,15 @@ const characterModule = {
     setQuotes({ commit }, quotes) {
       commit('SET_QUOTES', quotes);
     },
+    setGameCharacters({ commit, state, rootGetters }) {
+      const characters = state.characterIds.map(id => rootGetters['character/findCharacterById'](id));
+      commit('SET_GAME_CHARACTERS', characters);
+    },
     toggleGameInProgress({ commit }) {
       commit('TOGGLE_GAME_IN_PROGRESS');
     },
     createGame({ commit, dispatch, state, rootGetters }) {
-      let { characters, difficulty } = state;
+      let { characterIds, difficulty } = state;
 
       const isLoggedIn = rootGetters['authorization/isLoggedIn'];
       const axiosInstance = isLoggedIn ? authorizedAxiosInstance : plainAxiosInstance;
@@ -73,12 +81,14 @@ const characterModule = {
       return new Promise((resolve, reject) => {
         axiosInstance
           .post('/games', {
-            characters,
+            characters: characterIds,
             difficulty
           })
           .then(response => {
             const quotes = response.data.game_quotes;
+            console.log(response);
             dispatch('setQuotes', quotes);
+            dispatch('setGameCharacters');
             dispatch('toggleGameInProgress');
 
             setTimeout(() => {
@@ -110,7 +120,7 @@ const characterModule = {
   },
   getters: {
     charactersRequiredToStartGame: state => {
-      const currentCharLength = state.characters.length;
+      const currentCharLength = state.characterIds.length;
 
       return difficultyRules[state.difficulty] - currentCharLength;
     },

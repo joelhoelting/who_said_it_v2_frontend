@@ -56,7 +56,7 @@ export default {
     FooterBar
   },
   computed: {
-    ...mapState(['character', 'game', 'loadingOverlayActive', 'loadingAnimationActive']),
+    ...mapState(['loadingOverlayActive', 'loadingAnimationActive']),
     ...mapGetters('game', ['charactersRequiredToStartGame']),
     isButtonDisabled() {
       return this.charactersRequiredToStartGame !== 0 || this.loadingAnimationActive;
@@ -66,9 +66,7 @@ export default {
         return 'Loading...';
       }
 
-      return this.isButtonDisabled
-        ? `Select ${this.charactersRequiredToStartGame} Characters`
-        : 'Play Game';
+      return this.isButtonDisabled ? `Select ${this.charactersRequiredToStartGame} Characters` : 'Play Game';
     }
   },
   methods: {
@@ -101,16 +99,18 @@ export default {
     // Fetch characters (character module)
     this.fetchCharacters()
       .then(response => {
+        const { characters, delay } = response;
         console.log('Succeeded to GET characters from API');
         setTimeout(() => {
-          this.characters = response;
-        }, 250);
+          this.characters = characters;
+        }, delay);
       })
       .catch(error => {
+        const { characters, delay } = error;
         console.log('Failed to GET characters, using local character data');
         setTimeout(() => {
-          this.characters = error.characters;
-        }, 250);
+          this.characters = characters;
+        }, delay);
       });
   }
 };
