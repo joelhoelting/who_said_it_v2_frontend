@@ -19,8 +19,8 @@ export default {
 
 <style lang="scss" scoped>
 .character-card {
-  height: 250px;
-  width: 250px;
+  height: 200px;
+  width: 200px;
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;

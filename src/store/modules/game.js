@@ -18,26 +18,56 @@ const getDefaultState = () => {
       }
     ],
     characterIds: [2, 3],
-    currentQuote: 0,
+    currentQuote: 8,
     quotes: [
       {
-        content: 'Uranium is big, big stuff because it means the ultimate?',
+        content:
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
-        content: 'Uranium is big, big stuff because it means the ultimate?',
+        content:
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
-        content: 'Uranium is big, big stuff because it means the ultimate?',
+        content:
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
-        content: 'Uranium is big, big stuff because it means the ultimate?',
+        content:
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
-        content: 'Uranium is big, big stuff because it means the ultimate?',
+        content:
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+        id: 90
+      },
+      {
+        content:
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+        id: 90
+      },
+      {
+        content:
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+        id: 90
+      },
+      {
+        content:
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+        id: 90
+      },
+      {
+        content:
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+        id: 90
+      },
+      {
+        content:
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       }
     ],
@@ -158,7 +188,8 @@ const characterModule = {
 
       return difficultyRules[state.difficulty] - currentCharLength;
     },
-    getCurrentQuote: state => (state.quotes.length > 0 ? state.quotes[state.currentQuote].content : false)
+    getCurrentQuote: state => (state.quotes.length > 0 ? state.quotes[state.currentQuote].content : false),
+    gameProgressPercentage: state => `${(state.currentQuote + 1) * 10}%`
   }
 };
 
