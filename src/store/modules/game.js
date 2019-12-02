@@ -18,7 +18,7 @@ const getDefaultState = () => {
       }
     ],
     characterIds: [2, 3],
-    currentQuote: 8,
+    currentQuoteIdx: 1,
     quotes: [
       {
         content:
@@ -188,8 +188,8 @@ const characterModule = {
 
       return difficultyRules[state.difficulty] - currentCharLength;
     },
-    getCurrentQuote: state => (state.quotes.length > 0 ? state.quotes[state.currentQuote].content : false),
-    gameProgressPercentage: state => `${(state.currentQuote + 1) * 10}%`
+    getCurrentQuote: state => (state.quotes.length > 0 ? state.quotes[state.currentQuoteIdx].content : false),
+    gameProgressPercentage: state => `${(state.currentQuoteIdx + 1) * 10}%`
   }
 };
 

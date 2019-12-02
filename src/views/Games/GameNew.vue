@@ -6,7 +6,7 @@
         <p class="quote-box__current_quote">"{{getCurrentQuote}}"</p>
       </div>
       <div class="quote-progress">
-        <p>1/10</p>
+        <p>{{game.currentQuoteIdx}}/10</p>
       </div>
     </div>
     <game-footer-bar>
