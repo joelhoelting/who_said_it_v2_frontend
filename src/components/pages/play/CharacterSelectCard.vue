@@ -34,6 +34,7 @@ import { mapState, mapActions } from 'vuex';
 import images from '@/mixins/images.js';
 
 export default {
+  name: 'CharacterSelectCard',
   data() {
     return {
       selected: false

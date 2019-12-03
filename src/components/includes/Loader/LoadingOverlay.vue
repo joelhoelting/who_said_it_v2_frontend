@@ -8,6 +8,7 @@
 import LoadingAnimation from './LoadingAnimation.vue';
 
 export default {
+  name: 'LoadingOverlay',
   components: {
     LoadingAnimation
   }

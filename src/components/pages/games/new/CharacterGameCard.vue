@@ -1,6 +1,6 @@
 <template>
   <div
-    @click="checkAnswer(character)"
+    @click="submitAnswer(character)"
     class="character-card"
     :style="getCharacterBackgroundImageMixin(character.slug)"
   >
@@ -16,6 +16,7 @@ import { mapActions } from 'vuex';
 import images from '@/mixins/images.js';
 
 export default {
+  name: 'CharacterGameCard',
   mixins: [images],
   data() {
     return {
@@ -26,7 +27,7 @@ export default {
     character: Object
   },
   methods: {
-    ...mapActions('game', ['checkAnswer'])
+    ...mapActions('game', ['submitAnswer'])
   }
 };
 </script>
@@ -50,7 +51,6 @@ export default {
 
   .character-card__text-container {
     background: rgba(0, 0, 0, 0.3);
-
     border-radius: 0 0 10px 10px;
     bottom: 0;
     display: flex;

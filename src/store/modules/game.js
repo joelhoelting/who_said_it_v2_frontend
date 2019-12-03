@@ -2,7 +2,7 @@ import { authorizedAxiosInstance, plainAxiosInstance } from '@/axios';
 
 const getDefaultState = () => {
   return {
-    difficulty: 'easy',
+    difficulty: 'hard',
     characters: [
       {
         description: 'Stand-up comedian, chain smoker and raging misanthropist.',
@@ -15,10 +15,22 @@ const getDefaultState = () => {
         id: 3,
         name: 'Donald Trump',
         slug: 'donald_trump'
+      },
+      {
+        id: 5,
+        name: 'George Carlin',
+        description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
+        slug: 'george_carlin'
+      },
+      {
+        id: 6,
+        name: 'God',
+        description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
+        slug: 'god'
       }
     ],
-    characterIds: [2, 3],
-    currentQuoteIdx: 1,
+    characterIds: [2, 3, 5, 6],
+    currentQuoteIdx: 0,
     quotes: [
       {
         content:
@@ -71,6 +83,10 @@ const getDefaultState = () => {
         id: 90
       }
     ],
+    answer: {
+      submitting: false,
+      evaluation: Boolean
+    },
     gameState: [],
     inProgress: false,
     completed: false
@@ -110,6 +126,18 @@ const characterModule = {
     },
     TOGGLE_GAME_IN_PROGRESS(state) {
       state.inProgress = !state.inProgress;
+    },
+    TOGGLE_ANSWER_SUBMITTING(state) {
+      state.answer.submitting = !state.answer.submitting;
+    },
+    PUSH_ANSWER_INTO_GAMESTATE(state, answer) {
+      state.gameState.push(answer);
+    },
+    UPDATE_CURRENT_ANSWER(state, evaluation) {
+      state.answer.evaluation = evaluation;
+    },
+    INCREMENT_QUOTE(state) {
+      state.currentQuoteIdx++;
     }
   },
   actions: {
@@ -134,17 +162,49 @@ const characterModule = {
     toggleGameInProgress({ commit }) {
       commit('TOGGLE_GAME_IN_PROGRESS');
     },
-    checkAnswer({ commit, getters }, character) {
-      // const { id, description, name, slug } = character;
+    pushAnswer({ commit }, answer) {
+      const { evaluation } = answer;
+
+      commit('UPDATE_CURRENT_ANSWER', evaluation);
+      commit('PUSH_ANSWER_INTO_GAMESTATE', answer);
+    },
+    incrementQuote({ commit }) {
+      commit('INCREMENT_QUOTE');
+    },
+    toggleAnswerSubmitting({ commit }) {
+      commit('TOGGLE_ANSWER_SUBMITTING');
+    },
+    submitAnswer({ dispatch, getters, rootGetters }, character) {
+      dispatch('toggleAnswerSubmitting');
+      dispatch('enableLoadingAnimation', null, { root: true });
+
       return new Promise((resolve, reject) => {
         plainAxiosInstance
           .post('/games/check_answer', {
-            character,
-            quote: getters.getCurrentQuote
+            answer: {
+              character_id: character.id,
+              quote_id: getters.getCurrentQuote.id
+            }
           })
-          .then(response => console.log(response.data.evaluation));
+          .then(response => {
+            const { correct_character, evaluation } = response.data;
+
+            let answerObj = {
+              selectedCharacter: character,
+              correctCharacter: rootGetters['character/findCharacterById'](correct_character.id),
+              evaluation,
+              quote: getters.getCurrentQuote
+            };
+
+            dispatch('pushAnswer', answerObj);
+            resolve(response);
+            dispatch('disableLoadingAnimation', null, { root: true });
+          });
       });
-      // dispatch('enableLoadingAnimation', null, { root: true });
+    },
+    triggerNextQuote({ commit, dispatch }) {
+      dispatch('toggleAnswerSubmitting');
+      dispatch('incrementQuote');
     },
     createGame({ commit, dispatch, state, rootGetters }) {
       let { characterIds, difficulty } = state;
@@ -165,7 +225,6 @@ const characterModule = {
             dispatch('setQuotes', quotes);
             dispatch('setGameCharacters');
             dispatch('toggleGameInProgress');
-            console.log(state);
 
             setTimeout(() => {
               resolve(response);
