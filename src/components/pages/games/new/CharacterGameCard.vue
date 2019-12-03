@@ -1,5 +1,9 @@
 <template>
-  <div class="character-card" :style="getCharacterBackgroundImageMixin(character.slug)">
+  <div
+    @click="checkAnswer(character)"
+    class="character-card"
+    :style="getCharacterBackgroundImageMixin(character.slug)"
+  >
     <div class="character-card__text-container">
       <p>{{character.name}}</p>
     </div>
@@ -7,12 +11,22 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import images from '@/mixins/images.js';
 
 export default {
   mixins: [images],
+  data() {
+    return {
+      disableCard: false
+    };
+  },
   props: {
     character: Object
+  },
+  methods: {
+    ...mapActions('game', ['checkAnswer'])
   }
 };
 </script>

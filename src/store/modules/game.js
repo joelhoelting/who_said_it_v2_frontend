@@ -22,52 +22,52 @@ const getDefaultState = () => {
     quotes: [
       {
         content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
         content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
         content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
         content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
         content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
         content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
         content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
         content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
         content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       },
       {
         content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK? Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
+          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
         id: 90
       }
     ],
@@ -134,6 +134,18 @@ const characterModule = {
     toggleGameInProgress({ commit }) {
       commit('TOGGLE_GAME_IN_PROGRESS');
     },
+    checkAnswer({ commit, getters }, character) {
+      // const { id, description, name, slug } = character;
+      return new Promise((resolve, reject) => {
+        plainAxiosInstance
+          .post('/games/check_answer', {
+            character,
+            quote: getters.getCurrentQuote
+          })
+          .then(response => console.log(response.data.evaluation));
+      });
+      // dispatch('enableLoadingAnimation', null, { root: true });
+    },
     createGame({ commit, dispatch, state, rootGetters }) {
       let { characterIds, difficulty } = state;
 
@@ -188,7 +200,7 @@ const characterModule = {
 
       return difficultyRules[state.difficulty] - currentCharLength;
     },
-    getCurrentQuote: state => (state.quotes.length > 0 ? state.quotes[state.currentQuoteIdx].content : false),
+    getCurrentQuote: state => (state.quotes.length > 0 ? state.quotes[state.currentQuoteIdx] : false),
     gameProgressPercentage: state => `${(state.currentQuoteIdx + 1) * 10}%`
   }
 };

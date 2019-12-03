@@ -3,7 +3,7 @@
     <div class="container">
       <page-title>Who Said It?</page-title>
       <div class="quote-box">
-        <p class="quote-box__current_quote">"{{getCurrentQuote}}"</p>
+        <p class="quote-box__current_quote">"{{getCurrentQuote.content}}"</p>
       </div>
       <div class="quote-progress">
         <p>{{game.currentQuoteIdx}}/10</p>

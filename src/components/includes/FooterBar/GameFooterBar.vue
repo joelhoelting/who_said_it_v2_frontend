@@ -10,9 +10,7 @@ import FooterBar from './index.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-  mounted() {
-    console.log(this.gameProgressPercentage);
-  },
+  name: 'GameFooterBar',
   components: {
     FooterBar
   },

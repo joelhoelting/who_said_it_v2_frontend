@@ -43,17 +43,37 @@ import FooterBar from '@/components/includes/FooterBar';
 
 export default {
   name: 'Play',
-  data() {
-    return {
-      characters: []
-    };
-  },
   components: {
     CharacterSelectCard,
     DifficultyToolbar,
     LoadingAnimation,
     PageTitle,
     FooterBar
+  },
+  data() {
+    return {
+      characters: []
+    };
+  },
+  mounted() {
+    // Reset game state (game module)
+    this.resetGameState();
+    // Fetch characters (character module)
+    this.fetchCharacters()
+      .then(response => {
+        const { characters, delay } = response;
+        console.log('Succeeded to GET characters from API');
+        setTimeout(() => {
+          this.characters = characters;
+        }, delay);
+      })
+      .catch(error => {
+        const { characters, delay } = error;
+        console.log('Failed to GET characters, using local character data');
+        setTimeout(() => {
+          this.characters = characters;
+        }, delay);
+      });
   },
   computed: {
     ...mapState(['loadingOverlayActive', 'loadingAnimationActive']),
@@ -92,26 +112,6 @@ export default {
         this.$router.push('/games/new');
       });
     }
-  },
-  mounted() {
-    // Reset game state (game module)
-    this.resetGameState();
-    // Fetch characters (character module)
-    this.fetchCharacters()
-      .then(response => {
-        const { characters, delay } = response;
-        console.log('Succeeded to GET characters from API');
-        setTimeout(() => {
-          this.characters = characters;
-        }, delay);
-      })
-      .catch(error => {
-        const { characters, delay } = error;
-        console.log('Failed to GET characters, using local character data');
-        setTimeout(() => {
-          this.characters = characters;
-        }, delay);
-      });
   }
 };
 </script>
