@@ -36,7 +36,12 @@ const authorizationModule = {
         const { email, password } = credentials;
 
         plainAxiosInstance
-          .post('/signin', { email, password })
+          .post('/signin', {
+            auth: {
+              email,
+              password
+            }
+          })
           .then(response => {
             const { jwt, user } = response.data;
             commit('AUTH_SUCCESS', jwt, user);
@@ -57,7 +62,13 @@ const authorizationModule = {
         const { email, password, password_confirmation } = credentials;
 
         plainAxiosInstance
-          .post('/signup', { email, password, password_confirmation })
+          .post('/signup', {
+            auth: {
+              email,
+              password,
+              password_confirmation
+            }
+          })
           .then(response => {
             const { jwt, user } = response.data;
             console.log('response', response);

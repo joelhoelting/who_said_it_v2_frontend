@@ -7,7 +7,7 @@
 <style>
 .footer-container {
   position: absolute;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.2);
   bottom: 0;
   left: 0;
   width: 100%;

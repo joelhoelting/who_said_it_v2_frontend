@@ -2,36 +2,39 @@
   <div class="outer-container">
     <div class="container">
       <page-title>Who Said It?</page-title>
-      <div class="quote-box">
-        <p class="quote-box__current_quote">"{{getCurrentQuote.content}}"</p>
-      </div>
-      <div class="quote-progress">
-        <p>{{game.currentQuoteIdx + 1}}/10</p>
-      </div>
-    </div>
-    <game-footer-bar>
-      <character-game-card
-        v-for="(character, index) in game.characters"
-        :key="character.id"
-        :character="character"
-        :data-index="index"
-      />
       <transition name="fade">
-        <div class="spinner-overlay" v-if="game.answer.submitting" @click="triggerNextQuote">
-          <loading-animation v-if="loadingAnimationActive" />
-          <h6 class="answer">
-            <span
-              v-if="!loadingAnimationActive && game.answer.evaluation"
-              class="answer--correct"
-            >Correct!</span>
-            <span
-              v-if="!loadingAnimationActive && !game.answer.evaluation"
-              class="answer--incorrect"
-            >Incorrect</span>
-          </h6>
+        <div class="quote-container">
+          <div class="quote-box">
+            <p class="quote-box__current_quote">"{{ getCurrentQuote.content }}"</p>
+          </div>
+          <div class="quote-progress">
+            <p>{{ game.currentQuoteIdx + 1 }}/10</p>
+          </div>
         </div>
       </transition>
-    </game-footer-bar>
+      <!-- <transition name="fade">
+        <div class="postgame-container">
+          <h1>Hello World</h1>
+        </div>
+      </transition> -->
+      <game-footer-bar>
+        <character-game-card
+          v-for="(character, index) in game.characters"
+          :key="character.id"
+          :character="character"
+          :data-index="index"
+        />
+        <transition name="fade">
+          <div class="spinner-overlay" v-if="game.answer.submitting" @click="triggerNextQuote">
+            <loading-animation v-if="loadingAnimationActive" />
+            <h6 class="answer">
+              <span v-if="!loadingAnimationActive && game.answer.evaluation" class="answer--correct">Correct!</span>
+              <span v-if="!loadingAnimationActive && !game.answer.evaluation" class="answer--incorrect">Incorrect</span>
+            </h6>
+          </div>
+        </transition>
+      </game-footer-bar>
+    </div>
   </div>
 </template>
 
@@ -68,30 +71,41 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.quote-box {
-  height: calc(100% - 450px);
-  // background: grey;
-  width: 80%;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .quote-box__current_quote {
-    font-size: 2rem;
-    padding: 1em;
+.quote-container {
+  height: calc(100% - 400px);
+  .quote-box {
+    height: 95%;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .quote-box__current_quote {
+      font-size: 2rem;
+      padding: 1em;
+    }
+  }
+  .quote-progress {
+    height: 5%;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+      margin: 0;
+    }
   }
 }
-.quote-progress {
-  bottom: 0;
+.postgame-container {
+  padding-top: 100px;
+  height: calc(100% - 300px);
+  position: absolute;
+  top: 0;
+  background: grey;
   width: 100%;
-  text-align: center;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  p {
-    margin: 0;
-  }
+  left: 0;
 }
 .footer-container {
   .spinner-overlay {
@@ -107,6 +121,7 @@ export default {
     cursor: pointer;
     .answer {
       font-size: 4em;
+      margin: 0;
       .answer--correct {
         color: #57ea34;
       }
@@ -116,4 +131,4 @@ export default {
     }
   }
 }
-</style>>
+</style>

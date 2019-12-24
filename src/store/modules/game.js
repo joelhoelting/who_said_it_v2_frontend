@@ -2,6 +2,7 @@ import { authorizedAxiosInstance, plainAxiosInstance } from '@/axios';
 
 const getDefaultState = () => {
   return {
+    id: Number,
     difficulty: 'hard',
     characters: [
       {
@@ -30,7 +31,7 @@ const getDefaultState = () => {
       }
     ],
     characterIds: [2, 3, 5, 6],
-    currentQuoteIdx: 0,
+    currentQuoteIdx: 8,
     quotes: [
       {
         content:
@@ -106,6 +107,9 @@ const characterModule = {
     RESET_GAME_STATE(state) {
       Object.assign(state, getDefaultState());
     },
+    RESET_CHARACTERS(state) {
+      state.characterIds = [];
+    },
     SET_DIFFICULTY(state, difficulty) {
       state.difficulty = difficulty;
     },
@@ -114,9 +118,6 @@ const characterModule = {
     },
     REMOVE_CHARACTER_FROM_GAME(state, character_id) {
       state.characterIds.splice(state.characterIds.indexOf(character_id), 1);
-    },
-    RESET_CHARACTERS(state) {
-      state.characterIds = [];
     },
     SET_QUOTES(state, quotes) {
       state.quotes = quotes;
@@ -127,20 +128,38 @@ const characterModule = {
     TOGGLE_GAME_IN_PROGRESS(state) {
       state.inProgress = !state.inProgress;
     },
-    TOGGLE_ANSWER_SUBMITTING(state) {
-      state.answer.submitting = !state.answer.submitting;
+    UPDATE_CURRENT_ANSWER(state, evaluation) {
+      state.answer.evaluation = evaluation;
     },
     PUSH_ANSWER_INTO_GAMESTATE(state, answer) {
       state.gameState.push(answer);
     },
-    UPDATE_CURRENT_ANSWER(state, evaluation) {
-      state.answer.evaluation = evaluation;
+    TOGGLE_ANSWER_SUBMITTING(state) {
+      state.answer.submitting = !state.answer.submitting;
     },
     INCREMENT_QUOTE(state) {
       state.currentQuoteIdx++;
+    },
+    SET_GAME_COMPLETED(state) {
+      state.completed = true;
+    },
+    INITIALIZE_GAME(state, gameData) {
+      state = Object.assign(state, gameData);
     }
   },
   actions: {
+    setDifficulty({ commit, dispatch, state }, difficulty) {
+      if (state.difficulty !== difficulty) {
+        dispatch('resetCharacters');
+        commit('SET_DIFFICULTY', difficulty);
+      }
+    },
+    resetCharacters({ commit }) {
+      commit('RESET_CHARACTERS');
+    },
+    resetGameState({ commit }) {
+      commit('RESET_GAME_STATE');
+    },
     addOrRemoveCharacterFromGame({ commit, state }, character_id) {
       if (state.characterIds.includes(character_id)) {
         return commit('REMOVE_CHARACTER_FROM_GAME', character_id);
@@ -151,6 +170,51 @@ const characterModule = {
       } else {
         console.log('Notification: too many characters');
       }
+    },
+    createGame({ dispatch, state, rootGetters }) {
+      const { characterIds, difficulty } = state;
+      const characters = state.characterIds.map(id => rootGetters['character/findCharacterById'](id));
+
+      const isLoggedIn = rootGetters['authorization/isLoggedIn'];
+      const axiosInstance = isLoggedIn ? authorizedAxiosInstance : plainAxiosInstance;
+
+      dispatch('enableLoadingAnimation', null, { root: true });
+
+      return new Promise((resolve, reject) => {
+        axiosInstance
+          .post('/games', {
+            characters: characterIds,
+            difficulty
+          })
+          .then(response => {
+            const { id, game_quotes } = response.data;
+            const gameObj = {
+              id,
+              characters,
+              quotes: game_quotes,
+              inProgress: true
+            };
+
+            dispatch('initializeGame', gameObj);
+
+            setTimeout(() => {
+              resolve(response);
+              setTimeout(() => {
+                dispatch('disableLoadingAnimation', null, { root: true });
+              }, 200);
+            }, 300);
+          })
+          .catch(error => {
+            setTimeout(() => {
+              reject(error);
+              dispatch('disableLoadingAnimation', null, { root: true });
+              console.log(error, 'Notification: Connection Failure: Please check your connection');
+            }, 500);
+          });
+      });
+    },
+    initializeGame({ commit }, gameData) {
+      commit('INITIALIZE_GAME', gameData);
     },
     setQuotes({ commit }, quotes) {
       commit('SET_QUOTES', quotes);
@@ -168,13 +232,9 @@ const characterModule = {
       commit('UPDATE_CURRENT_ANSWER', evaluation);
       commit('PUSH_ANSWER_INTO_GAMESTATE', answer);
     },
-    incrementQuote({ commit }) {
-      commit('INCREMENT_QUOTE');
-    },
-    toggleAnswerSubmitting({ commit }) {
-      commit('TOGGLE_ANSWER_SUBMITTING');
-    },
-    submitAnswer({ dispatch, getters, rootGetters }, character) {
+    submitAnswer({ dispatch, getters, rootGetters, state }, character) {
+      if (state.answer.submitting) return false;
+
       dispatch('toggleAnswerSubmitting');
       dispatch('enableLoadingAnimation', null, { root: true });
 
@@ -190,9 +250,9 @@ const characterModule = {
             const { correct_character, evaluation } = response.data;
 
             let answerObj = {
+              evaluation,
               selectedCharacter: character,
               correctCharacter: rootGetters['character/findCharacterById'](correct_character.id),
-              evaluation,
               quote: getters.getCurrentQuote
             };
 
@@ -202,61 +262,39 @@ const characterModule = {
           });
       });
     },
-    triggerNextQuote({ commit, dispatch }) {
+    toggleAnswerSubmitting({ commit }) {
+      commit('TOGGLE_ANSWER_SUBMITTING');
+    },
+    incrementQuote({ commit }) {
+      commit('INCREMENT_QUOTE');
+    },
+    triggerNextQuote({ dispatch, state }) {
+      if (state.currentQuoteIdx === 9 && state.answer.submitting) {
+        return dispatch('setGameCompleted');
+      }
+
       dispatch('toggleAnswerSubmitting');
       dispatch('incrementQuote');
     },
-    createGame({ commit, dispatch, state, rootGetters }) {
-      let { characterIds, difficulty } = state;
-
-      const isLoggedIn = rootGetters['authorization/isLoggedIn'];
-      const axiosInstance = isLoggedIn ? authorizedAxiosInstance : plainAxiosInstance;
-
-      dispatch('enableLoadingAnimation', null, { root: true });
+    setGameCompleted({ commit, state }) {
+      commit('SET_GAME_COMPLETED');
+      console.log(state.id);
 
       return new Promise((resolve, reject) => {
-        axiosInstance
-          .post('/games', {
-            characters: characterIds,
-            difficulty
+        plainAxiosInstance
+          .patch(`/games/${state.id}`, {
+            postgame: {
+              state: state.gameState,
+              completed: true
+            }
           })
-          .then(response => {
-            const quotes = response.data.game_quotes;
-            dispatch('setQuotes', quotes);
-            dispatch('setGameCharacters');
-            dispatch('toggleGameInProgress');
-
-            setTimeout(() => {
-              resolve(response);
-              dispatch('disableLoadingAnimation', null, { root: true });
-            }, 300);
-          })
-          .catch(error => {
-            setTimeout(() => {
-              reject(error);
-              dispatch('disableLoadingAnimation', null, { root: true });
-              console.log(error, 'Notification: Connection Failure: Please check your connection');
-            }, 500);
-          });
+          .then(response => {});
       });
-    },
-    resetCharacters({ commit }) {
-      commit('RESET_CHARACTERS');
-    },
-    resetGameState({ commit }) {
-      commit('RESET_GAME_STATE');
-    },
-    setDifficulty({ commit, dispatch, state }, difficulty) {
-      if (state.difficulty !== difficulty) {
-        dispatch('resetCharacters');
-        commit('SET_DIFFICULTY', difficulty);
-      }
     }
   },
   getters: {
     charactersRequiredToStartGame: state => {
       const currentCharLength = state.characterIds.length;
-
       return difficultyRules[state.difficulty] - currentCharLength;
     },
     getCurrentQuote: state => (state.quotes.length > 0 ? state.quotes[state.currentQuoteIdx] : false),

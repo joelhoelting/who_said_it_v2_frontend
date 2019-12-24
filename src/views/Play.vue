@@ -3,12 +3,7 @@
     <div class="container">
       <page-title>Select Characters</page-title>
       <difficulty-toolbar />
-      <transition-group
-        class="card-container"
-        tag="div"
-        @before-enter="cardBeforeEnter"
-        @enter="cardEnter"
-      >
+      <transition-group class="card-container" tag="div" @before-enter="cardBeforeEnter" @enter="cardEnter">
         <character-select-card
           v-for="(character, index) in characters"
           :key="character.id"
