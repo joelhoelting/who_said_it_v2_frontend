@@ -1,3 +1,4 @@
+// Fae
 .fade-enter {
   opacity: 0;
 }
@@ -13,4 +14,25 @@
 .fade-leave-active {
   transition: opacity 250ms;
   opacity: 0;
+}
+
+// Quote Slow Fade From Top
+.quote-slow-fade-from-top-enter {
+  opacity: 0;
+  transform: translateY(-100px);
+}
+
+.quote-slow-fade-from-top-enter-active {
+  transition: all 500ms ease;
+}
+
+.quote-slow-fade-from-top-leave {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.quote-slow-fade-from-top-leave-active {
+  transition: all 500ms ease;
+  opacity: 0;
+  transform: translateY(100px);
 }

@@ -19,7 +19,13 @@ module.exports = {
         asyncArrow: 'always'
       }
     ],
-    camelcase: 0
+    camelcase: 0,
+    'vue/no-use-v-if-with-v-for': [
+      'error',
+      {
+        allowUsingIterationVar: true
+      }
+    ]
   },
 
   parserOptions: {
@@ -28,10 +34,7 @@ module.exports = {
 
   overrides: [
     {
-      files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)'
-      ],
+      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
       env: {
         jest: true
       }

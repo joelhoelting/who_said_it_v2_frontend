@@ -1,3 +1,5 @@
+// v-if="game.currentQuoteIdx === idx"
+
 <template>
   <div class="outer-container">
     <div class="container">
@@ -5,18 +7,20 @@
       <transition name="fade">
         <div class="quote-container">
           <div class="quote-box">
-            <p class="quote-box__current_quote">"{{ getCurrentQuote.content }}"</p>
+            <transition name="quote-slow-fade-from-top">
+              <p
+                v-for="(quote, idx) in game.quotes"
+                :key="`game-quote-${idx}`"
+                class="quote-box__current_quote"
+                v-if="game.currentQuoteIdx === idx"
+              >"{{ quote.content }}"</p>
+            </transition>
           </div>
           <div class="quote-progress">
             <p>{{ game.currentQuoteIdx + 1 }}/10</p>
           </div>
         </div>
       </transition>
-      <!-- <transition name="fade">
-        <div class="postgame-container">
-          <h1>Hello World</h1>
-        </div>
-      </transition> -->
       <game-footer-bar>
         <character-game-card
           v-for="(character, index) in game.characters"
@@ -25,11 +29,17 @@
           :data-index="index"
         />
         <transition name="fade">
-          <div class="spinner-overlay" v-if="game.answer.submitting" @click="triggerNextQuote">
+          <div class="answer-overlay" v-if="game.answer.submitting" @click="triggerNextQuote">
             <loading-animation v-if="loadingAnimationActive" />
             <h6 class="answer">
-              <span v-if="!loadingAnimationActive && game.answer.evaluation" class="answer--correct">Correct!</span>
-              <span v-if="!loadingAnimationActive && !game.answer.evaluation" class="answer--incorrect">Incorrect</span>
+              <span
+                v-if="!loadingAnimationActive && game.answer.evaluation"
+                class="answer--correct"
+              >Correct!</span>
+              <span
+                v-if="!loadingAnimationActive && !game.answer.evaluation"
+                class="answer--incorrect"
+              >Incorrect</span>
             </h6>
           </div>
         </transition>
@@ -58,7 +68,6 @@ export default {
     // if (!this.game.inProgress) {
     //   this.$router.push('/play');
     // }
-    this.$store.dispatch('character/fetchCharacters');
   },
   computed: {
     ...mapState(['game', 'loadingAnimationActive']),
@@ -81,6 +90,8 @@ export default {
     align-items: center;
     justify-content: center;
     .quote-box__current_quote {
+      position: absolute;
+      max-width: 1000px;
       font-size: 2rem;
       padding: 1em;
     }
@@ -108,7 +119,7 @@ export default {
   left: 0;
 }
 .footer-container {
-  .spinner-overlay {
+  .answer-overlay {
     position: absolute;
     height: calc(100% - 2px);
     width: 100%;

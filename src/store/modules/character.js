@@ -25,6 +25,8 @@ const characterModule = {
               let characters = response.data;
               commit('SET_CHARACTERS', characters);
 
+              console.log(response);
+
               setTimeout(() => {
                 resolve({
                   characters,

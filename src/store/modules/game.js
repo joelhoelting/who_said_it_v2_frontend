@@ -3,20 +3,8 @@ import { authorizedAxiosInstance, plainAxiosInstance } from '@/axios';
 const getDefaultState = () => {
   return {
     id: Number,
-    difficulty: 'hard',
+    difficulty: 'easy',
     characters: [
-      {
-        description: 'Stand-up comedian, chain smoker and raging misanthropist.',
-        id: 2,
-        name: 'Bill Hicks',
-        slug: 'bill_hicks'
-      },
-      {
-        description: '45th U.S. President. Eats pizza with a fork and knife. Potential harbinger of the apocalypse.',
-        id: 3,
-        name: 'Donald Trump',
-        slug: 'donald_trump'
-      },
       {
         id: 5,
         name: 'George Carlin',
@@ -30,58 +18,48 @@ const getDefaultState = () => {
         slug: 'god'
       }
     ],
-    characterIds: [2, 3, 5, 6],
-    currentQuoteIdx: 8,
+    characterIds: [5, 6],
+    currentQuoteIdx: 0,
     quotes: [
       {
-        content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
-        id: 90
+        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
+        id: 204
       },
       {
-        content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
-        id: 90
+        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
+        id: 204
       },
       {
-        content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
-        id: 90
+        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
+        id: 204
       },
       {
-        content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
-        id: 90
+        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
+        id: 204
       },
       {
-        content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
-        id: 90
+        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
+        id: 204
       },
       {
-        content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
-        id: 90
+        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
+        id: 204
       },
       {
-        content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
-        id: 90
+        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
+        id: 204
       },
       {
-        content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
-        id: 90
+        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
+        id: 204
       },
       {
-        content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
-        id: 90
+        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
+        id: 204
       },
       {
-        content:
-          'Uranium is big, big stuff because it means the ultimate. The ultimate is called nuclear… It’s called nuclear warming. OK?',
-        id: 90
+        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
+        id: 204
       }
     ],
     answer: {
@@ -198,6 +176,7 @@ const characterModule = {
             dispatch('initializeGame', gameObj);
 
             setTimeout(() => {
+              console.log(response);
               resolve(response);
               setTimeout(() => {
                 dispatch('disableLoadingAnimation', null, { root: true });
