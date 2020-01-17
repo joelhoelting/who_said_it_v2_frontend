@@ -4,6 +4,7 @@
     class="character-card"
     :style="getCharacterBackgroundImageMixin(character.slug)"
   >
+    <div class="character-card__keyboard-number">{{characterNumber}}</div>
     <div class="character-card__text-container">
       <p>{{character.name}}</p>
     </div>
@@ -24,7 +25,8 @@ export default {
     };
   },
   props: {
-    character: Object
+    character: Object,
+    characterNumber: Number
   },
   methods: {
     ...mapActions('game', ['submitAnswer'])
@@ -47,6 +49,20 @@ export default {
   border: 2px solid #000;
   &:hover {
     border: 5px solid rgba(255, 255, 255, 1);
+  }
+
+  .character-card__keyboard-number {
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    // background: rgba(0, 0, 0, 0.4);
+    font-family: 'Baloo', cursive;
   }
 
   .character-card__text-container {

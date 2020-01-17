@@ -63,7 +63,7 @@ const getDefaultState = () => {
       }
     ],
     answer: {
-      submitting: false,
+      submitted: false,
       evaluation: Boolean
     },
     gameState: [],
@@ -112,8 +112,8 @@ const characterModule = {
     PUSH_ANSWER_INTO_GAMESTATE(state, answer) {
       state.gameState.push(answer);
     },
-    TOGGLE_ANSWER_SUBMITTING(state) {
-      state.answer.submitting = !state.answer.submitting;
+    TOGGLE_ANSWER_SUBMITTED(state) {
+      state.answer.submitted = !state.answer.submitted;
     },
     INCREMENT_QUOTE(state) {
       state.currentQuoteIdx++;
@@ -212,9 +212,9 @@ const characterModule = {
       commit('PUSH_ANSWER_INTO_GAMESTATE', answer);
     },
     submitAnswer({ dispatch, getters, rootGetters, state }, character) {
-      if (state.answer.submitting) return false;
+      if (state.answer.submitted) return false;
 
-      dispatch('toggleAnswerSubmitting');
+      dispatch('toggleAnswerSubmitted');
       dispatch('enableLoadingAnimation', null, { root: true });
 
       return new Promise((resolve, reject) => {
@@ -241,18 +241,18 @@ const characterModule = {
           });
       });
     },
-    toggleAnswerSubmitting({ commit }) {
-      commit('TOGGLE_ANSWER_SUBMITTING');
+    toggleAnswerSubmitted({ commit }) {
+      commit('TOGGLE_ANSWER_SUBMITTED');
     },
     incrementQuote({ commit }) {
       commit('INCREMENT_QUOTE');
     },
     triggerNextQuote({ dispatch, state }) {
-      if (state.currentQuoteIdx === 9 && state.answer.submitting) {
+      if (state.currentQuoteIdx === 9 && state.answer.submitted) {
         return dispatch('setGameCompleted');
       }
 
-      dispatch('toggleAnswerSubmitting');
+      dispatch('toggleAnswerSubmitted');
       dispatch('incrementQuote');
     },
     setGameCompleted({ commit, state }) {

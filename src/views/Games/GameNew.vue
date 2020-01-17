@@ -26,21 +26,25 @@
           v-for="(character, index) in game.characters"
           :key="character.id"
           :character="character"
+          :characterNumber="index + 1"
           :data-index="index"
         />
         <transition name="fade">
-          <div class="answer-overlay" v-if="game.answer.submitting" @click="triggerNextQuote">
+          <div class="answer-overlay" v-if="game.answer.submitted" @click="triggerNextQuote">
             <loading-animation v-if="loadingAnimationActive" />
-            <h6 class="answer">
-              <span
-                v-if="!loadingAnimationActive && game.answer.evaluation"
-                class="answer--correct"
-              >Correct!</span>
-              <span
-                v-if="!loadingAnimationActive && !game.answer.evaluation"
-                class="answer--incorrect"
-              >Incorrect</span>
-            </h6>
+            <div class="answer-overlay__answer_box">
+              <h6 class="answer-overlay__answer">
+                <span
+                  v-if="!loadingAnimationActive && game.answer.evaluation"
+                  class="answer-overlay__answer--correct"
+                >Correct!</span>
+                <span
+                  v-if="!loadingAnimationActive && !game.answer.evaluation"
+                  class="answer-overlay__answer--incorrect"
+                >Incorrect</span>
+              </h6>
+              <p class="answer-overlay__instructions">CLICK OR PRESS SPACE TO CONTINUE</p>
+            </div>
           </div>
         </transition>
       </game-footer-bar>
@@ -56,6 +60,8 @@ import PageTitle from '@/components/includes/Text/PageTitle';
 import GameFooterBar from '@/components/includes/FooterBar/GameFooterBar';
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 
+import { range } from '@/helpers/arrays';
+
 export default {
   name: 'GameNew',
   components: {
@@ -69,12 +75,41 @@ export default {
     //   this.$router.push('/play');
     // }
   },
+  created() {
+    window.addEventListener('keypress', this.handleKeyboardFunctionality);
+  },
+  destroyed() {
+    window.removeEventListener('keypress', this.handleKeyboardFunctionality);
+  },
   computed: {
     ...mapState(['game', 'loadingAnimationActive']),
-    ...mapGetters('game', ['getCurrentQuote'])
+    ...mapGetters('game', ['getCurrentQuote']),
+    possibleKeyPressValues() {
+      return range(1, this.game.characters.length);
+    }
   },
   methods: {
-    ...mapActions('game', ['triggerNextQuote'])
+    ...mapActions('game', ['triggerNextQuote', 'submitAnswer']),
+    handleKeyboardFunctionality(e) {
+      let spacebarPressed = e.keyCode === 32;
+      let numberPressed = parseInt(String.fromCharCode(e.keyCode));
+
+      const {
+        characters,
+        answer: { submitted }
+      } = this.game;
+
+      // Use numbers on keyboard to select characters
+      if (!submitted && this.possibleKeyPressValues.includes(numberPressed)) {
+        let selectedCharacterIdx = numberPressed - 1;
+        this.submitAnswer(characters[selectedCharacterIdx]);
+      }
+
+      // Use spacebar to continue to next question
+      if (submitted && spacebarPressed) {
+        this.triggerNextQuote();
+      }
+    }
   }
 };
 </script>
@@ -130,14 +165,17 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    .answer {
-      font-size: 4em;
-      margin: 0;
-      .answer--correct {
-        color: #57ea34;
-      }
-      .answer--incorrect {
-        color: #ff0000;
+    .answer-overlay__answer_box {
+      text-align: center;
+      .answer-overlay__answer {
+        font-size: 4em;
+        margin: 0;
+        .answer-overlay__answer--correct {
+          color: #57ea34;
+        }
+        .answer-overlay__answer--incorrect {
+          color: #ff0000;
+        }
       }
     }
   }
