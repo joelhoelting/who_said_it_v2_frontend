@@ -233,10 +233,8 @@ const characterModule = {
             };
 
             dispatch('pushAnswer', answerObj);
-            setTimeout(() => {
-              resolve(response);
-              dispatch('disableLoadingAnimation', null, { root: true });
-            }, 1000);
+            dispatch('disableLoadingAnimation', null, { root: true });
+            resolve(response);
           });
       });
     },

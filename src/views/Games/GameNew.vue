@@ -1,5 +1,3 @@
-// v-if="game.currentQuoteIdx === idx"
-
 <template>
   <div class="outer-container">
     <div class="container">
