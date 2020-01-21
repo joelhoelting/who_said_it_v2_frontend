@@ -30,7 +30,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Z-INDEX
 
-| Element  | Z-Index  |
-| -------- | -------- |
-| Header   | 1        |
-| col 2 is | centered |
+| Element           | Z-Index |
+| ----------------- | ------- |
+| Header            | 1       |
+| .loader-container | -1      |
