@@ -2,7 +2,7 @@ import { authorizedAxiosInstance, plainAxiosInstance } from '@/axios';
 
 const getDefaultState = () => {
   return {
-    id: Number,
+    id: 1,
     difficulty: 'easy',
     characters: [
       {
@@ -118,10 +118,8 @@ const characterModule = {
     INCREMENT_QUOTE(state) {
       state.currentQuoteIdx++;
     },
-    SET_GAME_COMPLETED(state) {
-      state.completed = true;
-    },
     INITIALIZE_GAME(state, gameData) {
+      console.log(gameData);
       state = Object.assign(state, gameData);
     }
   },
@@ -219,13 +217,15 @@ const characterModule = {
 
       return new Promise((resolve, reject) => {
         plainAxiosInstance
-          .post('/games/check_answer', {
+          .patch(`/games/${state.id}`, {
             answer: {
               character_id: character.id,
-              quote_id: getters.getCurrentQuote.id
+              quote_id: getters.getCurrentQuote.id,
+              quote_idx: state.currentQuoteIdx
             }
           })
           .then(response => {
+            debugger;
             const { correct_character, evaluation } = response.data;
 
             let answerObj = {
@@ -248,27 +248,12 @@ const characterModule = {
       commit('INCREMENT_QUOTE');
     },
     triggerNextQuote({ dispatch, state }) {
-      if (state.currentQuoteIdx === 9 && state.answer.submitted) {
+      if (state.currentQuoteIdx === state.quotes.length - 1 && state.answer.submitted) {
         return dispatch('setGameCompleted');
       }
 
       dispatch('toggleAnswerSubmitted');
       dispatch('incrementQuote');
-    },
-    setGameCompleted({ commit, state }) {
-      commit('SET_GAME_COMPLETED');
-      console.log(state.id);
-
-      return new Promise((resolve, reject) => {
-        plainAxiosInstance
-          .patch(`/games/${state.id}`, {
-            postgame: {
-              state: state.gameState,
-              completed: true
-            }
-          })
-          .then(response => {});
-      });
     }
   },
   getters: {
