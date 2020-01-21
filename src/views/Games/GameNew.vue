@@ -32,19 +32,21 @@
         <transition name="fade">
           <div class="answer-overlay" v-if="game.answer.submitted" @click="triggerNextQuote">
             <loading-animation v-if="loadingAnimationActive" />
-            <div class="answer-overlay__answer_box">
-              <h6 class="answer-overlay__answer">
-                <span
-                  v-if="!loadingAnimationActive && game.answer.evaluation"
-                  class="answer-overlay__answer--correct"
-                >Correct!</span>
-                <span
-                  v-if="!loadingAnimationActive && !game.answer.evaluation"
-                  class="answer-overlay__answer--incorrect"
-                >Incorrect</span>
-              </h6>
-              <p class="answer-overlay__instructions">CLICK OR PRESS SPACE TO CONTINUE</p>
-            </div>
+            <transition name="fade">
+              <div class="answer-overlay__answer_box" v-if="! loadingAnimationActive">
+                <h6 class="answer-overlay__answer">
+                  <span
+                    v-if="!loadingAnimationActive && game.answer.evaluation"
+                    class="answer-overlay__answer--correct"
+                  >Correct!</span>
+                  <span
+                    v-if="!loadingAnimationActive && !game.answer.evaluation"
+                    class="answer-overlay__answer--incorrect"
+                  >Incorrect</span>
+                </h6>
+                <p class="answer-overlay__instructions">CLICK OR PRESS SPACE TO CONTINUE</p>
+              </div>
+            </transition>
           </div>
         </transition>
       </game-footer-bar>
@@ -165,6 +167,9 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    .spinner {
+      position: absolute;
+    }
     .answer-overlay__answer_box {
       text-align: center;
       .answer-overlay__answer {

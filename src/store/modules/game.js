@@ -119,7 +119,6 @@ const characterModule = {
       state.currentQuoteIdx++;
     },
     INITIALIZE_GAME(state, gameData) {
-      console.log(gameData);
       state = Object.assign(state, gameData);
     }
   },
@@ -174,7 +173,6 @@ const characterModule = {
             dispatch('initializeGame', gameObj);
 
             setTimeout(() => {
-              console.log(response);
               resolve(response);
               setTimeout(() => {
                 dispatch('disableLoadingAnimation', null, { root: true });
@@ -225,7 +223,6 @@ const characterModule = {
             }
           })
           .then(response => {
-            debugger;
             const { correct_character, evaluation } = response.data;
 
             let answerObj = {
@@ -236,8 +233,10 @@ const characterModule = {
             };
 
             dispatch('pushAnswer', answerObj);
-            resolve(response);
-            dispatch('disableLoadingAnimation', null, { root: true });
+            setTimeout(() => {
+              resolve(response);
+              dispatch('disableLoadingAnimation', null, { root: true });
+            }, 1000);
           });
       });
     },
@@ -247,13 +246,16 @@ const characterModule = {
     incrementQuote({ commit }) {
       commit('INCREMENT_QUOTE');
     },
-    triggerNextQuote({ dispatch, state }) {
-      if (state.currentQuoteIdx === state.quotes.length - 1 && state.answer.submitted) {
-        return dispatch('setGameCompleted');
-      }
+    triggerNextQuote({ dispatch, state, rootState }) {
+      // Prevent user from skipping quote if answer is not submitted or evaluation is loading
+      if (state.answer.submitted && !rootState.loadingAnimationActive) {
+        if (state.currentQuoteIdx === state.quotes.length - 1 && state.answer.submitted) {
+          return dispatch('setGameCompleted');
+        }
 
-      dispatch('toggleAnswerSubmitted');
-      dispatch('incrementQuote');
+        dispatch('toggleAnswerSubmitted');
+        dispatch('incrementQuote');
+      }
     }
   },
   getters: {
