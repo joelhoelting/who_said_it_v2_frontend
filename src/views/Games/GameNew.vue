@@ -7,10 +7,9 @@
           <div class="quote-box">
             <transition name="quote-slow-fade-from-top">
               <p
-                v-for="(quote, idx) in game.quotes"
-                :key="`game-quote-${idx}`"
+                v-for="quote in currentQuote"
+                :key="`game-quote-${quote.id}`"
                 class="quote-box__current_quote"
-                v-if="game.currentQuoteIdx === idx"
               >"{{ quote.content }}"</p>
             </transition>
           </div>
@@ -84,12 +83,17 @@ export default {
   computed: {
     ...mapState(['game', 'loadingAnimationActive']),
     ...mapGetters('game', ['getCurrentQuote']),
+    currentQuote() {
+      const currentQuoteIdx = this.game.currentQuoteIdx;
+      return this.game.quotes.filter((quote, idx) => idx === currentQuoteIdx);
+    },
     possibleKeyPressValues() {
       return range(1, this.game.characters.length);
     }
   },
   methods: {
     ...mapActions('game', ['triggerNextQuote', 'submitAnswer']),
+
     handleKeyboardFunctionality(e) {
       let spacebarPressed = e.keyCode === 32;
       let numberPressed = parseInt(String.fromCharCode(e.keyCode));
