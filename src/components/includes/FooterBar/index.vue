@@ -1,8 +1,21 @@
 <template>
-  <div class="footer-container">
+  <div class="footer-container" :style="style">
     <slot />
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    style() {
+      return `height: ${this.height || '300px'}`;
+    }
+  },
+  props: {
+    height: String
+  }
+};
+</script>
 
 <style>
 .footer-container {
@@ -11,7 +24,6 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;

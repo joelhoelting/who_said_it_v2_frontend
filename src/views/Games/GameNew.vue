@@ -3,7 +3,7 @@
     <div class="container">
       <page-title>Who Said It?</page-title>
       <transition name="fade">
-        <div class="quote-container">
+        <div class="quote-container" v-if="!game.completed">
           <div class="quote-box">
             <transition name="quote-slow-fade-from-top">
               <p
@@ -18,7 +18,7 @@
           </div>
         </div>
       </transition>
-      <game-footer-bar>
+      <game-footer-bar v-if="!game.completed">
         <character-game-card
           v-for="(character, index) in game.characters"
           :key="character.id"
@@ -47,6 +47,26 @@
           </div>
         </transition>
       </game-footer-bar>
+      <transition name="fade">
+        <div class="postgame-container" v-if="game.completed">
+          <h3>Your score: 9 / 10</h3>
+          <div class="scoremeter">
+            <span class="scoremeter__static" :style="{width: '50%'}">
+              <span class="score_meter__progress"></span>
+            </span>
+          </div>
+          <button class="btn">
+            <span>View Game Details</span>
+          </button>
+        </div>
+      </transition>
+      <transition name="fade">
+        <footer-bar height="200px" v-if="game.completed">
+          <button class="btn btn--start">
+            <span>Play Again</span>
+          </button>
+        </footer-bar>
+      </transition>
     </div>
   </div>
 </template>
@@ -56,6 +76,7 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 
 import CharacterGameCard from '@/components/pages/games/new/CharacterGameCard.vue';
 import PageTitle from '@/components/includes/Text/PageTitle';
+import FooterBar from '@/components/includes/FooterBar';
 import GameFooterBar from '@/components/includes/FooterBar/GameFooterBar';
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 
@@ -66,13 +87,14 @@ export default {
   components: {
     CharacterGameCard,
     PageTitle,
+    FooterBar,
     GameFooterBar,
     LoadingAnimation
   },
   mounted() {
-    // if (!this.game.inProgress) {
-    //   this.$router.push('/play');
-    // }
+    if (!this.game.inProgress) {
+      this.$router.push('/play');
+    }
   },
   created() {
     window.addEventListener('keypress', this.handleKeyboardFunctionality);
@@ -149,13 +171,42 @@ export default {
   }
 }
 .postgame-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   padding-top: 100px;
-  height: calc(100% - 300px);
+  height: calc(100% - 200px);
   position: absolute;
   top: 0;
-  background: grey;
   width: 100%;
   left: 0;
+  .scoremeter {
+    height: 50px;
+    border-radius: 50px;
+    position: relative;
+    background: $dark-purple;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 80%;
+    span {
+      display: block;
+      height: 100%;
+      &.progress {
+        background: $light-purple;
+        animation: animateProgressBar 1s ease-in-out;
+      }
+    }
+
+    @keyframes animateProgressBar {
+      0% {
+        width: 0;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+  }
 }
 .footer-container {
   .answer-overlay {

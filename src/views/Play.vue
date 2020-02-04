@@ -3,7 +3,12 @@
     <div class="container">
       <page-title>Select Characters</page-title>
       <difficulty-toolbar />
-      <transition-group class="card-container" tag="div" @before-enter="cardBeforeEnter" @enter="cardEnter">
+      <transition-group
+        class="card-container"
+        tag="div"
+        @before-enter="cardBeforeEnter"
+        @enter="cardEnter"
+      >
         <character-select-card
           v-for="(character, index) in characters"
           :key="character.id"
@@ -11,7 +16,7 @@
           :data-index="index"
         />
       </transition-group>
-      <footer-bar>
+      <footer-bar height="200px">
         <button
           :class="{ disabled: isButtonDisabled }"
           :disabled="isButtonDisabled"
@@ -103,7 +108,7 @@ export default {
       }, delay);
     },
     startGame() {
-      this.createGame().then(response => {
+      this.createGame().then(() => {
         this.$router.push('/games/new');
       });
     }

@@ -2,7 +2,7 @@ import { authorizedAxiosInstance, plainAxiosInstance } from '@/axios';
 
 const getDefaultState = () => {
   return {
-    id: 1,
+    id: Number,
     difficulty: 'easy',
     characters: [
       {
@@ -120,6 +120,9 @@ const characterModule = {
     },
     INITIALIZE_GAME(state, gameData) {
       state = Object.assign(state, gameData);
+    },
+    SET_GAME_COMPLETED(state) {
+      state.completed = true;
     }
   },
   actions: {
@@ -223,6 +226,7 @@ const characterModule = {
             }
           })
           .then(response => {
+            console.log(response.data);
             const { correct_character, evaluation } = response.data;
 
             let answerObj = {
@@ -235,6 +239,9 @@ const characterModule = {
             dispatch('pushAnswer', answerObj);
             dispatch('disableLoadingAnimation', null, { root: true });
             resolve(response);
+          })
+          .catch(error => {
+            console.log(error);
           });
       });
     },
@@ -245,15 +252,25 @@ const characterModule = {
       commit('INCREMENT_QUOTE');
     },
     triggerNextQuote({ dispatch, state, rootState }) {
+      const { loadingAnimationActive } = rootState;
+      const {
+        answer: { submitted },
+        currentQuoteIdx,
+        quotes
+      } = state;
+
       // Prevent user from skipping quote if answer is not submitted or evaluation is loading
-      if (state.answer.submitted && !rootState.loadingAnimationActive) {
-        if (state.currentQuoteIdx === state.quotes.length - 1 && state.answer.submitted) {
+      if (submitted && !loadingAnimationActive) {
+        if (currentQuoteIdx === quotes.length - 1) {
           return dispatch('setGameCompleted');
         }
 
         dispatch('toggleAnswerSubmitted');
         dispatch('incrementQuote');
       }
+    },
+    setGameCompleted({ commit }) {
+      commit('SET_GAME_COMPLETED');
     }
   },
   getters: {
