@@ -49,22 +49,29 @@
       </game-footer-bar>
       <transition name="fade">
         <div class="postgame-container" v-if="game.completed">
-          <h3>Your score: 9 / 10</h3>
-          <div class="scoremeter">
-            <span class="scoremeter__static" :style="{width: '50%'}">
-              <span class="score_meter__progress"></span>
-            </span>
-          </div>
-          <button class="btn">
-            <span>View Game Details</span>
-          </button>
+          <transition name="fade">
+            <div class="score-container" v-if="!showDetails">
+              <p>Your Score: {{getCorrectAnswers}} / 10</p>
+              <div class="scoremeter">
+                <span class="scoremeter__static" :style="{width: getCorrectAnswers  * 10 + '%'}">
+                  <span class="scoremeter__progress progress"></span>
+                </span>
+              </div>
+              <button class="btn btn--game-details" @click="showDetails = !showDetails">
+                <span>View Game Details</span>
+              </button>
+            </div>
+          </transition>
+          <transition name="fade">
+            <div class="detail-container" v-if="showDetails">
+              <game-table :gameState="game.gameState" />
+            </div>
+          </transition>
         </div>
       </transition>
       <transition name="fade">
         <footer-bar height="200px" v-if="game.completed">
-          <button class="btn btn--start">
-            <span>Play Again</span>
-          </button>
+          <router-link class="btn btn--start" to="/play" tag="button">Play Game</router-link>
         </footer-bar>
       </transition>
     </div>
@@ -74,11 +81,12 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 
-import CharacterGameCard from '@/components/pages/games/new/CharacterGameCard.vue';
+import CharacterGameCard from '@/components/pages/games/new/CharacterGameCard';
 import PageTitle from '@/components/includes/Text/PageTitle';
 import FooterBar from '@/components/includes/FooterBar';
+import GameTable from '@/components/pages/games/GameTable';
 import GameFooterBar from '@/components/includes/FooterBar/GameFooterBar';
-import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
+import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation';
 
 import { range } from '@/helpers/arrays';
 
@@ -88,8 +96,14 @@ export default {
     CharacterGameCard,
     PageTitle,
     FooterBar,
+    GameTable,
     GameFooterBar,
     LoadingAnimation
+  },
+  data() {
+    return {
+      showDetails: false
+    };
   },
   mounted() {
     if (!this.game.inProgress) {
@@ -104,7 +118,7 @@ export default {
   },
   computed: {
     ...mapState(['game', 'loadingAnimationActive']),
-    ...mapGetters('game', ['getCurrentQuote']),
+    ...mapGetters('game', ['getCurrentQuote', 'getCorrectAnswers']),
     currentQuote() {
       const currentQuoteIdx = this.game.currentQuoteIdx;
       return this.game.quotes.filter((quote, idx) => idx === currentQuoteIdx);
@@ -174,40 +188,56 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   padding-top: 100px;
   height: calc(100% - 200px);
   position: absolute;
   top: 0;
   width: 100%;
   left: 0;
-  .scoremeter {
-    height: 50px;
-    border-radius: 50px;
-    position: relative;
-    background: $dark-purple;
-    margin: 0 auto;
-    overflow: hidden;
+  .score-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 80%;
-    span {
-      display: block;
-      height: 100%;
-      &.progress {
-        background: $light-purple;
-        animation: animateProgressBar 1s ease-in-out;
-      }
+    p {
+      margin: 0;
+      font-size: 1.4rem;
     }
-
-    @keyframes animateProgressBar {
-      0% {
-        width: 0;
+    .scoremeter {
+      height: 50px;
+      border-radius: 50px;
+      position: relative;
+      background: $dark-purple;
+      margin: 0 auto;
+      overflow: hidden;
+      width: 75%;
+      margin: 1.4em 0;
+      span {
+        display: block;
+        height: 100%;
+        &.progress {
+          background: $light-purple;
+          animation: animateProgressBar 1s ease-in-out;
+        }
       }
-      100% {
-        width: 100%;
+
+      @keyframes animateProgressBar {
+        0% {
+          width: 0;
+        }
+        100% {
+          width: 100%;
+        }
       }
     }
   }
+  .detail-container {
+    position: absolute;
+    top: 100px;
+  }
 }
+
 .footer-container {
   .answer-overlay {
     position: absolute;
@@ -229,10 +259,10 @@ export default {
         font-size: 4em;
         margin: 0;
         .answer-overlay__answer--correct {
-          color: #57ea34;
+          color: $correct-green;
         }
         .answer-overlay__answer--incorrect {
-          color: #ff0000;
+          color: $incorrect-red;
         }
       }
     }
