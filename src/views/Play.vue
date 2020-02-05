@@ -23,7 +23,7 @@
           @click="startGame"
           class="btn btn--start"
         >
-          <span v-if="!loadingAnimationActive">{{ displayButtonMsg }}</span>
+          <span v-if="!loadingAnimationActive">{{ playButtonMsg }}</span>
           <loading-animation v-if="loadingAnimationActive" />
         </button>
       </footer-bar>
@@ -81,7 +81,7 @@ export default {
     isButtonDisabled() {
       return this.charactersRequiredToStartGame !== 0 || this.loadingAnimationActive;
     },
-    displayButtonMsg() {
+    playButtonMsg() {
       if (this.loadingAnimationActive) {
         return 'Loading...';
       }

@@ -19,7 +19,7 @@ export default {
 
 <style>
 .footer-container {
-  position: absolute;
+  position: fixed;
   background: rgba(0, 0, 0, 0.2);
   bottom: 0;
   left: 0;

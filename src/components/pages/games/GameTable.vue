@@ -32,16 +32,19 @@ export default {
 
 <style lang="scss" scoped>
 table {
-  margin: 0 20px;
-  th,
-  td {
-    padding: 10px 20px;
-    span {
-      &.correct {
-        color: $correct-green;
-      }
-      &.incorrect {
-        color: white;
+  border-collapse: collapse;
+  tr {
+    border-bottom: 1px solid #fff;
+    th,
+    td {
+      padding: 15px 20px;
+      span {
+        &.correct {
+          color: $correct-green;
+        }
+        &.incorrect {
+          color: white;
+        }
       }
     }
   }

@@ -71,7 +71,9 @@
       </transition>
       <transition name="fade">
         <footer-bar height="200px" v-if="game.completed">
-          <router-link class="btn btn--start" to="/play" tag="button">Play Game</router-link>
+          <router-link class="btn btn--start" to="/play" tag="button">
+            <span>Play Again</span>
+          </router-link>
         </footer-bar>
       </transition>
     </div>
@@ -234,7 +236,9 @@ export default {
   }
   .detail-container {
     position: absolute;
+    left: 0;
     top: 100px;
+    width: 100%;
   }
 }
 
