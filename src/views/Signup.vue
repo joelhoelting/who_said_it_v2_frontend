@@ -1,24 +1,11 @@
 <template>
   <div class="container flex-center-container">
-    <form @submit.prevent="signUp">
-      <label for="email">
-        Email Address
-        <input type="email" v-model="email" id="email" placeholder="Email Address" />
-      </label>
-      <label for="password">
-        Password
-        <input type="password" v-model="password" id="password" placeholder="Password" />
-      </label>
-      <label for="confirm-password">
-        Confirm Password
-        <input
-          type="password"
-          v-model="password_confirmation"
-          id="password_confirmation"
-          placeholder="Confirm Password"
-        />
-      </label>
-      <button type="submit" value="Submit">Submit</button>
+    <form class="authentication" @submit.prevent="signUp">
+      <h2 class="form-title">Sign Up</h2>
+      <input type="email" v-model="email" id="email" placeholder="Email Address" />
+      <input type="password" v-model="password" id="password" placeholder="Password" />
+      <input type="password" v-model="confirm_password" id="confirm_password" placeholder="Confirm Password" />
+      <button class="btn" type="submit" value="Submit">Submit</button>
     </form>
   </div>
 </template>
@@ -50,3 +37,5 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped></style>

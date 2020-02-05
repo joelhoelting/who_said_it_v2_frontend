@@ -5,6 +5,9 @@
         <router-link to="/">Home</router-link>
         <router-link to="/play">Play Game</router-link>
       </div>
+      <transition name="fade">
+        <page-title v-if="currentRouteName">{{ currentRouteName }}</page-title>
+      </transition>
       <div v-if="!isLoggedIn">
         <router-link to="/signin">Sign In</router-link>
         <router-link to="/signup">Sign Up</router-link>
@@ -20,14 +23,20 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import PageTitle from '@/components/includes/Text/PageTitle';
 import routeTitles from '@/data/routeTitles';
 
 export default {
+  name: 'Header',
+  components: {
+    PageTitle
+  },
   computed: {
     ...mapGetters('authorization', ['isLoggedIn']),
     currentRouteName() {
       const currentRouteTitle = routeTitles[this.$route.name];
-      return currentRouteTitle || undefined;
+      console.log(currentRouteTitle, this.$route.name);
+      return currentRouteTitle || false;
     }
   },
   methods: {

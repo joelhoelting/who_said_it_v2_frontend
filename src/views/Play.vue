@@ -1,33 +1,25 @@
 <template>
-  <div class="outer-container">
-    <div class="container">
-      <page-title>Select Characters</page-title>
-      <difficulty-toolbar />
-      <transition-group
-        class="card-container"
-        tag="div"
-        @before-enter="cardBeforeEnter"
-        @enter="cardEnter"
+  <div class="container offset-header">
+    <difficulty-toolbar />
+    <transition-group class="card-container" tag="div" @before-enter="cardBeforeEnter" @enter="cardEnter">
+      <character-select-card
+        v-for="(character, index) in characters"
+        :key="character.id"
+        :character="character"
+        :data-index="index"
+      />
+    </transition-group>
+    <footer-bar height="200px">
+      <button
+        :class="{ disabled: isButtonDisabled }"
+        :disabled="isButtonDisabled"
+        @click="startGame"
+        class="btn btn--start"
       >
-        <character-select-card
-          v-for="(character, index) in characters"
-          :key="character.id"
-          :character="character"
-          :data-index="index"
-        />
-      </transition-group>
-      <footer-bar height="200px">
-        <button
-          :class="{ disabled: isButtonDisabled }"
-          :disabled="isButtonDisabled"
-          @click="startGame"
-          class="btn btn--start"
-        >
-          <span v-if="!loadingAnimationActive">{{ playButtonMsg }}</span>
-          <loading-animation v-if="loadingAnimationActive" />
-        </button>
-      </footer-bar>
-    </div>
+        <span v-if="!loadingAnimationActive">{{ playButtonMsg }}</span>
+        <loading-animation v-if="loadingAnimationActive" />
+      </button>
+    </footer-bar>
   </div>
 </template>
 
@@ -38,7 +30,6 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
 import DifficultyToolbar from '@/components/pages/play/DifficultyToolbar.vue';
-import PageTitle from '@/components/includes/Text/PageTitle';
 import FooterBar from '@/components/includes/FooterBar';
 
 export default {
@@ -47,7 +38,6 @@ export default {
     CharacterSelectCard,
     DifficultyToolbar,
     LoadingAnimation,
-    PageTitle,
     FooterBar
   },
   data() {

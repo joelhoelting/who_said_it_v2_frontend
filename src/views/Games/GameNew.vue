@@ -1,82 +1,77 @@
 <template>
-  <div class="outer-container">
-    <div class="container">
-      <page-title>Who Said It?</page-title>
+  <div class="container offset-header">
+    <transition name="fade">
+      <div class="quote-container" v-if="!game.completed">
+        <div class="quote-box">
+          <transition name="quote-slow-fade-from-top">
+            <p v-for="quote in currentQuote" :key="`game-quote-${quote.id}`" class="quote-box__current_quote">
+              "{{ quote.content }}"
+            </p>
+          </transition>
+        </div>
+        <div class="quote-progress">
+          <p>{{ game.currentQuoteIdx + 1 }}/10</p>
+        </div>
+      </div>
+    </transition>
+    <game-footer-bar v-if="!game.completed">
+      <character-game-card
+        v-for="(character, index) in game.characters"
+        :key="character.id"
+        :character="character"
+        :characterNumber="index + 1"
+        :data-index="index"
+      />
       <transition name="fade">
-        <div class="quote-container" v-if="!game.completed">
-          <div class="quote-box">
-            <transition name="quote-slow-fade-from-top">
-              <p
-                v-for="quote in currentQuote"
-                :key="`game-quote-${quote.id}`"
-                class="quote-box__current_quote"
-              >"{{ quote.content }}"</p>
-            </transition>
-          </div>
-          <div class="quote-progress">
-            <p>{{ game.currentQuoteIdx + 1 }}/10</p>
-          </div>
+        <div class="answer-overlay" v-if="game.answer.submitted" @click="triggerNextQuote">
+          <loading-animation v-if="loadingAnimationActive" />
+          <transition name="fade">
+            <div class="answer-overlay__answer_box" v-if="!loadingAnimationActive">
+              <h6 class="answer-overlay__answer">
+                <span v-if="!loadingAnimationActive && game.answer.evaluation" class="answer-overlay__answer--correct"
+                  >Correct!</span
+                >
+                <span
+                  v-if="!loadingAnimationActive && !game.answer.evaluation"
+                  class="answer-overlay__answer--incorrect"
+                  >Incorrect</span
+                >
+              </h6>
+              <p class="answer-overlay__instructions">CLICK OR PRESS SPACE TO CONTINUE</p>
+            </div>
+          </transition>
         </div>
       </transition>
-      <game-footer-bar v-if="!game.completed">
-        <character-game-card
-          v-for="(character, index) in game.characters"
-          :key="character.id"
-          :character="character"
-          :characterNumber="index + 1"
-          :data-index="index"
-        />
+    </game-footer-bar>
+    <transition name="fade">
+      <div class="postgame-container" v-if="game.completed">
         <transition name="fade">
-          <div class="answer-overlay" v-if="game.answer.submitted" @click="triggerNextQuote">
-            <loading-animation v-if="loadingAnimationActive" />
-            <transition name="fade">
-              <div class="answer-overlay__answer_box" v-if="! loadingAnimationActive">
-                <h6 class="answer-overlay__answer">
-                  <span
-                    v-if="!loadingAnimationActive && game.answer.evaluation"
-                    class="answer-overlay__answer--correct"
-                  >Correct!</span>
-                  <span
-                    v-if="!loadingAnimationActive && !game.answer.evaluation"
-                    class="answer-overlay__answer--incorrect"
-                  >Incorrect</span>
-                </h6>
-                <p class="answer-overlay__instructions">CLICK OR PRESS SPACE TO CONTINUE</p>
-              </div>
-            </transition>
+          <div class="score-container" v-if="!showDetails">
+            <p>Your Score: {{ getCorrectAnswers }} / 10</p>
+            <div class="scoremeter">
+              <span class="scoremeter__static" :style="{ width: getCorrectAnswers * 10 + '%' }">
+                <span class="scoremeter__progress progress"></span>
+              </span>
+            </div>
+            <button class="btn btn--game-details" @click="showDetails = !showDetails">
+              <span>View Game Details</span>
+            </button>
           </div>
         </transition>
-      </game-footer-bar>
-      <transition name="fade">
-        <div class="postgame-container" v-if="game.completed">
-          <transition name="fade">
-            <div class="score-container" v-if="!showDetails">
-              <p>Your Score: {{getCorrectAnswers}} / 10</p>
-              <div class="scoremeter">
-                <span class="scoremeter__static" :style="{width: getCorrectAnswers  * 10 + '%'}">
-                  <span class="scoremeter__progress progress"></span>
-                </span>
-              </div>
-              <button class="btn btn--game-details" @click="showDetails = !showDetails">
-                <span>View Game Details</span>
-              </button>
-            </div>
-          </transition>
-          <transition name="fade">
-            <div class="detail-container" v-if="showDetails">
-              <game-table :gameState="game.gameState" />
-            </div>
-          </transition>
-        </div>
-      </transition>
-      <transition name="fade">
-        <footer-bar height="200px" v-if="game.completed">
-          <router-link class="btn btn--start" to="/play" tag="button">
-            <span>Play Again</span>
-          </router-link>
-        </footer-bar>
-      </transition>
-    </div>
+        <transition name="fade">
+          <div class="detail-container" v-if="showDetails">
+            <game-table :gameState="game.gameState" />
+          </div>
+        </transition>
+      </div>
+    </transition>
+    <transition name="fade">
+      <footer-bar height="200px" v-if="game.completed">
+        <router-link class="btn btn--start" to="/play" tag="button">
+          <span>Play Again</span>
+        </router-link>
+      </footer-bar>
+    </transition>
   </div>
 </template>
 
@@ -84,7 +79,6 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 import CharacterGameCard from '@/components/pages/games/new/CharacterGameCard';
-import PageTitle from '@/components/includes/Text/PageTitle';
 import FooterBar from '@/components/includes/FooterBar';
 import GameTable from '@/components/pages/games/GameTable';
 import GameFooterBar from '@/components/includes/FooterBar/GameFooterBar';
@@ -96,7 +90,6 @@ export default {
   name: 'GameNew',
   components: {
     CharacterGameCard,
-    PageTitle,
     FooterBar,
     GameTable,
     GameFooterBar,
@@ -158,7 +151,7 @@ export default {
 
 <style lang="scss" scoped>
 .quote-container {
-  height: calc(100% - 400px);
+  height: calc(100% - 300px);
   .quote-box {
     height: 95%;
     width: 80%;

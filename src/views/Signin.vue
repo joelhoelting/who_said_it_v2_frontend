@@ -1,22 +1,15 @@
 <template>
   <div class="container flex-center-container">
-    <form @submit.prevent="signIn">
-      <label for="email">
-        Email Address
-        <input type="email" v-model="email" id="email" placeholder="your@email.com" />
-      </label>
-      <label for="password">
-        Password
-        <input type="password" v-model="password" id="password" placeholder="Password" />
-      </label>
-      <button type="submit" value="Submit">Submit</button>
+    <form class="authentication" @submit.prevent="signIn">
+      <h2 class="form-title">Sign In</h2>
+      <input type="email" v-model="email" id="email" placeholder="Email Address" />
+      <input type="password" v-model="password" id="password" placeholder="Password" />
+      <button class="btn" type="submit" value="Submit">Submit</button>
     </form>
   </div>
 </template>
 
 <script>
-// import gsap from 'gsap';
-
 export default {
   name: 'SignIn',
   data() {
@@ -38,3 +31,5 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped></style>
