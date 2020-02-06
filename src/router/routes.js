@@ -1,7 +1,8 @@
 import Home from '@/views/Home.vue';
 import Play from '@/views/Play.vue';
-import Signin from '@/views/Signin.vue';
-import Signup from '@/views/Signup.vue';
+import Signin from '@/views/Authentication/Signin.vue';
+import Signup from '@/views/Authentication/Signup.vue';
+import PasswordReset from '@/views/Authentication/PasswordReset.vue';
 import GameNew from '@/views/Games/GameNew.vue';
 import Games from '@/views/Games';
 
@@ -16,6 +17,7 @@ export default [
   { name: 'Play', path: '/play', component: Play },
   { name: 'SignIn', path: '/signin', component: Signin },
   { name: 'SignUp', path: '/signup', component: Signup },
+  { name: 'PasswordReset', path: '/password_reset', component: PasswordReset },
   ...withPrefix('/games', [
     {
       name: 'GamesIndex',

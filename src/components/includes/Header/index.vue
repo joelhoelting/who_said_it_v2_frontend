@@ -23,7 +23,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import PageTitle from '@/components/includes/Text/PageTitle';
+import PageTitle from './PageTitle';
 import routeTitles from '@/data/routeTitles';
 
 export default {
@@ -35,7 +35,6 @@ export default {
     ...mapGetters('authorization', ['isLoggedIn']),
     currentRouteName() {
       const currentRouteTitle = routeTitles[this.$route.name];
-      console.log(currentRouteTitle, this.$route.name);
       return currentRouteTitle || false;
     }
   },

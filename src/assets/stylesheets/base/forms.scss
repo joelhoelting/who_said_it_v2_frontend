@@ -4,16 +4,27 @@ form.authentication {
   background: rgba(0, 0, 0, 0.2);
   padding: 60px 70px 70px;
   width: 50%;
-  max-width: 800px;
+  max-width: 600px;
+  .visually-hidden {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
   .form-title {
     text-align: center;
     margin-top: 0;
   }
   input {
     margin: 5px 0;
+    border: 2px solid #fff;
     border-radius: 20px;
     padding: 10px 20px;
-    border: none;
+    &.error {
+      border: 2px solid red;
+    }
   }
   button {
     background: $light-purple;

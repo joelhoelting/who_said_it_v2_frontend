@@ -8,6 +8,9 @@
 
 <style lang="scss" scoped>
 .title-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
