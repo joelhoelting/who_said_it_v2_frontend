@@ -3,14 +3,27 @@
     <form class="authentication" @submit.prevent="signIn">
       <h2 class="form-title">Sign In</h2>
       <!-- <label class="visually-hidden" for="email">Email Address</label> -->
-      <input type="email" v-model="email" id="email" placeholder="Email Address" />
+      <input
+        :class="errors.email ? 'error' : ''"
+        type="email"
+        v-model="email"
+        id="email"
+        placeholder="Email Address"
+      />
       <!-- <label class="visually-hidden" for="password">Password</label> -->
-      <input type="password" v-model="password" id="password" placeholder="Password" />
+      <input
+        :class="errors.password ? 'error' : ''"
+        type="password"
+        v-model="password"
+        id="password"
+        placeholder="Password"
+      />
       <button class="btn" type="submit" value="Submit">Submit</button>
       <div class="auth-options">
         <router-link to="/password_reset" tag="a">
           <span>Forgot Password?</span>
         </router-link>
+        <br />
         <router-link to="/signup" tag="a">
           <span>Don't have an account? Sign Up now</span>
         </router-link>
@@ -20,10 +33,17 @@
 </template>
 
 <script>
+import { isValidAuthForm } from '@/helpers/validations';
+
 export default {
   name: 'SignIn',
   data() {
     return {
+      errors: {
+        email: false,
+        password: false,
+        errorsArray: []
+      },
       email: '',
       password: ''
     };
@@ -32,27 +52,18 @@ export default {
     signIn() {
       let { email, password } = this;
 
-      this.$store
-        .dispatch('authorization/signIn', { email, password })
-        // .then(() => this.$router.push('/'))
-        .then(() => console.log('push router'))
-        .catch(err => console.log(err));
+      if (isValidAuthForm(this, email, password)) {
+        this.$store
+          .dispatch('authorization/signIn', { email, password })
+          .then(() => {
+            this.$router.push('/');
+          })
+          .catch(err => console.log(err));
+      }
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.auth-options {
-  margin-top: 20px;
-  a {
-    margin: 5px 0;
-    display: block;
-    span {
-      font-family: 'Lato';
-      display: block;
-      text-align: center;
-    }
-  }
-}
 </style>

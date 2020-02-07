@@ -382,7 +382,7 @@ const characterModule = {
             setTimeout(() => {
               reject(error);
               dispatch('disableLoadingAnimation', null, { root: true });
-              console.log(error, 'Notification: Connection Failure: Please check your connection');
+              console.error('Notification: Connection Failure: Please check your connection');
             }, 500);
           });
       });
@@ -422,7 +422,6 @@ const characterModule = {
             }
           })
           .then(response => {
-            console.log(response.data);
             const { correct_character, evaluation } = response.data;
 
             let answerObj = {
@@ -437,7 +436,7 @@ const characterModule = {
             resolve(response);
           })
           .catch(error => {
-            console.log(error);
+            console.error(error);
           });
       });
     },

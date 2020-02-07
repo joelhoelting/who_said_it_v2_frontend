@@ -36,4 +36,15 @@ form.authentication {
     margin: 20px 0;
     padding: 10px;
   }
+  .auth-options {
+    margin-top: 20px;
+    text-align: center;
+    a {
+      // margin: 5px 0;
+      span {
+        font-family: 'Lato';
+        text-align: center;
+      }
+    }
+  }
 }

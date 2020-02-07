@@ -24,12 +24,17 @@
         placeholder="Confirm Password"
       />
       <button class="btn" type="submit" value="Submit">Submit</button>
+      <div class="auth-options">
+        <router-link to="/signup" tag="a">
+          <span>Already have an account? Sign In</span>
+        </router-link>
+      </div>
     </form>
   </div>
 </template>
 
 <script>
-import { isValidEmail, isValidPassword } from '@/helpers/validations';
+import { isValidAuthForm } from '@/helpers/validations';
 
 export default {
   name: 'SignUp',
@@ -41,48 +46,16 @@ export default {
         password_confirmation: false,
         errorsArray: []
       },
-      email: 'email@e',
-      password: 'a',
-      password_confirmation: 'ad'
+      email: '',
+      password: '',
+      password_confirmation: ''
     };
   },
   methods: {
-    validateForm() {
-      this.errorsArray = [];
-      // let containsErrors = false;
-
-      let { email, password, password_confirmation } = this;
-
-      console.log(email, password, password_confirmation);
-      console.log(!isValidEmail(email));
-      console.log(!isValidPassword(password));
-
-      if (!isValidEmail(email)) {
-        console.log('invalid email');
-        this.errorsArray.push('Email is invalid');
-        this.errors.email = true;
-      }
-
-      if (!isValidPassword(password)) {
-        console.log('invalid password');
-        this.errorsArray.push(
-          'Password must be at least eight characters (one letter, one number and one special character)'
-        );
-        this.errors.password = true;
-      }
-
-      if (password !== password_confirmation) {
-        console.log('passwords do not match');
-        this.errorsArray.push('Passwords do not match');
-        this.errors.password_confirmation = true;
-      }
-
-      // return false;
-    },
     signUp() {
       let { email, password, password_confirmation } = this;
 
-      if (this.validateForm()) {
+      if (isValidAuthForm(this, email, password, password_confirmation)) {
         this.$store
           .dispatch('authorization/signUp', {
             email,
