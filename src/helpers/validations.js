@@ -11,7 +11,6 @@ const isValidPassword = password => {
 export const isValidAuthForm = (originalThis, email, password, password_confirmation = false) => {
   let containsErrors = false;
   let { errors } = originalThis;
-  console.log(email, password, password_confirmation);
 
   // Clear errors array
   errors.errorsArray = [];
@@ -44,6 +43,7 @@ export const isValidAuthForm = (originalThis, email, password, password_confirma
     }
   }
 
-  console.log(!containsErrors);
+  if (containsErrors) console.error('Form contains invalid inputs');
+
   return !containsErrors;
 };

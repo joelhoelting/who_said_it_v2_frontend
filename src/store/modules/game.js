@@ -345,6 +345,27 @@ const characterModule = {
         console.log('Notification: too many characters');
       }
     },
+    getUserGames({ dispatch, commit, state }) {
+      dispatch('enableLoadingOverlay', null, { root: true });
+
+      return new Promise((resolve, reject) => {
+        authorizedAxiosInstance
+          .get('/games')
+          .then(response => {
+            setTimeout(() => {
+              resolve(response);
+              dispatch('disableLoadingOverlay', null, { root: true });
+            }, 500);
+          })
+          .catch(error => {
+            setTimeout(() => {
+              reject(error);
+              dispatch('disableLoadingOverlay', null, { root: true });
+              console.error('Notification: Connection Failure: Please check your connection');
+            }, 10000);
+          });
+      });
+    },
     createGame({ dispatch, state, rootGetters }) {
       const { characterIds, difficulty } = state;
       const characters = state.characterIds.map(id => rootGetters['character/findCharacterById'](id));
@@ -373,10 +394,8 @@ const characterModule = {
 
             setTimeout(() => {
               resolve(response);
-              setTimeout(() => {
-                dispatch('disableLoadingAnimation', null, { root: true });
-              }, 200);
-            }, 300);
+              dispatch('disableLoadingAnimation', null, { root: true });
+            }, 500);
           })
           .catch(error => {
             setTimeout(() => {

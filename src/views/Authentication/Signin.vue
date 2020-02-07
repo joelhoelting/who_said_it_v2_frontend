@@ -44,8 +44,8 @@ export default {
         password: false,
         errorsArray: []
       },
-      email: '',
-      password: ''
+      email: 'test@test.com',
+      password: 'someThing123$'
     };
   },
   methods: {

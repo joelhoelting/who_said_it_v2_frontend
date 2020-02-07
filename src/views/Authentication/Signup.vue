@@ -46,9 +46,9 @@ export default {
         password_confirmation: false,
         errorsArray: []
       },
-      email: '',
-      password: '',
-      password_confirmation: ''
+      email: 'test@test.com',
+      password: 'someThing123$',
+      password_confirmation: 'someThing123$'
     };
   },
   methods: {

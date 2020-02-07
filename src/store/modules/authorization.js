@@ -4,19 +4,17 @@ const authorizationModule = {
   namespaced: true,
   state: {
     status: '',
-    jwt: localStorage.getItem('jwt') || '',
-    user: {}
+    jwt: localStorage.getItem('jwt') || ''
   },
   mutations: {
     AUTH_REQUEST(state) {
       state.status = 'pending';
     },
-    AUTH_SUCCESS(state, jwt, user) {
+    AUTH_SUCCESS(state, jwt) {
       localStorage.setItem('jwt', jwt);
 
       state.status = 'success';
       state.jwt = jwt;
-      state.user = user;
     },
     AUTH_ERROR(state) {
       state.status = 'error';
@@ -43,8 +41,8 @@ const authorizationModule = {
             }
           })
           .then(response => {
-            const { jwt, user } = response.data;
-            commit('AUTH_SUCCESS', jwt, user);
+            const { jwt } = response.data;
+            commit('AUTH_SUCCESS', jwt);
 
             resolve(response);
           })

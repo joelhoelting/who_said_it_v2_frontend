@@ -4,9 +4,11 @@
       <div class="quote-container" v-if="!game.completed">
         <div class="quote-box">
           <transition name="quote-slow-fade-from-top">
-            <p v-for="quote in currentQuote" :key="`game-quote-${quote.id}`" class="quote-box__current_quote">
-              "{{ quote.content }}"
-            </p>
+            <p
+              v-for="quote in currentQuote"
+              :key="`game-quote-${quote.id}`"
+              class="quote-box__current_quote"
+            >"{{ quote.content }}"</p>
           </transition>
         </div>
         <div class="quote-progress">
@@ -28,14 +30,14 @@
           <transition name="fade">
             <div class="answer-overlay__answer_box" v-if="!loadingAnimationActive">
               <h6 class="answer-overlay__answer">
-                <span v-if="!loadingAnimationActive && game.answer.evaluation" class="answer-overlay__answer--correct"
-                  >Correct!</span
-                >
+                <span
+                  v-if="!loadingAnimationActive && game.answer.evaluation"
+                  class="answer-overlay__answer--correct"
+                >Correct!</span>
                 <span
                   v-if="!loadingAnimationActive && !game.answer.evaluation"
                   class="answer-overlay__answer--incorrect"
-                  >Incorrect</span
-                >
+                >Incorrect</span>
               </h6>
               <p class="answer-overlay__instructions">CLICK OR PRESS SPACE TO CONTINUE</p>
             </div>
@@ -87,7 +89,7 @@ import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation';
 import { range } from '@/helpers/arrays';
 
 export default {
-  name: 'GameNew',
+  name: 'GamesNew',
   components: {
     CharacterGameCard,
     FooterBar,

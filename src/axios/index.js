@@ -20,7 +20,7 @@ const authorizedAxiosInstance = axios.create({
 
 authorizedAxiosInstance.interceptors.request.use(config => {
   const method = config.method.toUpperCase();
-  if (method !== 'OPTIONS' && method !== 'GET') {
+  if (method !== 'OPTIONS') {
     config.headers = {
       ...config.headers,
       Authorization: `Bearer ${localStorage.jwt}`
