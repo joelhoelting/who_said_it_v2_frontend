@@ -41,7 +41,7 @@ export default {
   methods: {
     signOut() {
       this.$store.dispatch('authorization/signOut').then(() => {
-        this.$router.push('/');
+        if (this.$route.path !== '/') this.$router.push('/');
       });
     }
   }
