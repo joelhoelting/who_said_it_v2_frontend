@@ -102,12 +102,12 @@ export default {
       showDetails: false
     };
   },
-  mounted() {
+  created() {
     if (!this.game.inProgress) {
       this.$router.push('/play');
     }
   },
-  created() {
+  mounted() {
     window.addEventListener('keypress', this.handleKeyboardFunctionality);
   },
   destroyed() {

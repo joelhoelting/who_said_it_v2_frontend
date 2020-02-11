@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import { isValidAuthForm } from '@/helpers/validations';
 
 export default {
@@ -50,6 +52,14 @@ export default {
       password: 'someThing123$',
       password_confirmation: 'someThing123$'
     };
+  },
+  created() {
+    if (this.isLoggedIn) {
+      this.$router.push('/');
+    }
+  },
+  computed: {
+    ...mapGetters('authorization', ['isLoggedIn'])
   },
   methods: {
     signUp() {
