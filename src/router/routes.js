@@ -32,7 +32,7 @@ export default [
     },
     {
       name: 'GamesShow',
-      path: '/games/:id',
+      path: '/:id',
       component: GamesShow
     }
   ])

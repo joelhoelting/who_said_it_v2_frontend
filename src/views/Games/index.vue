@@ -9,8 +9,8 @@
       </tr>
       <router-link
         class="game-row"
-        to="/play"
         v-for="(game, gameIdx) in userGames"
+        :to="{ name: 'GamesShow', params: { id: game.id }}"
         :key="gameIdx"
         tag="tr"
         valign="top"
@@ -33,7 +33,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import SmallCharacterCard from '@/components/pages/games/index/SmallCharacterCard';
+import SmallCharacterCard from '@/components/pages/games/index/CharacterSmallCard.vue';
 import gamesMixin from '@/mixins/games.js';
 
 export default {
