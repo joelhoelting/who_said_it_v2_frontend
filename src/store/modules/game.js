@@ -278,38 +278,8 @@ const characterModule = {
   namespaced: true,
   state: getDefaultState(),
   mutations: {
-    RESET_GAME_STATE(state) {
-      Object.assign(state, getDefaultState());
-    },
-    RESET_CHARACTERS(state) {
-      state.characterIds = [];
-    },
-    SET_DIFFICULTY(state, difficulty) {
-      state.difficulty = difficulty;
-    },
     ADD_CHARACTER_TO_GAME(state, character_id) {
       state.characterIds.push(character_id);
-    },
-    REMOVE_CHARACTER_FROM_GAME(state, character_id) {
-      state.characterIds.splice(state.characterIds.indexOf(character_id), 1);
-    },
-    SET_QUOTES(state, quotes) {
-      state.quotes = quotes;
-    },
-    SET_GAME_CHARACTERS(state, characters) {
-      state.characters = characters;
-    },
-    TOGGLE_GAME_IN_PROGRESS(state) {
-      state.inProgress = !state.inProgress;
-    },
-    UPDATE_CURRENT_ANSWER(state, evaluation) {
-      state.answer.evaluation = evaluation;
-    },
-    PUSH_ANSWER_INTO_GAMESTATE(state, answer) {
-      state.gameState.push(answer);
-    },
-    TOGGLE_ANSWER_SUBMITTED(state) {
-      state.answer.submitted = !state.answer.submitted;
     },
     INCREMENT_QUOTE(state) {
       state.currentQuoteIdx++;
@@ -317,23 +287,41 @@ const characterModule = {
     INITIALIZE_GAME(state, gameData) {
       state = Object.assign(state, gameData);
     },
+    PUSH_ANSWER_INTO_GAMESTATE(state, answer) {
+      state.gameState.push(answer);
+    },
+    REMOVE_CHARACTER_FROM_GAME(state, character_id) {
+      state.characterIds.splice(state.characterIds.indexOf(character_id), 1);
+    },
+    RESET_CHARACTERS(state) {
+      state.characterIds = [];
+    },
+    RESET_GAME_STATE(state) {
+      Object.assign(state, getDefaultState());
+    },
+    SET_DIFFICULTY(state, difficulty) {
+      state.difficulty = difficulty;
+    },
+    SET_GAME_CHARACTERS(state, characters) {
+      state.characters = characters;
+    },
     SET_GAME_COMPLETED(state) {
       state.completed = true;
+    },
+    SET_QUOTES(state, quotes) {
+      state.quotes = quotes;
+    },
+    TOGGLE_ANSWER_SUBMITTED(state) {
+      state.answer.submitted = !state.answer.submitted;
+    },
+    TOGGLE_GAME_IN_PROGRESS(state) {
+      state.inProgress = !state.inProgress;
+    },
+    UPDATE_CURRENT_ANSWER(state, evaluation) {
+      state.answer.evaluation = evaluation;
     }
   },
   actions: {
-    setDifficulty({ commit, dispatch, state }, difficulty) {
-      if (state.difficulty !== difficulty) {
-        dispatch('resetCharacters');
-        commit('SET_DIFFICULTY', difficulty);
-      }
-    },
-    resetCharacters({ commit }) {
-      commit('RESET_CHARACTERS');
-    },
-    resetGameState({ commit }) {
-      commit('RESET_GAME_STATE');
-    },
     addOrRemoveCharacterFromGame({ commit, state }, character_id) {
       if (state.characterIds.includes(character_id)) {
         return commit('REMOVE_CHARACTER_FROM_GAME', character_id);
@@ -344,27 +332,6 @@ const characterModule = {
       } else {
         console.log('Notification: too many characters');
       }
-    },
-    getUserGames({ dispatch, commit, state }) {
-      dispatch('enableLoadingOverlay', null, { root: true });
-
-      return new Promise((resolve, reject) => {
-        authorizedAxiosInstance
-          .get('/games')
-          .then(response => {
-            setTimeout(() => {
-              resolve(response);
-              dispatch('disableLoadingOverlay', null, { root: true });
-            }, 500);
-          })
-          .catch(error => {
-            setTimeout(() => {
-              reject(error);
-              dispatch('disableLoadingOverlay', null, { root: true });
-              console.error('Notification: Connection Failure: Please check your connection');
-            }, 500);
-          });
-      });
     },
     createGame({ dispatch, state, rootGetters }) {
       const { characterIds, difficulty } = state;
@@ -406,24 +373,57 @@ const characterModule = {
           });
       });
     },
+    fetchUserGames({ dispatch, commit, state }) {
+      dispatch('enableLoadingOverlay', null, { root: true });
+
+      return new Promise((resolve, reject) => {
+        authorizedAxiosInstance
+          .get('/games')
+          .then(response => {
+            setTimeout(() => {
+              resolve(response);
+              dispatch('disableLoadingOverlay', null, { root: true });
+            }, 500);
+          })
+          .catch(error => {
+            setTimeout(() => {
+              reject(error);
+              dispatch('disableLoadingOverlay', null, { root: true });
+              console.error('Notification: Connection Failure: Please check your connection');
+            }, 500);
+          });
+      });
+    },
+    incrementQuote({ commit }) {
+      commit('INCREMENT_QUOTE');
+    },
     initializeGame({ commit }, gameData) {
       commit('INITIALIZE_GAME', gameData);
-    },
-    setQuotes({ commit }, quotes) {
-      commit('SET_QUOTES', quotes);
-    },
-    setGameCharacters({ commit, state, rootGetters }) {
-      const characters = state.characterIds.map(id => rootGetters['character/findCharacterById'](id));
-      commit('SET_GAME_CHARACTERS', characters);
-    },
-    toggleGameInProgress({ commit }) {
-      commit('TOGGLE_GAME_IN_PROGRESS');
     },
     pushAnswer({ commit }, answer) {
       const { evaluation } = answer;
 
       commit('UPDATE_CURRENT_ANSWER', evaluation);
       commit('PUSH_ANSWER_INTO_GAMESTATE', answer);
+    },
+    resetCharacters({ commit }) {
+      commit('RESET_CHARACTERS');
+    },
+    resetGameState({ commit }) {
+      commit('RESET_GAME_STATE');
+    },
+    setDifficulty({ commit, dispatch, state }, difficulty) {
+      if (state.difficulty !== difficulty) {
+        dispatch('resetCharacters');
+        commit('SET_DIFFICULTY', difficulty);
+      }
+    },
+    setGameCharacters({ commit, state, rootGetters }) {
+      const characters = state.characterIds.map(id => rootGetters['character/findCharacterById'](id));
+      commit('SET_GAME_CHARACTERS', characters);
+    },
+    setQuotes({ commit }, quotes) {
+      commit('SET_QUOTES', quotes);
     },
     submitAnswer({ dispatch, getters, rootGetters, state }, character) {
       if (state.answer.submitted) return false;
@@ -462,8 +462,8 @@ const characterModule = {
     toggleAnswerSubmitted({ commit }) {
       commit('TOGGLE_ANSWER_SUBMITTED');
     },
-    incrementQuote({ commit }) {
-      commit('INCREMENT_QUOTE');
+    toggleGameInProgress({ commit }) {
+      commit('TOGGLE_GAME_IN_PROGRESS');
     },
     triggerNextQuote({ dispatch, state, rootState }) {
       const { loadingAnimationActive } = rootState;
@@ -492,8 +492,8 @@ const characterModule = {
       const currentCharLength = state.characterIds.length;
       return difficultyRules[state.difficulty] - currentCharLength;
     },
-    getCurrentQuote: state => state.quotes[state.currentQuoteIdx],
     gameProgressPercentage: state => `${(state.currentQuoteIdx + 1) * 10}%`,
+    getCurrentQuote: state => state.quotes[state.currentQuoteIdx],
     getGameScore: state => state.gameState.filter(gameStateEl => gameStateEl.evaluation).length
   }
 };

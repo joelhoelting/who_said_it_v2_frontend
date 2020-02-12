@@ -52,7 +52,7 @@ export default {
       return this.$router.push('/');
     }
 
-    this.getUserGames()
+    this.fetchUserGames()
       .then(response => {
         const userGames = response.data;
         this.userGames = userGames;
@@ -66,7 +66,7 @@ export default {
     ...mapGetters('authorization', ['isLoggedIn'])
   },
   methods: {
-    ...mapActions('game', ['getUserGames'])
+    ...mapActions('game', ['fetchUserGames'])
   }
 };
 </script>
