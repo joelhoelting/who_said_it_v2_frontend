@@ -3,8 +3,9 @@ import Play from '@/views/Play.vue';
 import Signin from '@/views/Authentication/Signin.vue';
 import Signup from '@/views/Authentication/Signup.vue';
 import PasswordReset from '@/views/Authentication/PasswordReset.vue';
-import GameNew from '@/views/Games/GameNew.vue';
 import Games from '@/views/Games';
+import GamesNew from '@/views/Games/GamesNew.vue';
+import GamesShow from '@/views/Games/GamesShow.vue';
 
 const withPrefix = (prefix, routes) =>
   routes.map(route => {
@@ -25,9 +26,14 @@ export default [
       component: Games
     },
     {
-      name: 'GameNew',
+      name: 'GamesNew',
       path: '/new',
-      component: GameNew
+      component: GamesNew
+    },
+    {
+      name: 'GamesShow',
+      path: '/games/:id',
+      component: GamesShow
     }
   ])
 ];

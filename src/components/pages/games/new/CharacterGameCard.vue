@@ -19,14 +19,14 @@ import imagesMixin from '@/mixins/images.js';
 export default {
   name: 'CharacterGameCard',
   mixins: [imagesMixin],
+  props: {
+    character: Object,
+    characterNumber: Number
+  },
   data() {
     return {
       disableCard: false
     };
-  },
-  props: {
-    character: Object,
-    characterNumber: Number
   },
   methods: {
     ...mapActions('game', ['submitAnswer'])

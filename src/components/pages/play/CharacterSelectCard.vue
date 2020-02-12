@@ -35,6 +35,10 @@ import imagesMixin from '@/mixins/images.js';
 
 export default {
   name: 'CharacterSelectCard',
+  props: {
+    character: Object
+  },
+  mixins: [imagesMixin],
   data() {
     return {
       selected: false
@@ -53,10 +57,6 @@ export default {
     isButtonSelected(difficulty) {
       return this.difficulty === difficulty ? 'selected' : undefined;
     }
-  },
-  mixins: [imagesMixin],
-  props: {
-    character: Object
   }
 };
 </script>
