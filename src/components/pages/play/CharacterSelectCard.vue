@@ -31,7 +31,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import images from '@/mixins/images.js';
+import imagesMixin from '@/mixins/images.js';
 
 export default {
   name: 'CharacterSelectCard',
@@ -54,7 +54,7 @@ export default {
       return this.difficulty === difficulty ? 'selected' : undefined;
     }
   },
-  mixins: [images],
+  mixins: [imagesMixin],
   props: {
     character: Object
   }

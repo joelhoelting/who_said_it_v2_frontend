@@ -81,8 +81,8 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 import CharacterGameCard from '@/components/pages/games/new/CharacterGameCard';
+import GameTable from '@/components/pages/games/show/GameTable';
 import FooterBar from '@/components/includes/FooterBar';
-import GameTable from '@/components/pages/games/GameTable';
 import GameFooterBar from '@/components/includes/FooterBar/GameFooterBar';
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation';
 

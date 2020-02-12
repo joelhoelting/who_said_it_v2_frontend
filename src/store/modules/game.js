@@ -492,9 +492,9 @@ const characterModule = {
       const currentCharLength = state.characterIds.length;
       return difficultyRules[state.difficulty] - currentCharLength;
     },
-    getCurrentQuote: state => (state.quotes.length > 0 ? state.quotes[state.currentQuoteIdx] : false),
+    getCurrentQuote: state => state.quotes[state.currentQuoteIdx],
     gameProgressPercentage: state => `${(state.currentQuoteIdx + 1) * 10}%`,
-    getCorrectAnswers: state => state.gameState.filter(gameStateEl => gameStateEl.evaluation).length
+    getGameScore: state => state.gameState.filter(gameStateEl => gameStateEl.evaluation).length
   }
 };
 

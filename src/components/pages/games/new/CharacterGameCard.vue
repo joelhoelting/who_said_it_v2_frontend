@@ -14,11 +14,11 @@
 <script>
 import { mapActions } from 'vuex';
 
-import images from '@/mixins/images.js';
+import imagesMixin from '@/mixins/images.js';
 
 export default {
   name: 'CharacterGameCard',
-  mixins: [images],
+  mixins: [imagesMixin],
   data() {
     return {
       disableCard: false
