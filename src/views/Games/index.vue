@@ -3,11 +3,15 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'GamesIndex',
-  mounted() {
+  created() {
+    if (!this.isLoggedIn) {
+      return this.$router.push('/');
+    }
+
     this.getUserGames()
       .then(response => {
         console.log(response);
@@ -16,6 +20,9 @@ export default {
         console.error(error);
         this.$router.push('/');
       });
+  },
+  computed: {
+    ...mapGetters('authorization', ['isLoggedIn'])
   },
   methods: {
     ...mapActions('game', ['getUserGames'])

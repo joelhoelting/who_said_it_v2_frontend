@@ -362,7 +362,7 @@ const characterModule = {
               reject(error);
               dispatch('disableLoadingOverlay', null, { root: true });
               console.error('Notification: Connection Failure: Please check your connection');
-            }, 10000);
+            }, 500);
           });
       });
     },

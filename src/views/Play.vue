@@ -1,7 +1,12 @@
 <template>
   <div class="container offset-header">
     <difficulty-toolbar />
-    <transition-group class="card-container" tag="div" @before-enter="cardBeforeEnter" @enter="cardEnter">
+    <transition-group
+      class="card-container"
+      tag="div"
+      @before-enter="cardBeforeEnter"
+      @enter="cardEnter"
+    >
       <character-select-card
         v-for="(character, index) in characters"
         :key="character.id"
@@ -45,7 +50,7 @@ export default {
       characters: []
     };
   },
-  mounted() {
+  created() {
     // Reset game state (game module)
     this.resetGameState();
     // Fetch characters (character module)

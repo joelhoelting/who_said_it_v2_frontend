@@ -14,7 +14,7 @@
       </div>
       <div v-if="isLoggedIn">
         <router-link to="/signin">Profile</router-link>
-        <router-link to="/signup">Statistics</router-link>
+        <router-link to="/games">Statistics</router-link>
         <a href="/signout" @click.prevent="signOut">Sign Out</a>
       </div>
     </nav>
