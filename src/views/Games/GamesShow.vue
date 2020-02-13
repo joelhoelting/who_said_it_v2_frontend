@@ -1,26 +1,32 @@
 <template>
-  <h1>Game Show</h1>
+  <div class="container offset-header">
+    <game-table :gameState="gameState" />
+  </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
-// import GameTable from '@/components/pages/games/show/GameTable';
+import GameTable from '@/components/pages/games/show/GameTable';
 
 export default {
   name: 'GamesShow',
-  // components: {
-  //   GameTable
-  // },
+  components: {
+    GameTable
+  },
+  data() {
+    return {
+      gameState: []
+    };
+  },
   created() {
     if (!this.isLoggedIn) {
       return this.$router.push('/');
     }
 
-    this.getUserGames()
+    this.fetchUserGame(this.$route.params.id)
       .then(response => {
-        const userGames = response.data;
-        this.userGames = userGames;
+        this.gameState = response.data;
       })
       .catch(error => {
         console.error(error);
@@ -29,9 +35,11 @@ export default {
   },
   computed: {
     ...mapGetters('authorization', ['isLoggedIn'])
+  },
+  methods: {
+    ...mapActions('game', ['fetchUserGame'])
   }
 };
 </script>
 
-<style>
-</style>
+<style lang="scss" scoped></style>

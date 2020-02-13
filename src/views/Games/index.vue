@@ -9,14 +9,14 @@
       </tr>
       <router-link
         class="game-row"
-        v-for="(game, gameIdx) in userGames"
-        :to="{ name: 'GamesShow', params: { id: game.id }}"
+        v-for="(game, gameIdx) in games"
+        :to="{ name: 'GamesShow', params: { id: game.id } }"
         :key="gameIdx"
         tag="tr"
         valign="top"
       >
-        <td align="left" valign="middle">{{game.created_at }}</td>
-        <td align="left" valign="middle">{{game.difficulty}}</td>
+        <td align="left" valign="middle">{{ game.created_at }}</td>
+        <td align="left" valign="middle">{{ game.difficulty }}</td>
         <td align="left" valign="middle">
           <small-character-card
             v-for="(character, characterIdx) in game.characters"
@@ -24,7 +24,7 @@
             :character="character"
           />
         </td>
-        <td align="left" valign="middle">{{getCorrectAnswersMixin(game.state)}} / 10</td>
+        <td align="left" valign="middle">{{ getCorrectAnswersMixin(game.state) }} / 10</td>
       </router-link>
     </table>
   </div>
@@ -44,7 +44,7 @@ export default {
   mixins: [gamesMixin],
   data() {
     return {
-      userGames: []
+      games: []
     };
   },
   created() {
@@ -54,8 +54,7 @@ export default {
 
     this.fetchUserGames()
       .then(response => {
-        const userGames = response.data;
-        this.userGames = userGames;
+        this.games = response.data;
       })
       .catch(error => {
         console.error(error);

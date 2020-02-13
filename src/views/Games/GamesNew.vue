@@ -49,9 +49,9 @@
       <div class="postgame-container" v-if="game.completed">
         <transition name="fade">
           <div class="score-container" v-if="!showDetails">
-            <p>Your Score: {{ getCorrectAnswers }} / 10</p>
+            <p>Your Score: {{ getGameScore }} / 10</p>
             <div class="scoremeter">
-              <span class="scoremeter__static" :style="{ width: getCorrectAnswers * 10 + '%' }">
+              <span class="scoremeter__static" :style="{ width: getGameScore * 10 + '%' }">
                 <span class="scoremeter__progress progress"></span>
               </span>
             </div>
@@ -115,7 +115,7 @@ export default {
   },
   computed: {
     ...mapState(['game', 'loadingAnimationActive']),
-    ...mapGetters('game', ['getCurrentQuote', 'getCorrectAnswers']),
+    ...mapGetters('game', ['getCurrentQuote', 'getGameScore']),
     currentQuote() {
       const currentQuoteIdx = this.game.currentQuoteIdx;
       return this.game.quotes.filter((quote, idx) => idx === currentQuoteIdx);

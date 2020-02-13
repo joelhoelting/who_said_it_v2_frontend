@@ -68,7 +68,7 @@ const getDefaultState = () => {
     },
     gameState: [
       // {
-      //   correctCharacter: {
+      //   correct_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -80,7 +80,7 @@ const getDefaultState = () => {
       //       'If a man beats his male or female slave with a rod and the slave dies as a direct result, he must be punished, but he is not to be punished if the slave gets up after a day or two, since the slave is his property.',
       //     id: 181
       //   },
-      //   selectedCharacter: {
+      //   selected_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -88,7 +88,7 @@ const getDefaultState = () => {
       //   }
       // },
       // {
-      //   correctCharacter: {
+      //   correct_character: {
       //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
       //     id: 5,
       //     name: 'George Carlin',
@@ -100,7 +100,7 @@ const getDefaultState = () => {
       //       'When you’re born you get a ticket to the freak show. When you’re born in America, you get a front-row seat.',
       //     id: 153
       //   },
-      //   selectedCharacter: {
+      //   selected_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -108,7 +108,7 @@ const getDefaultState = () => {
       //   }
       // },
       // {
-      //   correctCharacter: {
+      //   correct_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -119,7 +119,7 @@ const getDefaultState = () => {
       //     content: 'Eye for eye, tooth for tooth, hand for hand, foot for foot.',
       //     id: 192
       //   },
-      //   selectedCharacter: {
+      //   selected_character: {
       //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
       //     id: 5,
       //     name: 'George Carlin',
@@ -127,7 +127,7 @@ const getDefaultState = () => {
       //   }
       // },
       // {
-      //   correctCharacter: {
+      //   correct_character: {
       //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
       //     id: 5,
       //     name: 'George Carlin',
@@ -138,7 +138,7 @@ const getDefaultState = () => {
       //     content: 'You can’t fight City Hall, but you can goddamn sure blow it up.',
       //     id: 145
       //   },
-      //   selectedCharacter: {
+      //   selected_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -146,7 +146,7 @@ const getDefaultState = () => {
       //   }
       // },
       // {
-      //   correctCharacter: {
+      //   correct_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -158,7 +158,7 @@ const getDefaultState = () => {
       //       "And that thou mayest tell in the ears of thy son, and of thy son's son, what things I have wrought in Egypt, and my signs which I have done among them; that ye may know how that I am the LORD.",
       //     id: 190
       //   },
-      //   selectedCharacter: {
+      //   selected_character: {
       //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
       //     id: 5,
       //     name: 'George Carlin',
@@ -166,7 +166,7 @@ const getDefaultState = () => {
       //   }
       // },
       // {
-      //   correctCharacter: {
+      //   correct_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -177,7 +177,7 @@ const getDefaultState = () => {
       //     content: 'He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed.',
       //     id: 204
       //   },
-      //   selectedCharacter: {
+      //   selected_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -185,7 +185,7 @@ const getDefaultState = () => {
       //   }
       // },
       // {
-      //   correctCharacter: {
+      //   correct_character: {
       //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
       //     id: 5,
       //     name: 'George Carlin',
@@ -197,7 +197,7 @@ const getDefaultState = () => {
       //       'If it’s true that our species is alone in the universe, then I’d have to say that the universe aimed rather low and settled for very little.',
       //     id: 146
       //   },
-      //   selectedCharacter: {
+      //   selected_character: {
       //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
       //     id: 5,
       //     name: 'George Carlin',
@@ -205,7 +205,7 @@ const getDefaultState = () => {
       //   }
       // },
       // {
-      //   correctCharacter: {
+      //   correct_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -217,7 +217,7 @@ const getDefaultState = () => {
       //       'And I say unto thee, Let my son go, that he may serve me: and if thou refuse to let him go, behold, I will slay thy son, even thy firstborn.',
       //     id: 187
       //   },
-      //   selectedCharacter: {
+      //   selected_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -225,7 +225,7 @@ const getDefaultState = () => {
       //   }
       // },
       // {
-      //   correctCharacter: {
+      //   correct_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -236,7 +236,7 @@ const getDefaultState = () => {
       //     content: 'Thou shalt not suffer a witch to live.',
       //     id: 203
       //   },
-      //   selectedCharacter: {
+      //   selected_character: {
       //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
       //     id: 5,
       //     name: 'George Carlin',
@@ -244,7 +244,7 @@ const getDefaultState = () => {
       //   }
       // },
       // {
-      //   correctCharacter: {
+      //   correct_character: {
       //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
       //     id: 5,
       //     name: 'George Carlin',
@@ -255,7 +255,7 @@ const getDefaultState = () => {
       //     content: 'God bless the homicidal maniacs. They make life worthwhile.',
       //     id: 155
       //   },
-      //   selectedCharacter: {
+      //   selected_character: {
       //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
       //     id: 6,
       //     name: 'God',
@@ -373,7 +373,28 @@ const characterModule = {
           });
       });
     },
-    fetchUserGames({ dispatch, commit, state }) {
+    fetchUserGame({ dispatch }, id) {
+      dispatch('enableLoadingOverlay', null, { root: true });
+
+      return new Promise((resolve, reject) => {
+        authorizedAxiosInstance
+          .get(`/games/${id}`)
+          .then(response => {
+            setTimeout(() => {
+              resolve(response);
+              dispatch('disableLoadingOverlay', null, { root: true });
+            }, 500);
+          })
+          .catch(error => {
+            setTimeout(() => {
+              reject(error);
+              dispatch('disableLoadingOverlay', null, { root: true });
+              console.error('Notification: Connection Failure: Please check your connection');
+            }, 500);
+          });
+      });
+    },
+    fetchUserGames({ dispatch }) {
       dispatch('enableLoadingOverlay', null, { root: true });
 
       return new Promise((resolve, reject) => {
@@ -445,8 +466,8 @@ const characterModule = {
 
             let answerObj = {
               evaluation,
-              selectedCharacter: character,
-              correctCharacter: rootGetters['character/findCharacterById'](correct_character.id),
+              selected_character: character,
+              correct_character: rootGetters['character/findCharacterById'](correct_character.id),
               quote: getters.getCurrentQuote
             };
 
