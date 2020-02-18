@@ -14,10 +14,7 @@ export default {
   props: {
     character: Object
   },
-  mixins: [imagesMixin],
-  mounted() {
-    console.log(this.character);
-  }
+  mixins: [imagesMixin]
 };
 </script>
 

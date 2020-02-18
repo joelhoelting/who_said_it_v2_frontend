@@ -1,4 +1,5 @@
 import { plainAxiosInstance } from '@/axios';
+import { authorizedAxiosInstance } from '../../axios';
 
 const authorizationModule = {
   namespaced: true,
@@ -83,6 +84,16 @@ const authorizationModule = {
     },
     signOut({ commit }) {
       commit('SIGN_OUT');
+    },
+    validateToken({ commit, dispatch }) {
+      return new Promise((resolve, reject) => {
+        commit('AUTH_REQUEST');
+
+        authorizedAxiosInstance.get('/validate_token').catch(() => {
+          dispatch('signOut');
+        });
+      });
+      // dispatch('signOut');
     }
   },
   getters: {

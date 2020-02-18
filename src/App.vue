@@ -10,10 +10,10 @@
 
 <script>
 import './assets/stylesheets/main.scss';
+import { mapActions, mapState } from 'vuex';
 
 import Header from '@/components/includes/Header';
 import Loader from '@/components/includes/Loader/LoadingOverlay';
-import { mapState } from 'vuex';
 
 export default {
   name: 'App',
@@ -21,8 +21,17 @@ export default {
     Header,
     Loader
   },
+  created() {
+    if (this.authorization.jwt) {
+      console.log('checking validate');
+      this.validateToken();
+    }
+  },
   computed: {
-    ...mapState(['loadingOverlayActive'])
+    ...mapState(['loadingOverlayActive', 'authorization'])
+  },
+  methods: {
+    ...mapActions('authorization', ['validateToken'])
   }
 };
 </script>
