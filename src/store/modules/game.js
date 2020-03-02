@@ -401,7 +401,6 @@ const characterModule = {
         authorizedAxiosInstance
           .get('/games')
           .then(response => {
-            console.log(response);
             setTimeout(() => {
               resolve(response);
               dispatch('disableLoadingOverlay', null, { root: true });

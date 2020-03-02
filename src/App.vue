@@ -23,7 +23,6 @@ export default {
   },
   created() {
     if (this.authorization.jwt) {
-      console.log('checking validate');
       this.validateToken();
     }
   },

@@ -2,10 +2,49 @@
   <div class="container offset-header">
     <table border="0">
       <tr>
-        <th align="left" width="30%">Date / Time</th>
-        <th align="left" width="30%">Difficulty</th>
+        <th
+          align="left"
+          :class="{'active': filters.date !== 'neutral'}"
+          class="filterable"
+          width="30%"
+          @click="sortGames('date')"
+        >
+          Date / Time
+          <img
+            v-if="filters.date !== 'neutral'"
+            class="sort_arrow"
+            :src="isFilterArrowActive('date')"
+          />
+        </th>
+        <th
+          align="left"
+          :class="{'active': filters.difficulty !== 'neutral'}"
+          class="filterable"
+          width="30%"
+          @click="sortGames('difficulty')"
+        >
+          Difficulty
+          <img
+            v-if="filters.difficulty !== 'neutral'"
+            class="sort_arrow"
+            :src="isFilterArrowActive('difficulty')"
+          />
+        </th>
         <th align="left" width="30%">Characters</th>
-        <th align="left" width="10%">Score</th>
+        <th
+          align="left"
+          :class="{'active': filters.score !== 'neutral'}"
+          class="filterable"
+          width="10%"
+          @click="sortGames('score')"
+        >
+          Score
+          <img
+            v-if="filters.score !== 'neutral'"
+            class="sort_arrow"
+            :src="isFilterArrowActive('score')"
+          />
+        </th>
       </tr>
       <router-link
         class="game-row"
@@ -15,7 +54,7 @@
         tag="tr"
         valign="top"
       >
-        <td align="left" valign="middle">{{ game.created_at }}</td>
+        <td align="left" valign="middle">{{ parseDateMixin(game.created_at) }}</td>
         <td align="left" valign="middle">{{ game.difficulty }}</td>
         <td align="left" valign="middle">
           <small-character-card
@@ -33,18 +72,27 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import { sortGamesByProperty, updateFilters } from '@/helpers/games';
+
+import gamesMixin from '@/mixins/games';
+import datesMixin from '@/mixins/dates.js';
+
 import SmallCharacterCard from '@/components/pages/games/index/CharacterSmallCard.vue';
-import gamesMixin from '@/mixins/games.js';
 
 export default {
   name: 'GamesIndex',
   components: {
     SmallCharacterCard
   },
-  mixins: [gamesMixin],
+  mixins: [gamesMixin, datesMixin],
   data() {
     return {
-      games: []
+      games: [],
+      filters: {
+        date: 'desc',
+        difficulty: 'neutral',
+        score: 'neutral'
+      }
     };
   },
   created() {
@@ -54,7 +102,7 @@ export default {
 
     this.fetchUserGames()
       .then(response => {
-        this.games = response.data;
+        this.games = sortGamesByProperty('date', 'desc', response.data);
       })
       .catch(error => {
         console.error(error);
@@ -65,7 +113,23 @@ export default {
     ...mapGetters('authorization', ['isLoggedIn'])
   },
   methods: {
-    ...mapActions('game', ['fetchUserGames'])
+    ...mapActions('game', ['fetchUserGames']),
+    sortGames(filterArg) {
+      let { filters, direction } = updateFilters(filterArg, this.filters);
+      let games = sortGamesByProperty(filterArg, direction, this.games);
+
+      this.setState({ filters, games });
+    },
+    isFilterArrowActive(filterProp) {
+      let filterState = this.filters[filterProp];
+
+      if (filterState === 'neutral') return false;
+
+      return require(`@/assets/images/icons/${filterState}_arrow.png`);
+    },
+    setState(obj) {
+      Object.assign(this, obj);
+    }
   }
 };
 </script>
@@ -74,12 +138,28 @@ export default {
 table {
   width: 100%;
   border-collapse: separate;
-  position: absolute;
-  left: 0;
   border-spacing: 0 0.6em;
   tr {
     th {
       padding: 0.8em 1.4em;
+      &.active {
+        border: 1px solid white;
+      }
+      &.filterable {
+        text-decoration: underline;
+        cursor: pointer;
+        position: relative;
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+      }
+      .sort_arrow {
+        position: absolute;
+        right: 10px;
+        height: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
     }
     td {
       padding: 0.8em 1.4em;

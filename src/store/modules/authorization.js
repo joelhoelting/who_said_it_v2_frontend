@@ -70,7 +70,6 @@ const authorizationModule = {
           })
           .then(response => {
             const { jwt, user } = response.data;
-            console.log('response', response);
             commit('AUTH_SUCCESS', jwt, user);
 
             resolve(response);
@@ -93,7 +92,6 @@ const authorizationModule = {
           dispatch('signOut');
         });
       });
-      // dispatch('signOut');
     }
   },
   getters: {
