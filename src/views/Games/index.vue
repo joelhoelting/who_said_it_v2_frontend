@@ -54,16 +54,16 @@
         tag="tr"
         valign="top"
       >
-        <td align="left" valign="middle">{{ parseDateMixin(game.created_at) }}</td>
-        <td align="left" valign="middle">{{ game.difficulty }}</td>
-        <td align="left" valign="middle">
+        <td align="left" valign="middle" width="30%">{{ parseDateMixin(game.created_at) }}</td>
+        <td align="left" valign="middle" width="30%">{{ game.difficulty }}</td>
+        <td align="left" valign="middle" width="30%">
           <small-character-card
             v-for="(character, characterIdx) in game.characters"
             :key="characterIdx"
             :character="character"
           />
         </td>
-        <td align="left" valign="middle">{{ getCorrectAnswersMixin(game.state) }} / 10</td>
+        <td align="left" valign="middle" width="10%">{{ getCorrectAnswersMixin(game.state) }} / 10</td>
       </router-link>
     </table>
   </div>
@@ -139,9 +139,10 @@ table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 0.6em;
+  margin-bottom: 5em;
   tr {
     th {
-      padding: 0.8em 1.4em;
+      padding: 0.8em 1em;
       &.active {
         border: 1px solid white;
       }

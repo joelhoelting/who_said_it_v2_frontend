@@ -50,7 +50,7 @@ export default {
 
 <style lang="scss" scoped>
 header {
-  position: fixed;
+  position: absolute;
   height: 100px;
   width: 100%;
   top: 0;
@@ -64,6 +64,12 @@ header {
     padding: 0 5%;
     a {
       margin: 0 0.5em;
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
     }
     button {
       margin: 0 0.5em;
