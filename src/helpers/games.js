@@ -65,6 +65,7 @@ export const sortGamesByProperty = (filterKey, direction, games) => {
       });
 
       break;
+    // SCORE
     case 'score':
       const getGameScore = gameState => gameState.filter(gameStateEl => gameStateEl.evaluation).length;
 
@@ -74,7 +75,7 @@ export const sortGamesByProperty = (filterKey, direction, games) => {
             ? getGameScore(a.state) > getGameScore(b.state)
             : getGameScore(a.state) < getGameScore(b.state);
 
-        return scoreComparison ? 1 : !scoreComparison ? -1 : 0;
+        return scoreComparison ? -1 : !scoreComparison ? 1 : 0;
       });
   }
 
