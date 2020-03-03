@@ -34,8 +34,7 @@ export default {
   computed: {
     ...mapGetters('authorization', ['isLoggedIn']),
     currentRouteName() {
-      const currentRouteTitle = routeTitles[this.$route.name];
-      return currentRouteTitle || false;
+      return routeTitles[this.$route.name];
     }
   },
   methods: {

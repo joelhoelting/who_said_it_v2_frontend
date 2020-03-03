@@ -25,7 +25,7 @@
       />
       <button class="btn" type="submit" value="Submit">Submit</button>
       <div class="auth-options">
-        <router-link to="/signup" tag="a">
+        <router-link to="/signin" tag="a">
           <span>Already have an account? Sign In</span>
         </router-link>
       </div>
