@@ -1,76 +1,82 @@
 <template>
   <div class="container offset-header">
-    <table border="0">
-      <tr>
-        <th
-          align="left"
-          :class="{'active': filters.date !== 'neutral'}"
-          class="filterable"
-          width="30%"
-          @click="sortGames('date')"
+    <transition name="fade">
+      <table border="0" v-if="games.length > 0 && !loadingOverlayActive">
+        <tr>
+          <th
+            align="left"
+            :class="{'active': filters.date !== 'neutral'}"
+            class="filterable"
+            width="30%"
+            @click="sortGames('date')"
+          >
+            Date / Time
+            <img
+              v-if="filters.date !== 'neutral'"
+              class="sort_arrow"
+              :src="isFilterArrowActive('date')"
+            />
+          </th>
+          <th
+            align="left"
+            :class="{'active': filters.difficulty !== 'neutral'}"
+            class="filterable"
+            width="30%"
+            @click="sortGames('difficulty')"
+          >
+            Difficulty
+            <img
+              v-if="filters.difficulty !== 'neutral'"
+              class="sort_arrow"
+              :src="isFilterArrowActive('difficulty')"
+            />
+          </th>
+          <th align="left" width="30%">Characters</th>
+          <th
+            align="left"
+            :class="{'active': filters.score !== 'neutral'}"
+            class="filterable"
+            width="10%"
+            @click="sortGames('score')"
+          >
+            Score
+            <img
+              v-if="filters.score !== 'neutral'"
+              class="sort_arrow"
+              :src="isFilterArrowActive('score')"
+            />
+          </th>
+        </tr>
+        <router-link
+          class="game-row"
+          v-for="(game, gameIdx) in games"
+          :to="{ name: 'GamesShow', params: { id: game.id } }"
+          :key="gameIdx"
+          tag="tr"
+          valign="top"
         >
-          Date / Time
-          <img
-            v-if="filters.date !== 'neutral'"
-            class="sort_arrow"
-            :src="isFilterArrowActive('date')"
-          />
-        </th>
-        <th
-          align="left"
-          :class="{'active': filters.difficulty !== 'neutral'}"
-          class="filterable"
-          width="30%"
-          @click="sortGames('difficulty')"
-        >
-          Difficulty
-          <img
-            v-if="filters.difficulty !== 'neutral'"
-            class="sort_arrow"
-            :src="isFilterArrowActive('difficulty')"
-          />
-        </th>
-        <th align="left" width="30%">Characters</th>
-        <th
-          align="left"
-          :class="{'active': filters.score !== 'neutral'}"
-          class="filterable"
-          width="10%"
-          @click="sortGames('score')"
-        >
-          Score
-          <img
-            v-if="filters.score !== 'neutral'"
-            class="sort_arrow"
-            :src="isFilterArrowActive('score')"
-          />
-        </th>
-      </tr>
-      <router-link
-        class="game-row"
-        v-for="(game, gameIdx) in games"
-        :to="{ name: 'GamesShow', params: { id: game.id } }"
-        :key="gameIdx"
-        tag="tr"
-        valign="top"
-      >
-        <td align="left" valign="middle" width="30%">{{ parseDateMixin(game.created_at) }}</td>
-        <td align="left" valign="middle" width="30%">{{ game.difficulty }}</td>
-        <td align="left" valign="middle" width="30%">
-          <small-character-card
-            v-for="(character, characterIdx) in game.characters"
-            :key="characterIdx"
-            :character="character"
-          />
-        </td>
-        <td align="left" valign="middle" width="10%">{{ getCorrectAnswersMixin(game.state) }} / 10</td>
-      </router-link>
-    </table>
+          <td align="left" valign="middle" width="30%">{{ parseDateMixin(game.created_at) }}</td>
+          <td align="left" valign="middle" width="30%">{{ game.difficulty }}</td>
+          <td align="left" valign="middle" width="30%">
+            <small-character-card
+              v-for="(character, characterIdx) in game.characters"
+              :key="characterIdx"
+              :character="character"
+            />
+          </td>
+          <td align="left" valign="middle" width="10%">{{ getCorrectAnswersMixin(game.state) }} / 10</td>
+        </router-link>
+      </table>
+    </transition>
+    <div class="empty-games" v-if="games.length === 0 && !loadingOverlayActive">
+      <p>You have no games</p>
+      <router-link class="btn btn--empty-game" to="/play" tag="button">Play Game</router-link>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 import { sortGamesByProperty, updateFilters } from '@/helpers/games';
 
@@ -110,6 +116,7 @@ export default {
       });
   },
   computed: {
+    ...mapState(['loadingOverlayActive']),
     ...mapGetters('authorization', ['isLoggedIn'])
   },
   methods: {
@@ -177,6 +184,18 @@ table {
         background: rgba(255, 255, 255, 0.5);
       }
     }
+  }
+}
+
+.empty-games {
+  height: calc(100% - 100px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  p {
+    font-size: 1.2rem;
   }
 }
 </style>

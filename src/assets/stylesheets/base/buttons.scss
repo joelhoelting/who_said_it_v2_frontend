@@ -1,7 +1,7 @@
 .btn {
   background: $light-purple;
   border: none;
-  border-radius: 50px;
+  border-radius: 3em;
   color: $white;
   cursor: pointer;
   transition: all 200ms ease;
@@ -9,18 +9,29 @@
     background: $light-purple-hover;
   }
   &.disabled {
-    opacity: 0.7;
     cursor: initial;
+    opacity: 0.7;
     &:hover {
       background: $light-purple;
-      border: 3px solid $light-purple;
     }
+  }
+  &.btn--play {
+    display: block;
+    font-size: 1.6rem;
+    margin: 0 auto;
+    padding: 0.8em 4em;
+    width: 80%;
   }
   &.btn--start {
     display: block;
     font-size: 2rem;
-    padding: 20px 100px;
-    width: 20em;
+    padding: 0.8em 4em;
+    width: 50%;
+  }
+  &.btn--empty-game {
+    display: block;
+    font-size: 1.4rem;
+    padding: 0.8em 4em;
   }
   &.btn--game-details {
     display: block;
