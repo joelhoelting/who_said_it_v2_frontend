@@ -2,12 +2,12 @@
   <transition name="fade">
     <table v-if="gameState.length > 0">
       <tr>
-        <th align="left">#</th>
-        <th align="left">Quote</th>
-        <th align="left">Correct Answer</th>
-        <th align="left">Your Answer</th>
+        <th align="left" width="10%">#</th>
+        <th align="left" width="40%">Quote</th>
+        <th align="left" width="25%">Correct Answer</th>
+        <th align="left" width="25%">Your Answer</th>
       </tr>
-      <tr v-for="(el, index) in gameState" :key="index" valign="top">
+      <tr v-for="(el, index) in gameState" :key="index" valign="top" class="quote-row">
         <td align="left" width="10%">{{ index + 1 }}</td>
         <td align="left" width="40%">{{ el.quote.content }}</td>
         <td align="left" width="25%">{{ el.correct_character.name }}</td>
@@ -34,13 +34,16 @@ export default {
 
 <style lang="scss" scoped>
 table {
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 0.6em;
   width: 100%;
   tr {
-    border-bottom: 1px solid #fff;
-    th,
+    td,
+    th {
+      padding: 0.8em 1em;
+    }
+
     td {
-      padding: 15px 20px;
       span {
         &.correct {
           color: $correct-green;
@@ -49,6 +52,11 @@ table {
           color: white;
         }
       }
+    }
+
+    &.quote-row {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
     }
   }
 }

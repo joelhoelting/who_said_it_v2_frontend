@@ -136,13 +136,18 @@ export default {
 
 <style lang="scss" scoped>
 table {
-  width: 100%;
   border-collapse: separate;
   border-spacing: 0 0.6em;
   margin-bottom: 5em;
+  width: 100%;
   tr {
+    td,
     th {
       padding: 0.8em 1em;
+      text-transform: uppercase;
+    }
+
+    th {
       &.active {
         border: 1px solid white;
       }
@@ -162,15 +167,12 @@ table {
         transform: translateY(-50%);
       }
     }
-    td {
-      padding: 0.8em 1.4em;
-      text-transform: uppercase;
-    }
+
     &.game-row {
-      cursor: pointer;
       background: rgba(255, 255, 255, 0.2);
-      transition: background 200ms ease;
       box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: background 200ms ease;
       &:hover {
         background: rgba(255, 255, 255, 0.5);
       }
