@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import { VueReCaptcha } from 'vue-recaptcha-v3';
 import { mapGetters } from 'vuex';
 
 import { isValidAuthForm } from '@/helpers/validations';
@@ -57,20 +59,45 @@ export default {
     if (this.isLoggedIn) {
       this.$router.push('/');
     }
+
+    // Run recaptcha script on signup page
+    if (this.$recaptchaInstance) {
+      this.$recaptchaInstance.showBadge();
+    } else {
+      Vue.use(VueReCaptcha, {
+        siteKey: '6LfXd94UAAAAAAEp6hpVvJLYXnPPxHOwBSBCniPS',
+        loaderOptions: {
+          autoHideBadge: false
+        }
+      });
+    }
+  },
+  destroyed() {
+    this.$recaptchaInstance.hideBadge();
   },
   computed: {
     ...mapGetters('authorization', ['isLoggedIn'])
   },
   methods: {
-    signUp() {
+    async signUp() {
+      await this.$recaptchaLoaded();
+
+      // Execute reCAPTCHA with action "signup".
+      const token = await this.$recaptcha('signup');
+
       let { email, password, password_confirmation } = this;
 
       if (isValidAuthForm(this, email, password, password_confirmation)) {
         this.$store
           .dispatch('authorization/signUp', {
-            email,
-            password,
-            password_confirmation
+            auth: {
+              email,
+              password,
+              password_confirmation
+            },
+            recaptcha: {
+              token
+            }
           })
           .then(() => {
             this.$router.push('/');

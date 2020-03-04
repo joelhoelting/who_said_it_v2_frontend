@@ -64,7 +64,7 @@ export default {
 
       if (isValidAuthForm(this, email, password)) {
         this.$store
-          .dispatch('authorization/signIn', { email, password })
+          .dispatch('authorization/signIn', { auth: { email, password } })
           .then(() => {
             this.$router.push('/');
           })
@@ -75,5 +75,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -28,11 +28,13 @@ const authorizationModule = {
     }
   },
   actions: {
-    signIn({ commit }, credentials) {
+    signIn({ commit }, payload) {
       return new Promise((resolve, reject) => {
         commit('AUTH_REQUEST');
 
-        const { email, password } = credentials;
+        const {
+          auth: { email, password }
+        } = payload;
 
         plainAxiosInstance
           .post('/signin', {
@@ -54,11 +56,14 @@ const authorizationModule = {
           });
       });
     },
-    signUp({ commit }, credentials) {
+    signUp({ commit }, payload) {
       return new Promise((resolve, reject) => {
         commit('AUTH_REQUEST');
 
-        const { email, password, password_confirmation } = credentials;
+        const {
+          auth: { email, password, password_confirmation },
+          recaptcha: { token }
+        } = payload;
 
         plainAxiosInstance
           .post('/signup', {
@@ -66,6 +71,9 @@ const authorizationModule = {
               email,
               password,
               password_confirmation
+            },
+            recaptcha: {
+              token
             }
           })
           .then(response => {
