@@ -2,13 +2,7 @@
   <div class="container flex-center-container">
     <form class="authentication" @submit.prevent="signUp">
       <h2 class="form-title">Sign Up</h2>
-      <input
-        :class="errors.email ? 'error' : ''"
-        type="email"
-        v-model="email"
-        id="email"
-        placeholder="Email Address"
-      />
+      <input :class="errors.email ? 'error' : ''" type="email" v-model="email" id="email" placeholder="Email Address" />
       <input
         :class="errors.password ? 'error' : ''"
         type="password"

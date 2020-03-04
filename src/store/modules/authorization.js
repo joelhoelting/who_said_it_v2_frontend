@@ -28,7 +28,7 @@ const authorizationModule = {
     }
   },
   actions: {
-    signIn({ commit }, payload) {
+    signIn({ commit, dispatch }, payload) {
       return new Promise((resolve, reject) => {
         commit('AUTH_REQUEST');
 
@@ -51,12 +51,20 @@ const authorizationModule = {
           })
           .catch(error => {
             commit('AUTH_ERROR');
+
+            const notification = {
+              type: 'error',
+              message: error
+            };
+
+            dispatch('notification/add', notification, { root: true });
+
             localStorage.removeItem('jwt');
             reject(error);
           });
       });
     },
-    signUp({ commit }, payload) {
+    signUp({ commit, dispatch }, payload) {
       return new Promise((resolve, reject) => {
         commit('AUTH_REQUEST');
 
@@ -82,10 +90,18 @@ const authorizationModule = {
 
             resolve(response);
           })
-          .catch(err => {
-            commit('AUTH_ERROR', err);
+          .catch(error => {
+            commit('AUTH_ERROR', error);
+
+            const notification = {
+              type: 'error',
+              message: error.response.data.error
+            };
+
+            dispatch('notification/add', notification, { root: true });
+
             localStorage.removeItem('jwt');
-            reject(err);
+            reject(error);
           });
       });
     },

@@ -1,4 +1,4 @@
-// Fae
+// Fade
 .fade-enter {
   opacity: 0;
 }
@@ -13,6 +13,20 @@
 
 .fade-leave-active {
   transition: opacity 250ms;
+  opacity: 0;
+}
+
+.slide-up-enter {
+  transform: translateY(100px);
+  opacity: 0;
+}
+
+.slide-up-enter-active {
+  transition: all 0.2s ease;
+}
+
+.slide-up-leave-active {
+  transition: all 0.2s ease;
   opacity: 0;
 }
 

@@ -4,6 +4,7 @@
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
+    <notification-container />
     <loader v-if="loadingOverlayActive" />
   </div>
 </template>
@@ -14,12 +15,14 @@ import { mapActions, mapState } from 'vuex';
 
 import Header from '@/components/includes/Header';
 import Loader from '@/components/includes/Loader/LoadingOverlay';
+import NotificationContainer from '@/components/includes/Notification';
 
 export default {
   name: 'App',
   components: {
     Header,
-    Loader
+    Loader,
+    NotificationContainer
   },
   created() {
     if (this.authorization.jwt) {

@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import authorization from '@/store/modules/authorization.js';
-import character from '@/store/modules/character.js';
-import game from '@/store/modules/game.js';
+import authorization from '@/store/modules/authorization';
+import character from '@/store/modules/character';
+import game from '@/store/modules/game';
+import notification from '@/store/modules/notification';
 
 Vue.use(Vuex);
 
@@ -11,7 +12,8 @@ export default new Vuex.Store({
   modules: {
     authorization,
     character,
-    game
+    game,
+    notification
   },
   state: {
     loadingOverlayActive: false,
