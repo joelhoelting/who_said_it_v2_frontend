@@ -65,6 +65,8 @@ const authorizationModule = {
       });
     },
     signUp({ commit, dispatch }, payload) {
+      dispatch('enableLoadingAnimation', null, { root: true });
+
       return new Promise((resolve, reject) => {
         commit('AUTH_REQUEST');
 
@@ -88,7 +90,10 @@ const authorizationModule = {
             const { jwt, user } = response.data;
             commit('AUTH_SUCCESS', jwt, user);
 
-            resolve(response);
+            setTimeout(() => {
+              resolve(response);
+              dispatch('disableLoadingAnimation', null, { root: true });
+            }, 500);
           })
           .catch(error => {
             commit('AUTH_ERROR', error);
@@ -101,7 +106,9 @@ const authorizationModule = {
             dispatch('notification/add', notification, { root: true });
 
             localStorage.removeItem('jwt');
+
             reject(error);
+            dispatch('disableLoadingAnimation', null, { root: true });
           });
       });
     },

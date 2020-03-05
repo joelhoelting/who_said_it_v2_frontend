@@ -2,7 +2,13 @@
   <div class="container flex-center-container">
     <form class="authentication" @submit.prevent="signUp">
       <h2 class="form-title">Sign Up</h2>
-      <input :class="errors.email ? 'error' : ''" type="email" v-model="email" id="email" placeholder="Email Address" />
+      <input
+        :class="errors.email ? 'error' : ''"
+        type="email"
+        v-model="email"
+        id="email"
+        placeholder="Email Address"
+      />
       <input
         :class="errors.password ? 'error' : ''"
         type="password"
@@ -17,7 +23,16 @@
         id="password_confirmation"
         placeholder="Confirm Password"
       />
-      <button class="btn" type="submit" value="Submit">Submit</button>
+      <button
+        class="btn"
+        :class="{ disabled: loadingAnimationActive }"
+        :disabled="loadingAnimationActive"
+        type="submit"
+        value="Submit"
+      >
+        <span v-if="!loadingAnimationActive">Submit</span>
+        <loading-animation v-if="loadingAnimationActive" />
+      </button>
       <div class="auth-options">
         <router-link to="/signin" tag="a">
           <span>Already have an account? Sign In</span>
@@ -30,12 +45,16 @@
 <script>
 import Vue from 'vue';
 import { VueReCaptcha } from 'vue-recaptcha-v3';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
+import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 
 import { isValidAuthForm } from '@/helpers/validations';
 
 export default {
   name: 'SignUp',
+  components: {
+    LoadingAnimation
+  },
   data() {
     return {
       errors: {
@@ -70,6 +89,7 @@ export default {
     this.$recaptchaInstance.hideBadge();
   },
   computed: {
+    ...mapState(['loadingOverlayActive', 'loadingAnimationActive']),
     ...mapGetters('authorization', ['isLoggedIn'])
   },
   methods: {
