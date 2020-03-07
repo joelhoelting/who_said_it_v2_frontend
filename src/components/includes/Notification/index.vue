@@ -1,9 +1,7 @@
 <template>
   <transition name="slide-up" tag="div">
     <div class="notification-container" v-if="notifications.length > 0">
-      <p v-if="notifications.length > 0">
-        {{ notifications[0].message }}
-      </p>
+      <p :class="notificationTypeClass">{{ notifications[0].message }}</p>
     </div>
   </transition>
 </template>
@@ -12,7 +10,12 @@
 import { mapState } from 'vuex';
 
 export default {
-  computed: mapState('notification', ['notifications'])
+  computed: {
+    ...mapState('notification', ['notifications']),
+    notificationTypeClass() {
+      return this.notifications.length > 0 ? `notification notification--${this.notifications[0].type}` : null;
+    }
+  }
 };
 </script>
 
@@ -26,5 +29,13 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  .notification {
+    &.notification--error {
+      color: $incorrect-red;
+    }
+    &.notification--success {
+      color: $correct-green;
+    }
+  }
 }
 </style>

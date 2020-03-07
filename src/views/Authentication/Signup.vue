@@ -44,8 +44,9 @@
 
 <script>
 import Vue from 'vue';
-import { VueReCaptcha } from 'vue-recaptcha-v3';
 import { mapGetters, mapState } from 'vuex';
+import { VueReCaptcha } from 'vue-recaptcha-v3';
+
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 
 import { isValidAuthForm } from '@/helpers/validations';
@@ -89,8 +90,8 @@ export default {
     this.$recaptchaInstance.hideBadge();
   },
   computed: {
-    ...mapState(['loadingOverlayActive', 'loadingAnimationActive']),
-    ...mapGetters('authorization', ['isLoggedIn'])
+    ...mapGetters('authorization', ['isLoggedIn']),
+    ...mapState(['loadingOverlayActive', 'loadingAnimationActive'])
   },
   methods: {
     async signUp() {

@@ -18,7 +18,16 @@
         id="password"
         placeholder="Password"
       />
-      <button class="btn" type="submit" value="Submit">Submit</button>
+      <button
+        class="btn"
+        :class="{ disabled: loadingAnimationActive }"
+        :disabled="loadingAnimationActive"
+        type="submit"
+        value="Submit"
+      >
+        <span v-if="!loadingAnimationActive">Submit</span>
+        <loading-animation v-if="loadingAnimationActive" />
+      </button>
       <div class="auth-options">
         <router-link to="/password_reset" tag="a">
           <span>Forgot Password?</span>
@@ -33,12 +42,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
+import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 import { isValidAuthForm } from '@/helpers/validations';
 
 export default {
   name: 'SignIn',
+  components: {
+    LoadingAnimation
+  },
   data() {
     return {
       errors: {
@@ -56,7 +69,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('authorization', ['isLoggedIn'])
+    ...mapGetters('authorization', ['isLoggedIn']),
+    ...mapState(['loadingOverlayActive', 'loadingAnimationActive'])
   },
   methods: {
     signIn() {

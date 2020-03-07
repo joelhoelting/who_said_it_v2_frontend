@@ -1,15 +1,20 @@
 const notificationModule = {
   namespaced: true,
   state: {
-    notifications: []
+    notifications: [],
+    setTimeout: false
   },
   mutations: {
-    PUSH_NOTIFICATION(state, notification) {
-      state.notifications.push({
-        ...notification
-      });
+    CLEAR_TIMEOUT(state) {
+      if (state.setTimeout) {
+        clearTimeout(state.setTimeout);
+        state.setTimeout = false;
+      }
     },
-    DELETE_NOTIFICATION(state) {
+    PUSH_NOTIFICATION(state, notification) {
+      state.notifications.push(notification);
+    },
+    CLEAR_NOTIFICATONS(state) {
       state.notifications.shift();
     }
   },
@@ -17,17 +22,24 @@ const notificationModule = {
     add({ commit, dispatch, state }, notification) {
       if (state.notifications.length === 0) {
         commit('PUSH_NOTIFICATION', notification);
+        dispatch('clearNotificationsWithDelay');
+      } else {
+        commit('CLEAR_TIMEOUT');
 
-        setTimeout(() => {
-          dispatch('remove');
-        }, 4000);
+        dispatch('clearNotifications');
+        commit('PUSH_NOTIFICATION', notification);
+        dispatch('clearNotificationsWithDelay');
       }
     },
-    remove({ commit }, notificationToRemove) {
-      commit('DELETE_NOTIFICATION', notificationToRemove);
+    clearNotifications({ commit }) {
+      commit('CLEAR_NOTIFICATONS');
+    },
+    clearNotificationsWithDelay({ commit, state }) {
+      state.setTimeout = setTimeout(() => {
+        commit('CLEAR_NOTIFICATONS');
+      }, 5000);
     }
-  },
-  getters: {}
+  }
 };
 
 export default notificationModule;

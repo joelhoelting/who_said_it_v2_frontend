@@ -29,6 +29,8 @@ const authorizationModule = {
   },
   actions: {
     signIn({ commit, dispatch }, payload) {
+      dispatch('enableLoadingAnimation', null, { root: true });
+
       return new Promise((resolve, reject) => {
         commit('AUTH_REQUEST');
 
@@ -44,10 +46,25 @@ const authorizationModule = {
             }
           })
           .then(response => {
-            const { jwt } = response.data;
+            const {
+              user: { email },
+              jwt
+            } = response.data;
             commit('AUTH_SUCCESS', jwt);
 
-            resolve(response);
+            console.log(response);
+
+            const notification = {
+              type: 'success',
+              message: `${email} -- You are now signed in`
+            };
+
+            dispatch('notification/add', notification, { root: true });
+
+            setTimeout(() => {
+              dispatch('disableLoadingAnimation', null, { root: true });
+              resolve(response);
+            }, 500);
           })
           .catch(error => {
             commit('AUTH_ERROR');
@@ -106,13 +123,19 @@ const authorizationModule = {
             dispatch('notification/add', notification, { root: true });
 
             localStorage.removeItem('jwt');
+            dispatch('disableLoadingAnimation', null, { root: true });
 
             reject(error);
-            dispatch('disableLoadingAnimation', null, { root: true });
           });
       });
     },
-    signOut({ commit }) {
+    signOut({ commit, dispatch }) {
+      const notification = {
+        type: 'success',
+        message: 'You are signed out'
+      };
+
+      dispatch('notification/add', notification, { root: true });
       commit('SIGN_OUT');
     },
     validateToken({ commit, dispatch }) {
