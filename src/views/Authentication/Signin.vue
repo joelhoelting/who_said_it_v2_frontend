@@ -1,6 +1,6 @@
 <template>
   <div class="container flex-center-container">
-    <form class="authentication" @submit.prevent="signIn">
+    <form class="authentication" @submit.prevent="signInLocal">
       <h2 class="form-title">Sign In</h2>
       <!-- <label class="visually-hidden" for="email">Email Address</label> -->
       <input
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 import { isValidAuthForm } from '@/helpers/validations';
@@ -73,12 +73,12 @@ export default {
     ...mapState(['loadingOverlayActive', 'loadingAnimationActive'])
   },
   methods: {
-    signIn() {
+    ...mapActions('authorization', ['signIn']),
+    signInLocal() {
       let { email, password } = this;
 
       if (isValidAuthForm(this, email, password)) {
-        this.$store
-          .dispatch('authorization/signIn', { auth: { email, password } })
+        this.signIn({ auth: { email, password } })
           .then(() => {
             this.$router.push('/');
           })
