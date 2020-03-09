@@ -71,12 +71,14 @@ const authorizationModule = {
 
             const notification = {
               type: 'error',
-              message: error
+              message: error.response.data.error
             };
 
             dispatch('notification/add', notification, { root: true });
+            dispatch('disableLoadingAnimation', null, { root: true });
 
             localStorage.removeItem('jwt');
+
             reject(error);
           });
       });
@@ -128,9 +130,9 @@ const authorizationModule = {
             };
 
             dispatch('notification/add', notification, { root: true });
+            dispatch('disableLoadingAnimation', null, { root: true });
 
             localStorage.removeItem('jwt');
-            dispatch('disableLoadingAnimation', null, { root: true });
 
             reject(error);
           });
