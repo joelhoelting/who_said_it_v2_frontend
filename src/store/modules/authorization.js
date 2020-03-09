@@ -35,7 +35,8 @@ const authorizationModule = {
         commit('AUTH_REQUEST');
 
         const {
-          auth: { email, password }
+          auth: { email, password },
+          recaptcha: { token }
         } = payload;
 
         plainAxiosInstance
@@ -43,6 +44,9 @@ const authorizationModule = {
             auth: {
               email,
               password
+            },
+            recaptcha: {
+              token
             }
           })
           .then(response => {
@@ -50,6 +54,7 @@ const authorizationModule = {
               user: { email },
               jwt
             } = response.data;
+
             commit('AUTH_SUCCESS', jwt);
 
             console.log(response);
@@ -107,6 +112,7 @@ const authorizationModule = {
           })
           .then(response => {
             const { jwt, user } = response.data;
+
             commit('AUTH_SUCCESS', jwt, user);
 
             const notification = {

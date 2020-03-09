@@ -1,6 +1,6 @@
 <template>
   <div class="container flex-center-container">
-    <form class="authentication" @submit.prevent="signInLocal">
+    <form class="authentication" @submit.prevent="signIn">
       <h2 class="form-title">Sign In</h2>
       <!-- <label class="visually-hidden" for="email">Email Address</label> -->
       <input
@@ -42,7 +42,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex';
+import Vue from 'vue';
+import { mapGetters, mapState } from 'vuex';
+import { VueReCaptcha } from 'vue-recaptcha-v3';
 
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 import { isValidAuthForm } from '@/helpers/validations';
@@ -67,18 +69,46 @@ export default {
     if (this.isLoggedIn) {
       this.$router.push('/');
     }
+
+    // Run recaptcha script on signup page
+    if (this.$recaptchaInstance) {
+      this.$recaptchaInstance.showBadge();
+    } else {
+      Vue.use(VueReCaptcha, {
+        siteKey: '6LfXd94UAAAAAAEp6hpVvJLYXnPPxHOwBSBCniPS',
+        loaderOptions: {
+          autoHideBadge: false
+        }
+      });
+    }
+  },
+  destroyed() {
+    this.$recaptchaInstance.hideBadge();
   },
   computed: {
     ...mapGetters('authorization', ['isLoggedIn']),
     ...mapState(['loadingOverlayActive', 'loadingAnimationActive'])
   },
   methods: {
-    ...mapActions('authorization', ['signIn']),
-    signInLocal() {
+    async signIn() {
+      await this.$recaptchaLoaded();
+
+      // Execute reCAPTCHA with action "signup".
+      const token = await this.$recaptcha('signin');
+
       let { email, password } = this;
 
       if (isValidAuthForm(this, email, password)) {
-        this.signIn({ auth: { email, password } })
+        this.$store
+          .dispatch('authorization/signIn', {
+            auth: {
+              email,
+              password
+            },
+            recaptcha: {
+              token
+            }
+          })
           .then(() => {
             this.$router.push('/');
           })
