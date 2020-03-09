@@ -43,7 +43,5 @@ export const isValidAuthForm = (originalThis, email, password, password_confirma
     }
   }
 
-  if (containsErrors) console.error('Form contains invalid inputs');
-
   return !containsErrors;
 };

@@ -107,6 +107,13 @@ const authorizationModule = {
             const { jwt, user } = response.data;
             commit('AUTH_SUCCESS', jwt, user);
 
+            const notification = {
+              type: 'success',
+              message: `Account successfully created - ${email}`
+            };
+
+            dispatch('notification/add', notification, { root: true });
+
             setTimeout(() => {
               resolve(response);
               dispatch('disableLoadingAnimation', null, { root: true });

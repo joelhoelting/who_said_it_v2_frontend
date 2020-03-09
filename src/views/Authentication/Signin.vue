@@ -83,6 +83,11 @@ export default {
             this.$router.push('/');
           })
           .catch(err => console.log(err));
+      } else {
+        this.$store.dispatch('notification/add', {
+          type: 'error',
+          message: this.errors.errorsArray[0]
+        });
       }
     }
   }

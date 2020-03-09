@@ -118,6 +118,11 @@ export default {
             this.$router.push('/');
           })
           .catch(error => console.log(error));
+      } else {
+        this.$store.dispatch('notification/add', {
+          type: 'error',
+          message: this.errors.errorsArray[0]
+        });
       }
     }
   }
