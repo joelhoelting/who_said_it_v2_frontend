@@ -5,46 +5,34 @@
         <tr>
           <th
             align="left"
-            :class="{'active': filters.date !== 'neutral'}"
+            :class="{ active: filters.date !== 'neutral' }"
             class="filterable"
             width="30%"
             @click="sortGames('date')"
           >
             Date / Time
-            <img
-              v-if="filters.date !== 'neutral'"
-              class="sort_arrow"
-              :src="isFilterArrowActive('date')"
-            />
+            <img v-if="filters.date !== 'neutral'" class="sort_arrow" :src="isFilterArrowActive('date')" />
           </th>
           <th
             align="left"
-            :class="{'active': filters.difficulty !== 'neutral'}"
+            :class="{ active: filters.difficulty !== 'neutral' }"
             class="filterable"
             width="30%"
             @click="sortGames('difficulty')"
           >
             Difficulty
-            <img
-              v-if="filters.difficulty !== 'neutral'"
-              class="sort_arrow"
-              :src="isFilterArrowActive('difficulty')"
-            />
+            <img v-if="filters.difficulty !== 'neutral'" class="sort_arrow" :src="isFilterArrowActive('difficulty')" />
           </th>
           <th align="left" width="30%">Characters</th>
           <th
             align="left"
-            :class="{'active': filters.score !== 'neutral'}"
+            :class="{ active: filters.score !== 'neutral' }"
             class="filterable"
             width="10%"
             @click="sortGames('score')"
           >
             Score
-            <img
-              v-if="filters.score !== 'neutral'"
-              class="sort_arrow"
-              :src="isFilterArrowActive('score')"
-            />
+            <img v-if="filters.score !== 'neutral'" class="sort_arrow" :src="isFilterArrowActive('score')" />
           </th>
         </tr>
         <router-link
@@ -68,10 +56,12 @@
         </router-link>
       </table>
     </transition>
-    <div class="empty-games" v-if="games.length === 0 && !loadingOverlayActive">
-      <p>You have no games</p>
-      <router-link class="btn btn--empty-game" to="/play" tag="button">Play Game</router-link>
-    </div>
+    <transition name="fade">
+      <div class="empty-games" v-if="games.length === 0 && !loadingOverlayActive">
+        <p>You have no games</p>
+        <router-link class="btn btn--empty-game" to="/play" tag="button">Play Game</router-link>
+      </div>
+    </transition>
   </div>
 </template>
 

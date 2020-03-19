@@ -24,12 +24,13 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  height: 100px;
+  background: rgba(0, 0, 0, 0.7);
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
   .notification {
+    font-size: 1.5em;
     &.notification--error {
       color: $incorrect-red;
     }

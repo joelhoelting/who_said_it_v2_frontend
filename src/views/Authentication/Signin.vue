@@ -1,58 +1,66 @@
 <template>
   <div class="container flex-center-container">
-    <form class="authentication" @submit.prevent="signIn">
-      <h2 class="form-title">Sign In</h2>
-      <!-- <label class="visually-hidden" for="email">Email Address</label> -->
-      <input
-        :class="errors.email ? 'error' : ''"
-        type="email"
-        v-model="email"
-        id="email"
-        placeholder="Email Address"
-      />
-      <!-- <label class="visually-hidden" for="password">Password</label> -->
-      <input
-        :class="errors.password ? 'error' : ''"
-        type="password"
-        v-model="password"
-        id="password"
-        placeholder="Password"
-      />
-      <button
-        class="btn"
-        :class="{ disabled: loadingAnimationActive }"
-        :disabled="loadingAnimationActive"
-        type="submit"
-        value="Submit"
-      >
-        <span v-if="!loadingAnimationActive">Submit</span>
-        <loading-animation v-if="loadingAnimationActive" />
-      </button>
-      <div class="auth-options">
-        <router-link to="/password_reset" tag="a">
-          <span>Forgot Password?</span>
-        </router-link>
-        <br />
-        <router-link to="/signup" tag="a">
-          <span>Don't have an account? Sign Up now</span>
-        </router-link>
-      </div>
-    </form>
+    <transition name="fade">
+      <form class="authentication" @submit.prevent="localSignIn" v-if="!emailConfirmation.sent">
+        <h2 class="form-title">Sign In</h2>
+        <!-- <label class="visually-hidden" for="email">Email Address</label> -->
+        <input
+          :class="errors.email ? 'error' : ''"
+          type="email"
+          v-model="email"
+          id="email"
+          placeholder="Email Address"
+        />
+        <!-- <label class="visually-hidden" for="password">Password</label> -->
+        <input
+          :class="errors.password ? 'error' : ''"
+          type="password"
+          v-model="password"
+          id="password"
+          placeholder="Password"
+        />
+        <button
+          class="btn"
+          :class="{ disabled: loadingAnimationActive }"
+          :disabled="loadingAnimationActive"
+          type="submit"
+          value="Submit"
+        >
+          <span v-if="!loadingAnimationActive">Submit</span>
+          <loading-animation v-if="loadingAnimationActive" />
+        </button>
+        <div class="auth-options">
+          <router-link to="/password_reset" tag="a">
+            <span>Forgot Password?</span>
+          </router-link>
+          <br />
+          <router-link to="/signup" tag="a">
+            <span>Don't have an account? Sign Up now</span>
+          </router-link>
+        </div>
+      </form>
+      <email-confirmation-modal :email="emailConfirmation.email" v-else>
+        <p @click="toggleEmailConfirmationMsg" class="link">Email already confirmed? Sign in</p>
+      </email-confirmation-modal>
+    </transition>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import { mapGetters, mapState } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import { VueReCaptcha } from 'vue-recaptcha-v3';
 
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
+import EmailConfirmationModal from '@/components/includes/EmailConfirmationModal';
+
 import { isValidAuthForm } from '@/helpers/validations';
 
 export default {
   name: 'SignIn',
   components: {
-    LoadingAnimation
+    LoadingAnimation,
+    EmailConfirmationModal
   },
   data() {
     return {
@@ -62,7 +70,11 @@ export default {
         errorsArray: []
       },
       email: 'test@test.com',
-      password: 'someThing123$'
+      password: 'someThing123$',
+      emailConfirmation: {
+        sent: false,
+        email: ''
+      }
     };
   },
   created() {
@@ -90,7 +102,11 @@ export default {
     ...mapState(['loadingOverlayActive', 'loadingAnimationActive'])
   },
   methods: {
-    async signIn() {
+    ...mapActions({
+      addNotification: 'notification/addNotification',
+      signIn: 'authorization/signIn'
+    }),
+    async localSignIn() {
       await this.$recaptchaLoaded();
 
       // Execute reCAPTCHA with action "signup".
@@ -99,26 +115,34 @@ export default {
       let { email, password } = this;
 
       if (isValidAuthForm(this, email, password)) {
-        this.$store
-          .dispatch('authorization/signIn', {
-            auth: {
-              email,
-              password
-            },
-            recaptcha: {
-              token
-            }
-          })
+        this.signIn({
+          auth: {
+            email,
+            password
+          },
+          recaptcha: {
+            token
+          }
+        })
           .then(() => {
             this.$router.push('/');
           })
-          .catch(err => console.log(err));
+          .catch(error => {
+            // If email address not confirmed then show confirmation modal
+            if (error.response.status === 403) {
+              this.emailConfirmation.sent = true;
+              this.emailConfirmation.email = email;
+            }
+          });
       } else {
-        this.$store.dispatch('notification/add', {
+        this.addNotification({
           type: 'error',
           message: this.errors.errorsArray[0]
         });
       }
+    },
+    toggleEmailConfirmationMsg() {
+      this.emailConfirmation.sent = !this.emailConfirmation.sent;
     }
   }
 };

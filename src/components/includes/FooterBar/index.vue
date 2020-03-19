@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  name: 'FooterBar',
   computed: {
     style() {
       return `height: ${this.height || '300px'}`;

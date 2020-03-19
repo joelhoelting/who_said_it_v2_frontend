@@ -126,7 +126,6 @@ export default {
   },
   methods: {
     ...mapActions('game', ['triggerNextQuote', 'submitAnswer']),
-
     handleKeyboardFunctionality(e) {
       let spacebarPressed = e.keyCode === 32;
       let numberPressed = parseInt(String.fromCharCode(e.keyCode));

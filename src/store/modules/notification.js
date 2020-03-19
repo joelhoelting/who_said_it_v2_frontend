@@ -1,7 +1,9 @@
 const notificationModule = {
   namespaced: true,
   state: {
-    notifications: [],
+    notifications: [
+      // { type: 'success', message: 'Hello World' }
+    ],
     setTimeout: false
   },
   mutations: {
@@ -19,7 +21,7 @@ const notificationModule = {
     }
   },
   actions: {
-    add({ commit, dispatch, state }, notification) {
+    addNotification({ commit, dispatch, state }, notification) {
       if (state.notifications.length === 0) {
         commit('PUSH_NOTIFICATION', notification);
         dispatch('clearNotificationsWithDelay');

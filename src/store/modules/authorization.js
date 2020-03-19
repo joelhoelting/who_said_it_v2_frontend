@@ -17,6 +17,9 @@ const authorizationModule = {
       state.status = 'success';
       state.jwt = jwt;
     },
+    AUTH_PENDING(state) {
+      state.status = 'pending';
+    },
     AUTH_ERROR(state) {
       state.status = 'error';
     },
@@ -50,21 +53,16 @@ const authorizationModule = {
             }
           })
           .then(response => {
-            const {
-              user: { email },
-              jwt
-            } = response.data;
+            const { jwt } = response.data;
 
             commit('AUTH_SUCCESS', jwt);
 
-            console.log(response);
-
             const notification = {
               type: 'success',
-              message: `${email} -- You are now signed in`
+              message: `Sign In Successful`
             };
 
-            dispatch('notification/add', notification, { root: true });
+            dispatch('notification/addNotification', notification, { root: true });
 
             setTimeout(() => {
               dispatch('disableLoadingAnimation', null, { root: true });
@@ -79,7 +77,7 @@ const authorizationModule = {
               message: error.response.data.error
             };
 
-            dispatch('notification/add', notification, { root: true });
+            dispatch('notification/addNotification', notification, { root: true });
             dispatch('disableLoadingAnimation', null, { root: true });
 
             localStorage.removeItem('jwt');
@@ -111,20 +109,18 @@ const authorizationModule = {
             }
           })
           .then(response => {
-            const { jwt, user } = response.data;
-
-            commit('AUTH_SUCCESS', jwt, user);
+            commit('AUTH_PENDING');
 
             const notification = {
               type: 'success',
-              message: `Account successfully created - ${email}`
+              message: `Confirmation email sent to ${email}`
             };
 
-            dispatch('notification/add', notification, { root: true });
+            dispatch('notification/addNotification', notification, { root: true });
 
             setTimeout(() => {
-              resolve(response);
               dispatch('disableLoadingAnimation', null, { root: true });
+              resolve(response);
             }, 500);
           })
           .catch(error => {
@@ -134,8 +130,8 @@ const authorizationModule = {
               type: 'error',
               message: error.response.data.error
             };
+            dispatch('notification/addNotification', notification, { root: true });
 
-            dispatch('notification/add', notification, { root: true });
             dispatch('disableLoadingAnimation', null, { root: true });
 
             localStorage.removeItem('jwt');
@@ -144,13 +140,84 @@ const authorizationModule = {
           });
       });
     },
+    confirmEmail({ commit, dispatch }, payload) {
+      dispatch('enableLoadingOverlay', null, { root: true });
+
+      const { confirmToken } = payload;
+
+      return new Promise((resolve, reject) => {
+        plainAxiosInstance
+          .post('/confirm_email', {
+            confirm_token: confirmToken
+          })
+          .then(response => {
+            setTimeout(() => {
+              const { jwt } = response.data;
+              commit('AUTH_SUCCESS', jwt);
+
+              dispatch('disableLoadingOverlay', null, { root: true });
+
+              const notification = {
+                type: 'success',
+                message: 'Your account has been successfully created.'
+              };
+
+              dispatch('notification/addNotification', notification, { root: true });
+
+              resolve(response);
+            }, 500);
+          })
+          .catch(error => {
+            dispatch('disableLoadingOverlay', null, { root: true });
+
+            const notification = {
+              type: 'error',
+              message: error.response.data.error
+            };
+
+            dispatch('notification/addNotification', notification, { root: true });
+            reject(error);
+          });
+      });
+    },
+    resendConfirmationEmail({ commit, dispatch }, payload) {
+      dispatch('enableLoadingAnimation', null, { root: true });
+
+      const { email } = payload;
+
+      return new Promise((resolve, reject) => {
+        plainAxiosInstance
+          .post('/resend_confirmation_email', {
+            auth: {
+              email
+            }
+          })
+          .then(response => {
+            setTimeout(() => {
+              dispatch('disableLoadingAnimation', null, { root: true });
+
+              const notification = {
+                type: 'success',
+                message: response.data.message
+              };
+
+              dispatch('notification/addNotification', notification, { root: true });
+
+              resolve(response);
+            }, 500);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      });
+    },
     signOut({ commit, dispatch }) {
       const notification = {
         type: 'success',
-        message: 'You are signed out'
+        message: 'Sign Out Successful'
       };
 
-      dispatch('notification/add', notification, { root: true });
+      dispatch('notification/addNotification', notification, { root: true });
       commit('SIGN_OUT');
     },
     validateToken({ commit, dispatch }) {
