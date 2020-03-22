@@ -39,7 +39,7 @@ const notificationModule = {
     clearNotificationsWithDelay({ commit, state }) {
       state.setTimeout = setTimeout(() => {
         commit('CLEAR_NOTIFICATONS');
-      }, 5000);
+      }, 3500);
     }
   }
 };

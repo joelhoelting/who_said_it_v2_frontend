@@ -11,7 +11,11 @@
             @click="sortGames('date')"
           >
             Date / Time
-            <img v-if="filters.date !== 'neutral'" class="sort_arrow" :src="isFilterArrowActive('date')" />
+            <img
+              v-if="filters.date !== 'neutral'"
+              class="sort_arrow"
+              :src="isFilterArrowActive('date')"
+            />
           </th>
           <th
             align="left"
@@ -21,7 +25,11 @@
             @click="sortGames('difficulty')"
           >
             Difficulty
-            <img v-if="filters.difficulty !== 'neutral'" class="sort_arrow" :src="isFilterArrowActive('difficulty')" />
+            <img
+              v-if="filters.difficulty !== 'neutral'"
+              class="sort_arrow"
+              :src="isFilterArrowActive('difficulty')"
+            />
           </th>
           <th align="left" width="30%">Characters</th>
           <th
@@ -32,7 +40,11 @@
             @click="sortGames('score')"
           >
             Score
-            <img v-if="filters.score !== 'neutral'" class="sort_arrow" :src="isFilterArrowActive('score')" />
+            <img
+              v-if="filters.score !== 'neutral'"
+              class="sort_arrow"
+              :src="isFilterArrowActive('score')"
+            />
           </th>
         </tr>
         <router-link
@@ -178,6 +190,9 @@ table {
 }
 
 .empty-games {
+  position: absolute;
+  top: 0;
+  left: 0;
   height: calc(100% - 100px);
   width: 100%;
   display: flex;
