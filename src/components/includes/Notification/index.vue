@@ -13,7 +13,9 @@ export default {
   computed: {
     ...mapState('notification', ['notifications']),
     notificationTypeClass() {
-      return this.notifications.length > 0 ? `notification notification--${this.notifications[0].type}` : null;
+      return this.notifications.length > 0
+        ? `notification notification--${this.notifications[0].type}`
+        : null;
     }
   }
 };
@@ -24,11 +26,12 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.9);
   height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
   .notification {
     font-size: 1.5em;
     &.notification--error {

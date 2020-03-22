@@ -21,3 +21,12 @@
   justify-content: center;
   align-items: center;
 }
+
+.settings-container {
+  border-top: 1px solid #fff;
+  display: flex;
+  position: absolute;
+  height: calc(100% - 100px);
+  top: 100px;
+  width: 100%;
+}
