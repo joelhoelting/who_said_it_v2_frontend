@@ -1,0 +1,125 @@
+<template>
+  <div class="container flex-center-container">
+    <transition name="fade">
+      <form class="authentication" @submit.prevent="localPasswordReset">
+        <h2 class="form-title">Reset Password</h2>
+        <input
+          :class="errors.email ? 'error' : ''"
+          type="email"
+          v-model="email"
+          id="email"
+          placeholder="Email Address"
+        />
+        <button
+          class="btn"
+          :class="{ disabled: loadingAnimationActive }"
+          :disabled="loadingAnimationActive"
+          type="submit"
+          value="Submit"
+        >
+          <span v-if="!loadingAnimationActive">Submit</span>
+          <loading-animation v-if="loadingAnimationActive" />
+        </button>
+      </form>
+    </transition>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import { VueReCaptcha } from 'vue-recaptcha-v3';
+
+import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
+
+import { isValidEmail } from '@/helpers/validations';
+
+export default {
+  name: 'PasswordReset',
+  components: {
+    LoadingAnimation
+  },
+  data() {
+    return {
+      errors: {
+        email: false,
+        errorsArray: []
+      },
+      email: 'test@test.com',
+      passwordReset: {
+        sent: false,
+        email: ''
+      }
+    };
+  },
+  created() {
+    if (this.isLoggedIn) {
+      this.$router.push('/');
+    }
+
+    // Run recaptcha script on signup page
+    if (this.$recaptchaInstance) {
+      this.$recaptchaInstance.showBadge();
+    } else {
+      Vue.use(VueReCaptcha, {
+        siteKey: '6LfXd94UAAAAAAEp6hpVvJLYXnPPxHOwBSBCniPS',
+        loaderOptions: {
+          autoHideBadge: false
+        }
+      });
+    }
+  },
+  destroyed() {
+    this.$recaptchaInstance.hideBadge();
+  },
+  computed: {
+    ...mapGetters('authorization', ['isLoggedIn']),
+    ...mapState(['loadingAnimationActive'])
+  },
+  methods: {
+    ...mapActions({
+      addNotification: 'notification/addNotification',
+      resetPassword: 'authorization/resetPassword'
+    }),
+    clearErrors() {
+      this.errors = {
+        email: false,
+        errorsArray: []
+      };
+    },
+    async localPasswordReset() {
+      await this.$recaptchaLoaded();
+
+      // Execute reCAPTCHA with action "signup".
+      const token = await this.$recaptcha('password_reset');
+
+      let { email } = this;
+
+      if (isValidEmail(email)) {
+        this.clearErrors();
+
+        this.resetPassword({
+          auth: {
+            email
+          },
+          recaptcha: {
+            token
+          }
+        }).then(() => {
+          // this.$router.push('/');
+        });
+      } else {
+        this.addNotification({
+          type: 'error',
+          message: 'Email address not valid'
+        });
+      }
+    },
+    toggleEmailConfirmationMsg() {
+      this.emailConfirmation.sent = !this.emailConfirmation.sent;
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped></style>

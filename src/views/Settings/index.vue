@@ -14,7 +14,9 @@
       </ul>
     </div>
     <div class="settings-slot">
-      <router-view />
+      <transition name="fade" mode="out-in">
+        <router-view />
+      </transition>
     </div>
   </div>
 </template>
@@ -79,5 +81,8 @@ export default {
 .settings-slot {
   height: 100%;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

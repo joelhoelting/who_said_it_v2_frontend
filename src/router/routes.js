@@ -4,6 +4,8 @@ import Play from '@/views/Play.vue';
 import Signin from '@/views/Authentication/Signin.vue';
 import Signup from '@/views/Authentication/Signup.vue';
 import EmailConfirmation from '@/views/Authentication/EmailConfirmation.vue';
+import PasswordReset from '@/views/Authentication/PasswordReset.vue';
+import PasswordResetConfirmation from '@/views/Authentication/PasswordResetConfirmation.vue';
 
 import Games from '@/views/Games';
 import GamesNew from '@/views/Games/GamesNew.vue';
@@ -26,6 +28,18 @@ export default [
   { name: 'SignIn', path: '/signin', component: Signin },
   { name: 'SignUp', path: '/signup', component: Signup },
   { name: 'ConfirmEmail', path: '/confirm_email/:token', component: EmailConfirmation },
+  ...withPrefix('/password_reset', [
+    {
+      name: 'PasswordReset',
+      path: '/',
+      component: PasswordReset
+    },
+    {
+      name: 'PasswordResetConfirmation',
+      path: '/:token',
+      component: PasswordResetConfirmation
+    }
+  ]),
   ...withPrefix('/games', [
     {
       name: 'GamesIndex',
@@ -50,14 +64,17 @@ export default [
     component: Settings,
     children: [
       {
+        name: 'Profile',
         path: 'profile',
         component: Profile
       },
       {
+        name: 'Security',
         path: 'security',
         component: Security
       },
       {
+        name: 'Account',
         path: 'account',
         component: Account
       }

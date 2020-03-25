@@ -211,6 +211,52 @@ const authorizationModule = {
           });
       });
     },
+    resetPassword({ dispatch }, payload) {
+      dispatch('enableLoadingAnimation', null, { root: true });
+
+      const {
+        auth: { email },
+        recaptcha: { token }
+      } = payload;
+
+      return new Promise((resolve, reject) => {
+        plainAxiosInstance
+          .post('/password_reset', {
+            auth: {
+              email
+            },
+            recaptcha: {
+              token
+            }
+          })
+          .then(response => {
+            debugger;
+            setTimeout(() => {
+              dispatch('disableLoadingAnimation', null, { root: true });
+
+              const notification = {
+                type: 'success',
+                message: response.data.message
+              };
+
+              dispatch('notification/addNotification', notification, { root: true });
+
+              resolve(response);
+            }, 500);
+          })
+          .catch(error => {
+            dispatch('disableLoadingAnimation', null, { root: true });
+
+            const notification = {
+              type: 'error',
+              message: error.response.data.error
+            };
+
+            dispatch('notification/addNotification', notification, { root: true });
+            reject(error);
+          });
+      });
+    },
     signOut({ commit, dispatch }) {
       const notification = {
         type: 'success',

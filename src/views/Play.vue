@@ -81,7 +81,9 @@ export default {
         return 'Loading...';
       }
 
-      return this.isButtonDisabled ? `Select ${this.charactersRequiredToStartGame} Characters` : 'Play Game';
+      return this.isButtonDisabled
+        ? `Select ${this.charactersRequiredToStartGame} Characters`
+        : 'Play Game';
     }
   },
   methods: {

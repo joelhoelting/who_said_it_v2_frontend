@@ -107,6 +107,14 @@ export default {
       addNotification: 'notification/addNotification',
       signUp: 'authorization/signUp'
     }),
+    clearErrors() {
+      this.errors = {
+        email: false,
+        password: false,
+        password_confirmation: false,
+        errorsArray: []
+      };
+    },
     async localSignUp() {
       await this.$recaptchaLoaded();
 
@@ -116,6 +124,8 @@ export default {
       let { email, password, password_confirmation } = this;
 
       if (isValidAuthForm(this, email, password, password_confirmation)) {
+        this.clearErrors();
+
         this.signUp({
           auth: {
             email,
@@ -132,7 +142,7 @@ export default {
           })
           .catch(error => console.error(error));
       } else {
-        this.$store.dispatch('notification/addNotification', {
+        this.addNotification({
           type: 'error',
           message: this.errors.errorsArray[0]
         });
