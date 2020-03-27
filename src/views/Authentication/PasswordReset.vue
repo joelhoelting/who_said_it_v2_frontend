@@ -1,7 +1,7 @@
 <template>
   <div class="container flex-center-container">
-    <transition name="fade">
-      <form class="authentication" @submit.prevent="localPasswordReset">
+    <!-- <transition name="fade">
+      <form class="authentication" @submit.prevent="localResetPassword">
         <h2 class="form-title">Reset Password</h2>
         <input
           :class="errors.email ? 'error' : ''"
@@ -21,86 +21,67 @@
           <loading-animation v-if="loadingAnimationActive" />
         </button>
       </form>
-    </transition>
+    </transition>-->
+    <h1>Hello World</h1>
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
-import { mapActions, mapGetters, mapState } from 'vuex';
-import { VueReCaptcha } from 'vue-recaptcha-v3';
+import { mapActions, mapGetters } from 'vuex';
 
-import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
-
-import { isValidEmail } from '@/helpers/validations';
+import { isValidPassword } from '@/helpers/validations';
 
 export default {
-  name: 'PasswordReset',
-  components: {
-    LoadingAnimation
-  },
+  name: 'PasswordResetConfirmation',
   data() {
     return {
-      errors: {
-        email: false,
-        errorsArray: []
-      },
-      email: 'test@test.com',
-      passwordReset: {
-        sent: false,
-        email: ''
-      }
+      password: 'someThing123$',
+      newPassword: '',
+      newPasswordConfirmation: ''
     };
   },
   created() {
-    if (this.isLoggedIn) {
-      this.$router.push('/');
-    }
+    if (this.isLoggedIn) return this.$router.push('/');
 
-    // Run recaptcha script on signup page
-    if (this.$recaptchaInstance) {
-      this.$recaptchaInstance.showBadge();
-    } else {
-      Vue.use(VueReCaptcha, {
-        siteKey: '6LfXd94UAAAAAAEp6hpVvJLYXnPPxHOwBSBCniPS',
-        loaderOptions: {
-          autoHideBadge: false
-        }
+    const { token } = this.$route.params;
+
+    this.isPasswordResetTokenValid({
+      token
+    })
+      .then(() => {
+        // Do something good
+      })
+      .catch(error => {
+        const { redirect } = error.response.data;
+        console.log(redirect);
+        this.$router.push(redirect);
       });
-    }
-  },
-  destroyed() {
-    this.$recaptchaInstance.hideBadge();
   },
   computed: {
-    ...mapGetters('authorization', ['isLoggedIn']),
-    ...mapState(['loadingAnimationActive'])
+    ...mapGetters('authorization', ['isLoggedIn'])
   },
   methods: {
     ...mapActions({
       addNotification: 'notification/addNotification',
-      resetPassword: 'authorization/resetPassword'
+      passwordReset: 'authorization/resetPassword',
+      isPasswordResetTokenValid: 'authorization/isPasswordResetTokenValid'
     }),
-    clearErrors() {
-      this.errors = {
-        email: false,
-        errorsArray: []
-      };
-    },
-    async localPasswordReset() {
+    async localResetPassword() {
       await this.$recaptchaLoaded();
 
       // Execute reCAPTCHA with action "signup".
       const token = await this.$recaptcha('password_reset');
 
-      let { email } = this;
+      let { password, newPassword, newPasswordConfirmation } = this;
 
-      if (isValidEmail(email)) {
+      if (isValidPassword(password)) {
         this.clearErrors();
 
         this.resetPassword({
           auth: {
-            email
+            password,
+            newPassword,
+            newPasswordConfirmation
           },
           recaptcha: {
             token
@@ -114,12 +95,10 @@ export default {
           message: 'Email address not valid'
         });
       }
-    },
-    toggleEmailConfirmationMsg() {
-      this.emailConfirmation.sent = !this.emailConfirmation.sent;
     }
   }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

@@ -63,11 +63,8 @@ const authorizationModule = {
             };
 
             dispatch('notification/addNotification', notification, { root: true });
-
-            setTimeout(() => {
-              dispatch('disableLoadingAnimation', null, { root: true });
-              resolve(response);
-            }, 500);
+            dispatch('disableLoadingAnimation', null, { root: true });
+            resolve(response);
           })
           .catch(error => {
             commit('AUTH_ERROR');
@@ -117,11 +114,8 @@ const authorizationModule = {
             };
 
             dispatch('notification/addNotification', notification, { root: true });
-
-            setTimeout(() => {
-              dispatch('disableLoadingAnimation', null, { root: true });
-              resolve(response);
-            }, 500);
+            dispatch('disableLoadingAnimation', null, { root: true });
+            resolve(response);
           })
           .catch(error => {
             commit('AUTH_ERROR', error);
@@ -130,8 +124,8 @@ const authorizationModule = {
               type: 'error',
               message: error.response.data.error
             };
-            dispatch('notification/addNotification', notification, { root: true });
 
+            dispatch('notification/addNotification', notification, { root: true });
             dispatch('disableLoadingAnimation', null, { root: true });
 
             localStorage.removeItem('jwt');
@@ -151,21 +145,17 @@ const authorizationModule = {
             confirm_token: confirmToken
           })
           .then(response => {
-            setTimeout(() => {
-              const { jwt } = response.data;
-              commit('AUTH_SUCCESS', jwt);
+            const { jwt } = response.data;
+            commit('AUTH_SUCCESS', jwt);
 
-              dispatch('disableLoadingOverlay', null, { root: true });
+            const notification = {
+              type: 'success',
+              message: response.data.success
+            };
 
-              const notification = {
-                type: 'success',
-                message: 'Your account has been successfully created.'
-              };
-
-              dispatch('notification/addNotification', notification, { root: true });
-
-              resolve(response);
-            }, 500);
+            dispatch('notification/addNotification', notification, { root: true });
+            dispatch('disableLoadingOverlay', null, { root: true });
+            resolve(response);
           })
           .catch(error => {
             dispatch('disableLoadingOverlay', null, { root: true });
@@ -193,25 +183,21 @@ const authorizationModule = {
             }
           })
           .then(response => {
-            setTimeout(() => {
-              dispatch('disableLoadingAnimation', null, { root: true });
+            const notification = {
+              type: 'success',
+              message: response.data.success
+            };
 
-              const notification = {
-                type: 'success',
-                message: response.data.message
-              };
-
-              dispatch('notification/addNotification', notification, { root: true });
-
-              resolve(response);
-            }, 500);
+            dispatch('notification/addNotification', notification, { root: true });
+            dispatch('disableLoadingAnimation', null, { root: true });
+            resolve(response);
           })
           .catch(error => {
             console.error(error);
           });
       });
     },
-    resetPassword({ dispatch }, payload) {
+    requestPasswordReset({ dispatch }, payload) {
       dispatch('enableLoadingAnimation', null, { root: true });
 
       const {
@@ -221,7 +207,7 @@ const authorizationModule = {
 
       return new Promise((resolve, reject) => {
         plainAxiosInstance
-          .post('/password_reset', {
+          .post('/request_password_reset', {
             auth: {
               email
             },
@@ -230,19 +216,14 @@ const authorizationModule = {
             }
           })
           .then(response => {
-            debugger;
-            setTimeout(() => {
-              dispatch('disableLoadingAnimation', null, { root: true });
+            const notification = {
+              type: 'success',
+              message: response.data.success
+            };
 
-              const notification = {
-                type: 'success',
-                message: response.data.message
-              };
-
-              dispatch('notification/addNotification', notification, { root: true });
-
-              resolve(response);
-            }, 500);
+            dispatch('notification/addNotification', notification, { root: true });
+            dispatch('disableLoadingAnimation', null, { root: true });
+            resolve(response);
           })
           .catch(error => {
             dispatch('disableLoadingAnimation', null, { root: true });
@@ -256,6 +237,44 @@ const authorizationModule = {
             reject(error);
           });
       });
+    },
+    isPasswordResetTokenValid({ dispatch }, payload) {
+      dispatch('enableLoadingOverlay', null, { root: true });
+
+      const { token } = payload;
+
+      return new Promise((resolve, reject) => {
+        plainAxiosInstance
+          .get(`/confirm_password_reset_token/${token}`)
+          .then(response => {
+            setTimeout(() => {
+              dispatch('disableLoadingOverlay', null, { root: true });
+
+              const notification = {
+                type: 'success',
+                message: response.data.success
+              };
+
+              dispatch('notification/addNotification', notification, { root: true });
+
+              resolve(response);
+            }, 500);
+          })
+          .catch(error => {
+            dispatch('disableLoadingOverlay', null, { root: true });
+
+            const notification = {
+              type: 'error',
+              message: error.response.data.error
+            };
+
+            dispatch('notification/addNotification', notification, { root: true });
+            reject(error);
+          });
+      });
+    },
+    resetPassword({ dispatch }, payload) {
+      console.log('hello');
     },
     signOut({ commit, dispatch }) {
       const notification = {

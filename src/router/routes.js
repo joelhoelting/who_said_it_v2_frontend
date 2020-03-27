@@ -4,8 +4,8 @@ import Play from '@/views/Play.vue';
 import Signin from '@/views/Authentication/Signin.vue';
 import Signup from '@/views/Authentication/Signup.vue';
 import EmailConfirmation from '@/views/Authentication/EmailConfirmation.vue';
+import PasswordResetRequest from '@/views/Authentication/PasswordResetRequest.vue';
 import PasswordReset from '@/views/Authentication/PasswordReset.vue';
-import PasswordResetConfirmation from '@/views/Authentication/PasswordResetConfirmation.vue';
 
 import Games from '@/views/Games';
 import GamesNew from '@/views/Games/GamesNew.vue';
@@ -30,14 +30,14 @@ export default [
   { name: 'ConfirmEmail', path: '/confirm_email/:token', component: EmailConfirmation },
   ...withPrefix('/password_reset', [
     {
-      name: 'PasswordReset',
+      name: 'PasswordResetRequest',
       path: '/',
-      component: PasswordReset
+      component: PasswordResetRequest
     },
     {
-      name: 'PasswordResetConfirmation',
+      name: 'PasswordReset',
       path: '/:token',
-      component: PasswordResetConfirmation
+      component: PasswordReset
     }
   ]),
   ...withPrefix('/games', [
