@@ -6,7 +6,7 @@
         <p>Please click the confirmation link to finish account setup</p>
         <p
           class="link"
-          @click="resendEmail"
+          @click="resendEmailConfirmation"
         >Don't see the confirmation email? Resend Confirmation Email</p>
         <slot />
       </div>
@@ -33,8 +33,12 @@ export default {
   },
   methods: {
     ...mapActions('authorization', ['resendConfirmationEmail']),
-    resendEmail() {
-      this.resendConfirmationEmail({ email: this.email });
+    resendEmailConfirmation() {
+      this.resendConfirmationEmail({
+        auth: {
+          email: this.email
+        }
+      });
     }
   }
 };

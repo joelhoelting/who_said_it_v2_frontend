@@ -26,24 +26,22 @@ const characterModule = {
               commit('SET_CHARACTERS', characters);
 
               setTimeout(() => {
-                resolve({
-                  characters,
-                  delay: 0
-                });
                 dispatch('disableLoadingOverlay', null, { root: true });
+                resolve({
+                  characters
+                });
               }, 500);
             })
             .catch(error => {
               commit('SET_CHARACTERS', charactersBackup);
 
               const errorObj = Object.assign(new Error(error), {
-                characters: charactersBackup,
-                delay: 0
+                characters: charactersBackup
               });
 
               setTimeout(() => {
-                reject(errorObj);
                 dispatch('disableLoadingOverlay', null, { root: true });
+                reject(errorObj);
               }, 500);
             });
         });

@@ -56,18 +56,14 @@ export default {
     // Fetch characters (character module)
     this.fetchCharacters()
       .then(response => {
-        const { characters, delay } = response;
+        const { characters } = response;
         console.log('Succeeded to GET characters from API');
-        setTimeout(() => {
-          this.characters = characters;
-        }, delay);
+        this.characters = characters;
       })
       .catch(error => {
-        const { characters, delay } = error;
+        const { characters } = error;
         console.log('Failed to GET characters, using local character data');
-        setTimeout(() => {
-          this.characters = characters;
-        }, delay);
+        this.characters = characters;
       });
   },
   computed: {

@@ -8,13 +8,13 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'EmailConfirmation',
   created() {
-    const confirmToken = this.$route.params.token;
+    const confirm_token = this.$route.params.token;
 
     if (this.isLoggedIn) return this.$router.push('/');
 
     this.$store
       .dispatch('authorization/confirmEmail', {
-        confirmToken
+        confirm_token
       })
       .then(() => {
         this.$router.push('/play');

@@ -1,5 +1,5 @@
-import { plainAxiosInstance } from '@/axios';
-import { authorizedAxiosInstance } from '../../axios';
+import { authorizedAxiosInstance } from '@/axios';
+import { authAPIHelper } from '@/helpers/axios';
 
 const authorizationModule = {
   namespaced: true,
@@ -31,247 +31,50 @@ const authorizationModule = {
     }
   },
   actions: {
-    signIn({ commit, dispatch }, payload) {
-      dispatch('enableLoadingAnimation', null, { root: true });
+    async signIn({ commit, dispatch }, payload) {
+      let response = await authAPIHelper(
+        { commit, dispatch },
+        { apiRoute: 'signin', payload, loadingAction: 'loadingAnimation' }
+      );
 
-      return new Promise((resolve, reject) => {
-        commit('AUTH_REQUEST');
-
-        const {
-          auth: { email, password },
-          recaptcha: { token }
-        } = payload;
-
-        plainAxiosInstance
-          .post('/signin', {
-            auth: {
-              email,
-              password
-            },
-            recaptcha: {
-              token
-            }
-          })
-          .then(response => {
-            const { jwt } = response.data;
-
-            commit('AUTH_SUCCESS', jwt);
-
-            const notification = {
-              type: 'success',
-              message: `Sign In Successful`
-            };
-
-            dispatch('notification/addNotification', notification, { root: true });
-            dispatch('disableLoadingAnimation', null, { root: true });
-            resolve(response);
-          })
-          .catch(error => {
-            commit('AUTH_ERROR');
-
-            const notification = {
-              type: 'error',
-              message: error.response.data.error
-            };
-
-            dispatch('notification/addNotification', notification, { root: true });
-            dispatch('disableLoadingAnimation', null, { root: true });
-
-            localStorage.removeItem('jwt');
-
-            reject(error);
-          });
-      });
+      const { jwt } = response.data;
+      commit('AUTH_SUCCESS', jwt);
     },
     signUp({ commit, dispatch }, payload) {
-      dispatch('enableLoadingAnimation', null, { root: true });
-
-      return new Promise((resolve, reject) => {
-        commit('AUTH_REQUEST');
-
-        const {
-          auth: { email, password, password_confirmation },
-          recaptcha: { token }
-        } = payload;
-
-        plainAxiosInstance
-          .post('/signup', {
-            auth: {
-              email,
-              password,
-              password_confirmation
-            },
-            recaptcha: {
-              token
-            }
-          })
-          .then(response => {
-            commit('AUTH_PENDING');
-
-            const notification = {
-              type: 'success',
-              message: `Confirmation email sent to ${email}`
-            };
-
-            dispatch('notification/addNotification', notification, { root: true });
-            dispatch('disableLoadingAnimation', null, { root: true });
-            resolve(response);
-          })
-          .catch(error => {
-            commit('AUTH_ERROR', error);
-
-            const notification = {
-              type: 'error',
-              message: error.response.data.error
-            };
-
-            dispatch('notification/addNotification', notification, { root: true });
-            dispatch('disableLoadingAnimation', null, { root: true });
-
-            localStorage.removeItem('jwt');
-
-            reject(error);
-          });
-      });
+      authAPIHelper(
+        { commit, dispatch },
+        { apiRoute: 'signup', payload, loadingAction: 'loadingAnimation' }
+      );
     },
     confirmEmail({ commit, dispatch }, payload) {
-      dispatch('enableLoadingOverlay', null, { root: true });
-
-      const { confirmToken } = payload;
-
-      return new Promise((resolve, reject) => {
-        plainAxiosInstance
-          .post('/confirm_email', {
-            confirm_token: confirmToken
-          })
-          .then(response => {
-            const { jwt } = response.data;
-            commit('AUTH_SUCCESS', jwt);
-
-            const notification = {
-              type: 'success',
-              message: response.data.success
-            };
-
-            dispatch('notification/addNotification', notification, { root: true });
-            dispatch('disableLoadingOverlay', null, { root: true });
-            resolve(response);
-          })
-          .catch(error => {
-            dispatch('disableLoadingOverlay', null, { root: true });
-
-            const notification = {
-              type: 'error',
-              message: error.response.data.error
-            };
-
-            dispatch('notification/addNotification', notification, { root: true });
-            reject(error);
-          });
-      });
+      authAPIHelper(
+        { commit, dispatch },
+        { apiRoute: 'confirm_email', payload, loadingAction: 'loadingOverlay' }
+      );
     },
     resendConfirmationEmail({ commit, dispatch }, payload) {
-      dispatch('enableLoadingAnimation', null, { root: true });
-
-      const { email } = payload;
-
-      return new Promise((resolve, reject) => {
-        plainAxiosInstance
-          .post('/resend_confirmation_email', {
-            auth: {
-              email
-            }
-          })
-          .then(response => {
-            const notification = {
-              type: 'success',
-              message: response.data.success
-            };
-
-            dispatch('notification/addNotification', notification, { root: true });
-            dispatch('disableLoadingAnimation', null, { root: true });
-            resolve(response);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      });
+      authAPIHelper(
+        { commit, dispatch },
+        { apiRoute: 'resend_confirmation_email', payload, loadingAction: 'loadingAnimation' }
+      );
     },
-    requestPasswordReset({ dispatch }, payload) {
-      dispatch('enableLoadingAnimation', null, { root: true });
-
-      const {
-        auth: { email },
-        recaptcha: { token }
-      } = payload;
-
-      return new Promise((resolve, reject) => {
-        plainAxiosInstance
-          .post('/request_password_reset', {
-            auth: {
-              email
-            },
-            recaptcha: {
-              token
-            }
-          })
-          .then(response => {
-            const notification = {
-              type: 'success',
-              message: response.data.success
-            };
-
-            dispatch('notification/addNotification', notification, { root: true });
-            dispatch('disableLoadingAnimation', null, { root: true });
-            resolve(response);
-          })
-          .catch(error => {
-            dispatch('disableLoadingAnimation', null, { root: true });
-
-            const notification = {
-              type: 'error',
-              message: error.response.data.error
-            };
-
-            dispatch('notification/addNotification', notification, { root: true });
-            reject(error);
-          });
-      });
+    requestPasswordReset({ commit, dispatch }, payload) {
+      authAPIHelper(
+        { commit, dispatch },
+        { apiRoute: 'request_password_reset', payload, loadingAction: 'loadingAnimation' }
+      );
     },
-    isPasswordResetTokenValid({ dispatch }, payload) {
-      dispatch('enableLoadingOverlay', null, { root: true });
-
+    isPasswordResetTokenValid({ commit, dispatch }, payload) {
       const { token } = payload;
 
-      return new Promise((resolve, reject) => {
-        plainAxiosInstance
-          .get(`/confirm_password_reset_token/${token}`)
-          .then(response => {
-            setTimeout(() => {
-              dispatch('disableLoadingOverlay', null, { root: true });
-
-              const notification = {
-                type: 'success',
-                message: response.data.success
-              };
-
-              dispatch('notification/addNotification', notification, { root: true });
-
-              resolve(response);
-            }, 500);
-          })
-          .catch(error => {
-            dispatch('disableLoadingOverlay', null, { root: true });
-
-            const notification = {
-              type: 'error',
-              message: error.response.data.error
-            };
-
-            dispatch('notification/addNotification', notification, { root: true });
-            reject(error);
-          });
-      });
+      authAPIHelper(
+        { commit, dispatch },
+        {
+          apiRoute: `confirm_password_reset_token/${token}`,
+          payload,
+          loadingAction: 'loadingAnimation'
+        }
+      );
     },
     resetPassword({ dispatch }, payload) {
       console.log('hello');
@@ -286,7 +89,7 @@ const authorizationModule = {
       commit('SIGN_OUT');
     },
     validateToken({ commit, dispatch }) {
-      return new Promise((resolve, reject) => {
+      return new Promise(() => {
         commit('AUTH_REQUEST');
 
         authorizedAxiosInstance.get('/validate_token').catch(() => {
