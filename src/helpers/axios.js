@@ -2,8 +2,9 @@ import { plainAxiosInstance } from '@/axios';
 
 export const authAPIHelper = (vuexObj, options) => {
   const { commit, dispatch } = vuexObj;
-  let { apiRoute, delay, httpMethod, payload, loadingAction } = options;
+  let { apiRoute, httpMethod, payload, loadingAction, loadingDelay } = options;
 
+  // loadingAction options: 'loadingAnimation', 'loadingOverlay
   loadingAction = loadingAction.charAt(0).toUpperCase() + loadingAction.slice(1);
   dispatch(`enable${loadingAction}`, null, { root: true });
 
@@ -26,7 +27,7 @@ export const authAPIHelper = (vuexObj, options) => {
           dispatch(`disable${loadingAction}`, null, { root: true });
 
           resolve(response);
-        }, delay || 0);
+        }, loadingDelay || 0);
       })
       .catch(error => {
         commit('AUTH_ERROR', error);
@@ -42,7 +43,7 @@ export const authAPIHelper = (vuexObj, options) => {
           });
           dispatch(`disable${loadingAction}`, null, { root: true });
           reject(error);
-        }, delay || 0);
+        }, loadingDelay || 0);
       });
   });
 };

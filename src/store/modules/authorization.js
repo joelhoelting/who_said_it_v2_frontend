@@ -37,10 +37,10 @@ const authorizationModule = {
           { commit, dispatch },
           {
             apiRoute: 'signin',
-            delay: 500,
             httpMethod: 'post',
             payload,
-            loadingAction: 'loadingAnimation'
+            loadingAction: 'loadingAnimation',
+            loadingDelay: 500
           }
         );
 
@@ -56,10 +56,10 @@ const authorizationModule = {
           { commit, dispatch },
           {
             apiRoute: 'signup',
-            delay: 500,
             httpMethod: 'post',
             payload,
-            loadingAction: 'loadingAnimation'
+            loadingAction: 'loadingAnimation',
+            loadingDelay: 500
           }
         );
       } catch (error) {
@@ -72,10 +72,10 @@ const authorizationModule = {
           { commit, dispatch },
           {
             apiRoute: 'confirm_email',
-            delay: 500,
             httpMethod: 'post',
             payload,
-            loadingAction: 'loadingOverlay'
+            loadingAction: 'loadingOverlay',
+            loadingDelay: 500
           }
         );
 
@@ -90,10 +90,10 @@ const authorizationModule = {
         { commit, dispatch },
         {
           apiRoute: 'resend_confirmation_email',
-          delay: 500,
           httpMethod: 'post',
           payload,
-          loadingAction: 'loadingAnimation'
+          loadingAction: 'loadingAnimation',
+          loadingDelay: 500
         }
       );
     },
@@ -102,10 +102,10 @@ const authorizationModule = {
         { commit, dispatch },
         {
           apiRoute: 'request_password_reset',
-          delay: 500,
           httpMethod: 'post',
           payload,
-          loadingAction: 'loadingAnimation'
+          loadingAction: 'loadingAnimation',
+          loadingDelay: 500
         }
       );
     },
@@ -117,10 +117,10 @@ const authorizationModule = {
           { commit, dispatch },
           {
             apiRoute: `confirm_password_reset_token/${token}`,
-            delay: 500,
             httpMethod: 'get',
             payload,
-            loadingAction: 'loadingOverlay'
+            loadingAction: 'loadingOverlay',
+            loadingDelay: 500
           }
         );
       } catch (error) {
