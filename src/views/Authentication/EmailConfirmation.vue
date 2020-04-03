@@ -18,7 +18,6 @@ export default {
       });
       this.$router.push('/play');
     } catch (error) {
-      console.log(error.response.data);
       const { redirect } = error.response.data;
       this.$router.push(redirect);
     }

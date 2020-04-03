@@ -8,11 +8,25 @@
       >
         <h2 class="form-title">Reset Password</h2>
         <input
-          :class="errors.email ? 'error' : ''"
-          type="email"
-          v-model="email"
+          :class="errors.password ? 'error' : ''"
+          type="password"
+          v-model="password"
           id="email"
-          placeholder="Email Address"
+          placeholder="Current Password"
+        />
+        <input
+          :class="errors.new_password ? 'error' : ''"
+          type="password"
+          v-model="new_password"
+          id="email"
+          placeholder="New Password"
+        />
+        <input
+          :class="errors.new_password_confirmation ? 'error' : ''"
+          type="password"
+          v-model="new_password_confirmation"
+          id="email"
+          placeholder="Confirm New Password"
         />
         <button
           class="btn"
@@ -31,6 +45,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
+import { initializeVueReCaptcha } from '@/helpers/recaptcha';
 
 import { isValidPassword } from '@/helpers/validations';
 
@@ -38,9 +53,15 @@ export default {
   name: 'PasswordResetConfirmation',
   data() {
     return {
+      errors: {
+        password: false,
+        new_password: false,
+        new_password_confirmation: false,
+        errorsArray: []
+      },
       password: 'someThing123$',
-      newPassword: '',
-      newPasswordConfirmation: ''
+      new_password: '',
+      new_password_confirmation: ''
     };
   },
   created() {
@@ -52,7 +73,12 @@ export default {
       token
     })
       .then(() => {
-        // Do something good
+        // Run recaptcha script on signup page
+        if (this.$recaptchaInstance) {
+          this.$recaptchaInstance.showBadge();
+        } else {
+          initializeVueReCaptcha();
+        }
       })
       .catch(error => {
         console.log('trigger');
@@ -62,7 +88,7 @@ export default {
   },
   computed: {
     ...mapGetters('authorization', ['isLoggedIn']),
-    ...mapState(['loadingOverlayActive'])
+    ...mapState(['loadingAnimationActive', 'loadingOverlayActive'])
   },
   methods: {
     ...mapActions({

@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
-import { VueReCaptcha } from 'vue-recaptcha-v3';
+
+import { initializeVueReCaptcha } from '@/helpers/recaptcha';
 
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 
@@ -61,12 +61,7 @@ export default {
     if (this.$recaptchaInstance) {
       this.$recaptchaInstance.showBadge();
     } else {
-      Vue.use(VueReCaptcha, {
-        siteKey: '6LfXd94UAAAAAAEp6hpVvJLYXnPPxHOwBSBCniPS',
-        loaderOptions: {
-          autoHideBadge: false
-        }
-      });
+      initializeVueReCaptcha();
     }
   },
   destroyed() {

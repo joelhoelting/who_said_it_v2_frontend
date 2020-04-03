@@ -105,7 +105,7 @@ const authorizationModule = {
           httpMethod: 'post',
           payload,
           loadingAction: 'loadingAnimation',
-          loadingDelay: 500
+          loadingDelay: 200
         }
       );
     },
