@@ -128,7 +128,7 @@ const authorizationModule = {
       }
     },
     resetPassword({ dispatch }, payload) {
-      console.log('hello');
+      console.log(payload);
     },
     signOut({ commit, dispatch }) {
       const notification = {

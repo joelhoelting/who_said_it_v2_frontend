@@ -101,6 +101,13 @@ export default {
       addNotification: 'notification/addNotification',
       signIn: 'authorization/signIn'
     }),
+    clearErrors() {
+      this.errors = {
+        email: false,
+        password: false,
+        errorsArray: []
+      };
+    },
     async localSignIn() {
       await this.$recaptchaLoaded();
 

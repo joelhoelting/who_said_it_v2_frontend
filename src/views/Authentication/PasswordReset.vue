@@ -47,7 +47,7 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 import { initializeVueReCaptcha } from '@/helpers/recaptcha';
 
-import { isValidPassword } from '@/helpers/validations';
+import { isValidPasswordResetForm } from '@/helpers/validations';
 
 export default {
   name: 'PasswordResetConfirmation',
@@ -93,25 +93,33 @@ export default {
   methods: {
     ...mapActions({
       addNotification: 'notification/addNotification',
-      passwordReset: 'authorization/resetPassword',
+      resetPassword: 'authorization/resetPassword',
       isPasswordResetTokenValid: 'authorization/isPasswordResetTokenValid'
     }),
+    clearErrors() {
+      this.errors = {
+        password: false,
+        new_password: false,
+        new_password_confirmation: false,
+        errorsArray: []
+      };
+    },
     async localResetPassword() {
       await this.$recaptchaLoaded();
 
       // Execute reCAPTCHA with action "signup".
       const token = await this.$recaptcha('password_reset');
 
-      let { password, newPassword, newPasswordConfirmation } = this;
+      let { password, new_password, new_password_confirmation } = this;
 
-      if (isValidPassword(password)) {
+      if (isValidPasswordResetForm(this, password, new_password, new_password_confirmation)) {
         this.clearErrors();
 
         this.resetPassword({
           auth: {
             password,
-            newPassword,
-            newPasswordConfirmation
+            new_password,
+            new_password_confirmation
           },
           recaptcha: {
             token
@@ -122,7 +130,7 @@ export default {
       } else {
         this.addNotification({
           type: 'error',
-          message: 'Email address not valid'
+          message: this.errors.errorsArray[0]
         });
       }
     }

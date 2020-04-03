@@ -76,27 +76,13 @@ export const isValidPasswordResetForm = (
     errors.new_password = false;
   }
 
-  if (new_password_confirmation) {
-    if (password !== new_password_confirmation) {
-      // console.log('passwords do not match');
-      errors.errorsArray.push('Passwords do not match');
-      containsErrors = errors.new_password_confirmation = true;
-    } else {
-      errors.new_password_confirmation = false;
-    }
+  if (password !== new_password_confirmation || new_password_confirmation === '') {
+    // console.log('passwords do not match');
+    errors.errorsArray.push('Passwords do not match');
+    containsErrors = errors.new_password_confirmation = true;
+  } else {
+    errors.new_password_confirmation = false;
   }
 
   return !containsErrors;
 };
-
-// return {
-//   errors: {
-//     password: false,
-//     new_password: false,
-//     new_password_confirmation: false,
-//     errorsArray: []
-//   },
-//   password: 'someThing123$',
-//   new_password: '',
-//   new_password_confirmation: ''
-// };
