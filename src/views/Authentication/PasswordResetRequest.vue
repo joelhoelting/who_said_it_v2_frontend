@@ -105,8 +105,6 @@ export default {
           recaptcha: {
             token
           }
-        }).then(() => {
-          // this.$router.push('/');
         });
       } else {
         this.addNotification({

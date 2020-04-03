@@ -32,49 +32,100 @@ const authorizationModule = {
   },
   actions: {
     async signIn({ commit, dispatch }, payload) {
-      let response = await authAPIHelper(
-        { commit, dispatch },
-        { apiRoute: 'signin', payload, loadingAction: 'loadingAnimation' }
-      );
+      try {
+        let response = await authAPIHelper(
+          { commit, dispatch },
+          {
+            apiRoute: 'signin',
+            delay: 500,
+            httpMethod: 'post',
+            payload,
+            loadingAction: 'loadingAnimation'
+          }
+        );
 
-      const { jwt } = response.data;
-      commit('AUTH_SUCCESS', jwt);
+        const { jwt } = response.data;
+        commit('AUTH_SUCCESS', jwt);
+      } catch (error) {
+        throw error;
+      }
     },
-    signUp({ commit, dispatch }, payload) {
-      authAPIHelper(
-        { commit, dispatch },
-        { apiRoute: 'signup', payload, loadingAction: 'loadingAnimation' }
-      );
+    async signUp({ commit, dispatch }, payload) {
+      try {
+        await authAPIHelper(
+          { commit, dispatch },
+          {
+            apiRoute: 'signup',
+            delay: 500,
+            httpMethod: 'post',
+            payload,
+            loadingAction: 'loadingAnimation'
+          }
+        );
+      } catch (error) {
+        throw error;
+      }
     },
-    confirmEmail({ commit, dispatch }, payload) {
-      authAPIHelper(
-        { commit, dispatch },
-        { apiRoute: 'confirm_email', payload, loadingAction: 'loadingOverlay' }
-      );
+    async confirmEmail({ commit, dispatch }, payload) {
+      try {
+        let response = await authAPIHelper(
+          { commit, dispatch },
+          {
+            apiRoute: 'confirm_email',
+            delay: 500,
+            httpMethod: 'post',
+            payload,
+            loadingAction: 'loadingOverlay'
+          }
+        );
+
+        const { jwt } = response.data;
+        commit('AUTH_SUCCESS', jwt);
+      } catch (error) {
+        throw error;
+      }
     },
     resendConfirmationEmail({ commit, dispatch }, payload) {
       authAPIHelper(
         { commit, dispatch },
-        { apiRoute: 'resend_confirmation_email', payload, loadingAction: 'loadingAnimation' }
+        {
+          apiRoute: 'resend_confirmation_email',
+          delay: 500,
+          httpMethod: 'post',
+          payload,
+          loadingAction: 'loadingAnimation'
+        }
       );
     },
     requestPasswordReset({ commit, dispatch }, payload) {
       authAPIHelper(
         { commit, dispatch },
-        { apiRoute: 'request_password_reset', payload, loadingAction: 'loadingAnimation' }
-      );
-    },
-    isPasswordResetTokenValid({ commit, dispatch }, payload) {
-      const { token } = payload;
-
-      authAPIHelper(
-        { commit, dispatch },
         {
-          apiRoute: `confirm_password_reset_token/${token}`,
+          apiRoute: 'request_password_reset',
+          delay: 500,
+          httpMethod: 'post',
           payload,
           loadingAction: 'loadingAnimation'
         }
       );
+    },
+    async isPasswordResetTokenValid({ commit, dispatch }, payload) {
+      const { token } = payload;
+
+      try {
+        await authAPIHelper(
+          { commit, dispatch },
+          {
+            apiRoute: `confirm_password_reset_token/${token}`,
+            delay: 500,
+            httpMethod: 'get',
+            payload,
+            loadingAction: 'loadingOverlay'
+          }
+        );
+      } catch (error) {
+        throw error;
+      }
     },
     resetPassword({ dispatch }, payload) {
       console.log('hello');

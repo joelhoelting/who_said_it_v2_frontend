@@ -2,7 +2,7 @@ import { plainAxiosInstance } from '@/axios';
 
 export const authAPIHelper = (vuexObj, options) => {
   const { commit, dispatch } = vuexObj;
-  let { apiRoute, payload, loadingAction } = options;
+  let { apiRoute, delay, httpMethod, payload, loadingAction } = options;
 
   loadingAction = loadingAction.charAt(0).toUpperCase() + loadingAction.slice(1);
   dispatch(`enable${loadingAction}`, null, { root: true });
@@ -10,8 +10,7 @@ export const authAPIHelper = (vuexObj, options) => {
   return new Promise((resolve, reject) => {
     commit('AUTH_REQUEST');
 
-    plainAxiosInstance
-      .post(apiRoute, payload)
+    plainAxiosInstance[httpMethod](apiRoute, payload)
       .then(response => {
         commit('AUTH_PENDING');
 
@@ -21,10 +20,13 @@ export const authAPIHelper = (vuexObj, options) => {
         };
 
         setTimeout(() => {
-          dispatch('notification/addNotification', notification, { root: true });
+          dispatch('notification/addNotification', notification, {
+            root: true
+          });
           dispatch(`disable${loadingAction}`, null, { root: true });
-          return resolve(response);
-        }, 500);
+
+          resolve(response);
+        }, delay || 0);
       })
       .catch(error => {
         commit('AUTH_ERROR', error);
@@ -35,10 +37,12 @@ export const authAPIHelper = (vuexObj, options) => {
         };
 
         setTimeout(() => {
-          dispatch('notification/addNotification', notification, { root: true });
+          dispatch('notification/addNotification', notification, {
+            root: true
+          });
           dispatch(`disable${loadingAction}`, null, { root: true });
-          return reject(error);
-        }, 500);
+          reject(error);
+        }, delay || 0);
       });
   });
 };

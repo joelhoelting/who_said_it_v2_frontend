@@ -1,7 +1,11 @@
 <template>
   <div class="container flex-center-container">
-    <!-- <transition name="fade">
-      <form class="authentication" @submit.prevent="localResetPassword">
+    <transition name="fade">
+      <form
+        v-if="!loadingOverlayActive"
+        class="authentication"
+        @submit.prevent="localResetPassword"
+      >
         <h2 class="form-title">Reset Password</h2>
         <input
           :class="errors.email ? 'error' : ''"
@@ -21,13 +25,12 @@
           <loading-animation v-if="loadingAnimationActive" />
         </button>
       </form>
-    </transition>-->
-    <h1>Hello World</h1>
+    </transition>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 import { isValidPassword } from '@/helpers/validations';
 
@@ -52,13 +55,14 @@ export default {
         // Do something good
       })
       .catch(error => {
+        console.log('trigger');
         const { redirect } = error.response.data;
-        console.log(redirect);
         this.$router.push(redirect);
       });
   },
   computed: {
-    ...mapGetters('authorization', ['isLoggedIn'])
+    ...mapGetters('authorization', ['isLoggedIn']),
+    ...mapState(['loadingOverlayActive'])
   },
   methods: {
     ...mapActions({
