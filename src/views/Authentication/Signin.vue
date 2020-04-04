@@ -116,7 +116,7 @@ export default {
 
       let { email, password } = this;
 
-      if (isValidAuthForm(this, email, password)) {
+      if (isValidAuthForm(this, { email, password })) {
         this.signIn({
           auth: {
             email,

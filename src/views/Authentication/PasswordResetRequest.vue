@@ -32,7 +32,7 @@ import { initializeVueReCaptcha } from '@/helpers/recaptcha';
 
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 
-import { isValidEmail } from '@/helpers/validations';
+import { isValidAuthForm } from '@/helpers/validations';
 
 export default {
   name: 'PasswordReset',
@@ -90,7 +90,7 @@ export default {
 
       let { email } = this;
 
-      if (isValidEmail(email)) {
+      if (isValidAuthForm(this, { email })) {
         this.clearErrors();
 
         this.requestPasswordReset({

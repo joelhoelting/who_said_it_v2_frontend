@@ -110,15 +110,14 @@ const authorizationModule = {
       );
     },
     async isPasswordResetTokenValid({ commit, dispatch }, payload) {
-      const { token } = payload;
-
+      const { password_reset_token } = payload;
       try {
         await authAPIHelper(
           { commit, dispatch },
           {
-            apiRoute: `confirm_password_reset_token/${token}`,
+            apiRoute: `confirm_password_reset_token/${password_reset_token}`,
             httpMethod: 'get',
-            payload,
+            payload: false,
             loadingAction: 'loadingOverlay',
             loadingDelay: 500
           }
@@ -127,8 +126,21 @@ const authorizationModule = {
         throw error;
       }
     },
-    resetPassword({ dispatch }, payload) {
-      console.log(payload);
+    async resetPassword({ commit, dispatch }, payload) {
+      try {
+        await authAPIHelper(
+          { commit, dispatch },
+          {
+            apiRoute: 'reset_password',
+            httpMethod: 'post',
+            payload,
+            loadingAction: 'loadingAnimation',
+            loadingDelay: 500
+          }
+        );
+      } catch (error) {
+        throw error;
+      }
     },
     signOut({ commit, dispatch }) {
       const notification = {

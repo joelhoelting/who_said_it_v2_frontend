@@ -117,7 +117,7 @@ export default {
 
       let { email, password, password_confirmation } = this;
 
-      if (isValidAuthForm(this, email, password, password_confirmation)) {
+      if (isValidAuthForm(this, { email, password, password_confirmation })) {
         this.clearErrors();
 
         this.signUp({

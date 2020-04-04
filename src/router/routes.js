@@ -36,7 +36,7 @@ export default [
     },
     {
       name: 'PasswordReset',
-      path: '/:token',
+      path: '/:password_reset_token',
       component: PasswordReset
     }
   ]),

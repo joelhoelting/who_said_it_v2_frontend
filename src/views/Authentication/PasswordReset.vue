@@ -1,30 +1,26 @@
 <template>
   <div class="container flex-center-container">
     <transition name="fade">
-      <form
-        v-if="!loadingOverlayActive"
-        class="authentication"
-        @submit.prevent="localResetPassword"
-      >
+      <form v-if="!loadingOverlayActive" class="authentication" @submit.prevent="localResetPassword">
         <h2 class="form-title">Reset Password</h2>
+        <input
+          :class="errors.original_password ? 'error' : ''"
+          type="password"
+          v-model="original_password"
+          id="email"
+          placeholder="Current Password"
+        />
         <input
           :class="errors.password ? 'error' : ''"
           type="password"
           v-model="password"
           id="email"
-          placeholder="Current Password"
-        />
-        <input
-          :class="errors.new_password ? 'error' : ''"
-          type="password"
-          v-model="new_password"
-          id="email"
           placeholder="New Password"
         />
         <input
-          :class="errors.new_password_confirmation ? 'error' : ''"
+          :class="errors.password_confirmation ? 'error' : ''"
           type="password"
-          v-model="new_password_confirmation"
+          v-model="password_confirmation"
           id="email"
           placeholder="Confirm New Password"
         />
@@ -47,32 +43,39 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 import { initializeVueReCaptcha } from '@/helpers/recaptcha';
 
-import { isValidPasswordResetForm } from '@/helpers/validations';
+import { isValidAuthForm } from '@/helpers/validations';
+
+import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 
 export default {
-  name: 'PasswordResetConfirmation',
+  name: 'PasswordReset',
+  components: {
+    LoadingAnimation
+  },
   data() {
     return {
       errors: {
+        original_password: false,
         password: false,
-        new_password: false,
-        new_password_confirmation: false,
+        password_confirmation: false,
         errorsArray: []
       },
-      password: 'someThing123$',
-      new_password: '',
-      new_password_confirmation: ''
+      original_password: 'someThing123$',
+      password: 'someThing1234$',
+      password_confirmation: 'someThing1234$',
+      password_reset_token: ''
     };
   },
   created() {
     if (this.isLoggedIn) return this.$router.push('/');
 
-    const { token } = this.$route.params;
+    const { password_reset_token } = this.$route.params;
 
     this.isPasswordResetTokenValid({
-      token
+      password_reset_token
     })
       .then(() => {
+        this.password_reset_token = password_reset_token;
         // Run recaptcha script on signup page
         if (this.$recaptchaInstance) {
           this.$recaptchaInstance.showBadge();
@@ -80,10 +83,8 @@ export default {
           initializeVueReCaptcha();
         }
       })
-      .catch(error => {
-        console.log('trigger');
-        const { redirect } = error.response.data;
-        this.$router.push(redirect);
+      .catch(() => {
+        this.$router.push('/signin');
       });
   },
   computed: {
@@ -98,9 +99,9 @@ export default {
     }),
     clearErrors() {
       this.errors = {
+        original_password: false,
         password: false,
-        new_password: false,
-        new_password_confirmation: false,
+        password_confirmation: false,
         errorsArray: []
       };
     },
@@ -108,24 +109,25 @@ export default {
       await this.$recaptchaLoaded();
 
       // Execute reCAPTCHA with action "signup".
-      const token = await this.$recaptcha('password_reset');
+      const token = await this.$recaptcha('reset_password');
 
-      let { password, new_password, new_password_confirmation } = this;
+      let { original_password, password, password_confirmation, password_reset_token } = this;
 
-      if (isValidPasswordResetForm(this, password, new_password, new_password_confirmation)) {
+      if (isValidAuthForm(this, { original_password, password, password_confirmation })) {
         this.clearErrors();
 
         this.resetPassword({
           auth: {
+            original_password,
             password,
-            new_password,
-            new_password_confirmation
+            password_confirmation,
+            password_reset_token
           },
           recaptcha: {
             token
           }
         }).then(() => {
-          // this.$router.push('/');
+          this.$router.push('/signin');
         });
       } else {
         this.addNotification({
@@ -138,5 +140,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
