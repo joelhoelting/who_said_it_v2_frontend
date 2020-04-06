@@ -1,15 +1,12 @@
 <template>
   <div class="container flex-center-container">
     <transition name="fade">
-      <form v-if="!loadingOverlayActive" class="authentication" @submit.prevent="localResetPassword">
+      <form
+        v-if="!loadingOverlayActive"
+        class="authentication"
+        @submit.prevent="localResetPassword"
+      >
         <h2 class="form-title">Reset Password</h2>
-        <input
-          :class="errors.original_password ? 'error' : ''"
-          type="password"
-          v-model="original_password"
-          id="email"
-          placeholder="Current Password"
-        />
         <input
           :class="errors.password ? 'error' : ''"
           type="password"
@@ -55,12 +52,10 @@ export default {
   data() {
     return {
       errors: {
-        original_password: false,
         password: false,
         password_confirmation: false,
         errorsArray: []
       },
-      original_password: 'someThing123$',
       password: 'someThing1234$',
       password_confirmation: 'someThing1234$',
       password_reset_token: ''
@@ -76,7 +71,6 @@ export default {
     })
       .then(() => {
         this.password_reset_token = password_reset_token;
-        // Run recaptcha script on signup page
         if (this.$recaptchaInstance) {
           this.$recaptchaInstance.showBadge();
         } else {
@@ -99,7 +93,6 @@ export default {
     }),
     clearErrors() {
       this.errors = {
-        original_password: false,
         password: false,
         password_confirmation: false,
         errorsArray: []
@@ -111,14 +104,13 @@ export default {
       // Execute reCAPTCHA with action "signup".
       const token = await this.$recaptcha('reset_password');
 
-      let { original_password, password, password_confirmation, password_reset_token } = this;
+      let { password, password_confirmation, password_reset_token } = this;
 
-      if (isValidAuthForm(this, { original_password, password, password_confirmation })) {
+      if (isValidAuthForm(this, { password, password_confirmation })) {
         this.clearErrors();
 
         this.resetPassword({
           auth: {
-            original_password,
             password,
             password_confirmation,
             password_reset_token

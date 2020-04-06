@@ -82,7 +82,6 @@ export default {
       this.$router.push('/');
     }
 
-    // Run recaptcha script on signup page
     if (this.$recaptchaInstance) {
       this.$recaptchaInstance.showBadge();
     } else {
