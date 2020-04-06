@@ -70,7 +70,7 @@ export default {
         &.router-link-active {
           background: rgba(255, 255, 255, 0.3);
         }
-        &:hover {
+        &:not(.router-link-active):hover {
           cursor: pointer;
           background: rgba(255, 255, 255, 0.1);
         }
@@ -84,5 +84,15 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  .settings-background {
+    background: $opaque-black-background;
+    height: 75%;
+    width: 80%;
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
 }
 </style>

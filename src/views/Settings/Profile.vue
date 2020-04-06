@@ -1,5 +1,7 @@
 <template>
-  <h1>Profile</h1>
+  <div class="settings-background">
+    <h2>Update Email Address</h2>
+  </div>
 </template>
 
 <script>

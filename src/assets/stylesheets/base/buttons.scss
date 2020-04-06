@@ -4,7 +4,7 @@
   border-radius: 3em;
   color: $white;
   cursor: pointer;
-  transition: all 200ms ease;
+  transition: background 200ms ease;
   &:hover {
     background: $light-purple-hover;
   }
@@ -37,5 +37,18 @@
     display: block;
     font-size: 1.4rem;
     padding: 10px 50px;
+  }
+  &.btn--warning {
+    background: red;
+    font-size: 1rem;
+    padding: 0.8em 4em;
+    transition: opacity 200ms ease;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  &.btn-confirmation {
+    font-size: 1rem;
+    padding: 0.8em 4em;
   }
 }

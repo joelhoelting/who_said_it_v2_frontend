@@ -142,6 +142,23 @@ const authorizationModule = {
         throw error;
       }
     },
+    async deleteAccount({ commit, dispatch }) {
+      try {
+        await authAPIHelper(
+          { commit, dispatch },
+          {
+            authorized: true,
+            apiRoute: 'delete_account',
+            httpMethod: 'get',
+            loadingAction: 'loadingAnimation',
+            loadingDelay: 500
+          }
+        );
+        commit('SIGN_OUT');
+      } catch (error) {
+        throw error;
+      }
+    },
     signOut({ commit, dispatch }) {
       const notification = {
         type: 'success',

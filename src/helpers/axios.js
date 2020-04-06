@@ -1,17 +1,20 @@
-import { plainAxiosInstance } from '@/axios';
+import { authorizedAxiosInstance, plainAxiosInstance } from '@/axios';
 
 export const authAPIHelper = (vuexObj, options) => {
   const { commit, dispatch } = vuexObj;
-  let { apiRoute, httpMethod, payload, loadingAction, loadingDelay } = options;
+  let { authorized, apiRoute, httpMethod, payload, loadingAction, loadingDelay } = options;
 
   // loadingAction options: 'loadingAnimation', 'loadingOverlay
   loadingAction = loadingAction.charAt(0).toUpperCase() + loadingAction.slice(1);
   dispatch(`enable${loadingAction}`, null, { root: true });
 
+  // determine plain vs. authorized axios instance
+  let axiosInstanceType = authorized ? authorizedAxiosInstance : plainAxiosInstance;
+
   return new Promise((resolve, reject) => {
     commit('AUTH_REQUEST');
 
-    plainAxiosInstance[httpMethod](apiRoute, payload)
+    axiosInstanceType[httpMethod](apiRoute, payload)
       .then(response => {
         commit('AUTH_PENDING');
 
