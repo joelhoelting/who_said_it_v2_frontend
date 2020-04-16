@@ -129,7 +129,7 @@ export default {
             this.$router.push('/');
           })
           .catch(error => {
-            // If email address not confirmed then show confirmation modal
+            // If email address not confirmed then show email confirmation modal
             if (error.response.status === 403) {
               this.emailConfirmation.sent = true;
               this.emailConfirmation.email = email;

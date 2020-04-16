@@ -1,24 +1,24 @@
 <template>
-  <form class="authentication">
+  <form class="authentication" @submit.prevent="localUpdatePassword">
     <h2 class="center">Update Password</h2>
     <input
-      :class="errors.oldPassword ? 'error' : ''"
+      :class="errors.original_password ? 'error' : ''"
       type="password"
-      v-model="oldPassword"
+      v-model="original_password"
       id="password"
-      placeholder="Old Password"
+      placeholder="Original Password"
     />
     <input
-      :class="errors.newPassword ? 'error' : ''"
+      :class="errors.password ? 'error' : ''"
       type="password"
-      v-model="newPassword"
+      v-model="password"
       id="password"
       placeholder="New Password"
     />
     <input
-      :class="errors.confirmNewPassword ? 'error' : ''"
+      :class="errors.password_confirmation ? 'error' : ''"
       type="password"
-      v-model="confirmNewPassword"
+      v-model="password_confirmation"
       id="password"
       placeholder="Confirm New Password"
     />
@@ -30,33 +30,68 @@
       value="Submit"
     >
       <span v-if="!loadingAnimationActive">Submit</span>
+      <loading-animation v-if="loadingAnimationActive" />
     </button>
   </form>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+
+import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
+
+import { isValidAuthForm } from '@/helpers/validations';
 
 export default {
   name: 'Security',
+  components: {
+    LoadingAnimation
+  },
   data() {
     return {
       errors: {
-        oldPassword: false,
-        newPassword: false,
-        confirmNewPassword: false,
+        original_password: false,
+        password: false,
+        password_confirmation: false,
         errorsArray: []
       },
-      oldPassword: '',
-      newPassword: '',
-      confirmNewPassword: ''
+      original_password: 'someThing123$',
+      password: 'someThing1234$',
+      password_confirmation: 'someThing1234$'
     };
   },
   computed: {
-    ...mapState(['loadingOverlayActive', 'loadingAnimationActive'])
+    ...mapState(['loadingAnimationActive'])
+  },
+  methods: {
+    ...mapActions({
+      addNotification: 'notification/addNotification',
+      updatePassword: 'authorization/updatePassword'
+    }),
+    localUpdatePassword() {
+      let { original_password, password, password_confirmation } = this;
+
+      if (isValidAuthForm(this, { original_password, password, password_confirmation })) {
+        this.updatePassword({
+          auth: {
+            original_password,
+            password,
+            password_confirmation
+          }
+        })
+          .then(() => {
+            console.log('success');
+          })
+          .catch(error => console.error(error));
+      } else {
+        this.addNotification({
+          type: 'error',
+          message: this.errors.errorsArray[0]
+        });
+      }
+    }
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

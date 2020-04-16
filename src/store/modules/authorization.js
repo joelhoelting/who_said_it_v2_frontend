@@ -142,6 +142,23 @@ const authorizationModule = {
         throw error;
       }
     },
+    async updatePassword({ commit, dispatch }, payload) {
+      try {
+        await authAPIHelper(
+          { commit, dispatch },
+          {
+            authorized: true,
+            apiRoute: 'update_password',
+            httpMethod: 'post',
+            payload,
+            loadingAction: 'loadingAnimation',
+            loadingDelay: 500
+          }
+        );
+      } catch (error) {
+        throw error;
+      }
+    },
     async deleteAccount({ commit, dispatch }) {
       try {
         await authAPIHelper(
