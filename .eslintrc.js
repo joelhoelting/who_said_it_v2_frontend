@@ -8,8 +8,8 @@ module.exports = {
   extends: ['plugin:vue/essential', '@vue/standard'],
 
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'warning' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warning' : 'off',
     semi: ['error', 'always'],
     'space-before-function-paren': [
       'error',
