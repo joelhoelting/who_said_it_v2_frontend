@@ -10,8 +10,13 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - npm run build
-      - echo "Deploy Beginning"
+      - |
+        if [ "$BRANCH_NAME" = "master" ]; then
+          vue-cli-service build --mode production
+        elif [ "$BRANCH_NAME" = "develop" ]; then
+          vue-cli-service build --mode staging
+        fi
+      - echo "Build Successful -- Deploy Beginning"
       - |
         if [ $CODEBUILD_BUILD_SUCCEEDING -eq 1 ]; then
           if [ "$BRANCH_NAME" = "master" ]; then
