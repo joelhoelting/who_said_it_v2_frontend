@@ -2,20 +2,19 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 10
+      nodejs: 12
   pre_build:
     commands:
       - echo Installing source NPM dependencies...
-      - npm install -g @vue/cli
       - npm install
   build:
     commands:
       - echo Build started on `date`
       - |
         if [ "$BRANCH_NAME" = "master" ]; then
-          vue-cli-service build --mode production
+          npx vue-cli-service build --mode production
         elif [ "$BRANCH_NAME" = "develop" ]; then
-          vue-cli-service build --mode staging
+          npx vue-cli-service build --mode staging
         fi
       - echo "Build Successful -- Deploy Beginning"
       - |
