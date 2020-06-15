@@ -1,8 +1,11 @@
 @import 'fonts';
-@import 'forms';
+@import 'mixins';
 @import 'variables';
+
+@import 'containers';
+@import 'forms';
 @import 'root';
 @import 'typography';
-@import 'containers';
 @import 'buttons';
 @import 'animations';
+@import 'responsive';
