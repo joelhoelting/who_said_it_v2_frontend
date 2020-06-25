@@ -63,11 +63,20 @@ export default {
 
 <style lang="scss" scoped>
 .character-card {
-  width: calc(100% / 8 - 20px);
+  width: calc(100% / 2 - 20px);
   perspective: 1000px;
   margin: 10px;
   cursor: pointer;
   position: relative;
+  @include media-query('phoneXL', 'min') {
+    width: calc(100% / 3 - 20px);
+  }
+  @include media-query('tablet', 'min') {
+    width: calc(100% / 4 - 20px);
+  }
+  @include media-query('tabletLandscape', 'min') {
+    width: calc(100% / 6 - 20px);
+  }
   &.selected .character-card__inner {
     transform: rotateY(180deg);
   }

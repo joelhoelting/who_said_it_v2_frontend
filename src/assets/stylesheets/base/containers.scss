@@ -11,7 +11,10 @@
   width: 90%;
   margin: 0 auto;
   &.offset-header {
-    padding-top: 100px;
+    padding-top: 60px;
+    @include media-query('tabletLandscape', 'min') {
+      padding-top: 100px;
+    }
   }
 }
 

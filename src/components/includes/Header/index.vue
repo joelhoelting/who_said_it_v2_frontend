@@ -1,18 +1,18 @@
 <template>
   <header>
     <nav>
-      <div>
+      <div class="desktop">
         <router-link to="/">Home</router-link>
         <router-link to="/play">Play Game</router-link>
       </div>
       <transition name="fade">
         <page-title v-if="currentRouteName">{{ currentRouteName }}</page-title>
       </transition>
-      <div v-if="!isLoggedIn">
+      <div v-if="!isLoggedIn" class="desktop">
         <router-link to="/signin">Sign In</router-link>
         <router-link to="/signup">Sign Up</router-link>
       </div>
-      <div v-if="isLoggedIn">
+      <div v-if="isLoggedIn" class="desktop">
         <router-link to="/settings">Settings</router-link>
         <router-link to="/games">Statistics</router-link>
         <a href="/signout" @click.prevent="signOut">Sign Out</a>
@@ -50,11 +50,14 @@ export default {
 <style lang="scss" scoped>
 header {
   position: absolute;
-  height: 100px;
+  height: 60px;
   width: 100%;
   top: 0;
   left: 0;
   z-index: 1;
+  @include media-query('tabletLandscape', 'min') {
+    height: 100px;
+  }
   nav {
     height: 100%;
     display: flex;

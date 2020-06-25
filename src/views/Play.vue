@@ -77,9 +77,7 @@ export default {
         return 'Loading...';
       }
 
-      return this.isButtonDisabled
-        ? `Select ${this.charactersRequiredToStartGame} Characters`
-        : 'Play Game';
+      return this.isButtonDisabled ? `Select ${this.charactersRequiredToStartGame} Characters` : 'Play Game';
     }
   },
   methods: {
@@ -114,6 +112,12 @@ export default {
   .card-container {
     display: flex;
     flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+    @include media-query('tabletLandscape', 'min') {
+      padding-bottom: 0;
+    }
   }
 }
 </style>

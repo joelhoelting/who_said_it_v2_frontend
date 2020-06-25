@@ -14,10 +14,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100px;
+  height: 100%;
+  width: 100%;
+  @include media-query('tabletLandscape', 'min') {
+    width: auto;
+  }
   .title-container__title {
-    font-size: 3rem;
+    font-size: 1.6em;
     margin: 0;
+    @include media-query('tabletLandscape', 'min') {
+      font-size: 2em;
+    }
   }
 }
 </style>
