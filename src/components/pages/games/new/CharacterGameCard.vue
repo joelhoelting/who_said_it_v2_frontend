@@ -4,9 +4,9 @@
     class="character-card"
     :style="getCharacterBackgroundImageMixin(character.slug)"
   >
-    <div class="character-card__keyboard-number">{{characterNumber}}</div>
+    <div class="character-card__keyboard-number desktop">{{characterNumber}}</div>
     <div class="character-card__text-container">
-      <p>{{character.name}}</p>
+      <p class="center">{{character.name}}</p>
     </div>
   </div>
 </template>
@@ -36,8 +36,8 @@ export default {
 
 <style lang="scss" scoped>
 .character-card {
-  height: 200px;
-  width: 200px;
+  height: 80px;
+  width: 80px;
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
@@ -47,8 +47,18 @@ export default {
   cursor: pointer;
   transition: border 200ms ease;
   border: 2px solid #000;
-  &:hover {
-    border: 5px solid rgba(255, 255, 255, 1);
+  @include media-query('tabletLandscape', 'min') {
+    height: 120px;
+    width: 120px;
+  }
+  @include media-query('desktop', 'min') {
+    height: 150px;
+    width: 150px;
+  }
+  @include media-query('tabletLandscape', 'min') {
+    &:hover {
+      border: 5px solid rgba(255, 255, 255, 1);
+    }
   }
 
   .character-card__keyboard-number {
@@ -73,8 +83,11 @@ export default {
     align-items: center;
     justify-content: center;
     position: absolute;
-    height: 25%;
+    height: 100%;
     width: 100%;
+    @include media-query('tablet', 'min') {
+      height: 25%;
+    }
   }
 }
 </style>

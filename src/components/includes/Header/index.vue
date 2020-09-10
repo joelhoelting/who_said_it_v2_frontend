@@ -1,18 +1,18 @@
 <template>
   <header>
     <nav>
-      <div class="desktop">
+      <div>
         <router-link to="/">Home</router-link>
         <router-link to="/play">Play Game</router-link>
       </div>
       <transition name="fade">
         <page-title v-if="currentRouteName">{{ currentRouteName }}</page-title>
       </transition>
-      <div v-if="!isLoggedIn" class="desktop">
+      <div v-if="!isLoggedIn">
         <router-link to="/signin">Sign In</router-link>
         <router-link to="/signup">Sign Up</router-link>
       </div>
-      <div v-if="isLoggedIn" class="desktop">
+      <div v-if="isLoggedIn">
         <router-link to="/settings">Settings</router-link>
         <router-link to="/games">Statistics</router-link>
         <a href="/signout" @click.prevent="signOut">Sign Out</a>

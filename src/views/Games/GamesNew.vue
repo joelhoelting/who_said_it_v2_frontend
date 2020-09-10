@@ -152,7 +152,13 @@ export default {
 
 <style lang="scss" scoped>
 .quote-container {
-  height: calc(100% - 300px);
+  height: calc(100% - 100px);
+  @include media-query('tabletLandscape', 'min') {
+    height: calc(100% - 150px);
+  }
+  @include media-query('desktop', 'min') {
+    height: calc(100% - 200px);
+  }
   .quote-box {
     height: 95%;
     width: 80%;

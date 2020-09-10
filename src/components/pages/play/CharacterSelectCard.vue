@@ -80,9 +80,12 @@ export default {
   &.selected .character-card__inner {
     transform: rotateY(180deg);
   }
-  &:hover .character-card__inner .character-card__front {
-    border: 5px solid #fff;
+  @include media-query('tabletLandscape', 'min') {
+    &:hover .character-card__inner .character-card__front {
+      border: 5px solid #fff;
+    }
   }
+
   .character-card__inner {
     position: relative;
     width: 100%;
