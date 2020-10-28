@@ -15,6 +15,7 @@
       background: $light-purple;
     }
   }
+
   &.btn--difficulty {
     height: 30px;
     width: 100px;
@@ -26,12 +27,12 @@
     @include media-query('phone', 'min') {
       font-size: 0.8rem;
       height: 30px;
-      width: 200px;
+      width: 150px;
     }
     @include media-query('tablet', 'min') {
-      font-size: 1.4rem;
-      height: 50px;
-      width: 200px;
+      font-size: 1rem;
+      height: 40px;
+      width: 150px;
     }
     &.selected {
       border: 3px solid white;

@@ -23,13 +23,11 @@ export default {
   height: 80px;
   @include media-query('tablet', 'min') {
     background: rgba(0, 0, 0, 0.2);
-    height: 150px;
+    height: 100px;
   }
   @include media-query('tabletLandscape', 'min') {
-    height: 150px;
-  }
-  @include media-query('desktop', 'min') {
-    height: 200px;
+    background: rgba(0, 0, 0, 0.2);
+    height: 120px;
   }
 }
 </style>

@@ -513,6 +513,9 @@ const characterModule = {
       const currentCharLength = state.characterIds.length;
       return difficultyRules[state.difficulty] - currentCharLength;
     },
+    charactersForSelectedDifficulty: state => {
+      return difficultyRules[state.difficulty];
+    },
     gameProgressPercentage: state => `${(state.currentQuoteIdx + 1) * 10}%`,
     getCurrentQuote: state => state.quotes[state.currentQuoteIdx],
     getGameScore: state => state.gameState.filter(gameStateEl => gameStateEl.evaluation).length

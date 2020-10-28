@@ -1,28 +1,15 @@
 <template>
-  <div
-    class="character-card"
-    @click="addOrRemoveCharacterFromGame(character.id)"
-    :class="isSelected"
-  >
+  <div class="character-card" @click="addOrRemoveCharacterFromGame(character.id)" :class="isSelected">
     <div class="character-card__inner">
-      <div
-        class="character-card__front"
-        :style="getCharacterBackgroundImageMixin(character.slug, '0,0,0,0.2')"
-      >
+      <div class="character-card__front" :style="getCharacterBackgroundImageMixin(character.slug, '0,0,0,0.2')">
         <div class="character-card__text-container">
-          <p>{{character.name}}</p>
+          <p>{{ character.name }}</p>
         </div>
       </div>
-      <div
-        class="character-card__back"
-        :style="getCharacterBackgroundImageMixin(character.slug, '0,0,0,0.5')"
-      >
-        <img
-          class="character-card__checkmark"
-          :src="require('@/assets/images/icons/checkmark.svg')"
-        />
+      <div class="character-card__back" :style="getCharacterBackgroundImageMixin(character.slug, '0,0,0,0.5')">
+        <img class="character-card__checkmark" :src="require('@/assets/images/icons/checkmark.svg')" />
         <div class="character-card__text-container">
-          <p>{{character.name}}</p>
+          <p>{{ character.name }}</p>
         </div>
       </div>
     </div>

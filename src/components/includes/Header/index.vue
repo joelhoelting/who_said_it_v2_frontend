@@ -72,7 +72,6 @@ export default {
   computed: {
     ...mapGetters('authorization', ['isLoggedIn']),
     currentRouteName() {
-      console.log(this.$route.name);
       return routeTitles[this.$route.name];
     }
   },
@@ -89,7 +88,6 @@ export default {
   watch: {
     mobileMenuActive: {
       handler: function() {
-        console.log('hello');
         if (this.mobileMenuActive) {
           document.body.style.overflow = 'hidden';
         } else {
