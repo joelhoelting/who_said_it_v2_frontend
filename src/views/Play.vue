@@ -1,12 +1,7 @@
 <template>
   <div class="container offset-header">
     <difficulty-toolbar />
-    <transition-group
-      class="card-container"
-      tag="div"
-      @before-enter="cardBeforeEnter"
-      @enter="cardEnter"
-    >
+    <transition-group class="card-container" tag="div" @before-enter="cardBeforeEnter" @enter="cardEnter">
       <character-select-card
         v-for="(character, index) in characters"
         :key="character.id"
@@ -14,7 +9,7 @@
         :data-index="index"
       />
     </transition-group>
-    <footer-bar height="200px">
+    <footer-bar>
       <button
         :class="{ disabled: isButtonDisabled }"
         :disabled="isButtonDisabled"

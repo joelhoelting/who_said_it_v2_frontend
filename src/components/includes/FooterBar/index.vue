@@ -20,9 +20,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 150px;
+  height: 80px;
   @include media-query('tablet', 'min') {
     background: rgba(0, 0, 0, 0.2);
+    height: 150px;
   }
   @include media-query('tabletLandscape', 'min') {
     height: 150px;

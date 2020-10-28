@@ -10,6 +10,11 @@ $breakpoints: (
   desktopXLarge: 2048
 );
 
+// Usage
+// @include media-query('tablet', 'min') {
+//   position: fixed
+// }
+
 @mixin media-query($breakpoint, $direction) {
   @if map-has-key($breakpoints, $breakpoint) {
     $breakpoint-value: map-get($breakpoints, $breakpoint);

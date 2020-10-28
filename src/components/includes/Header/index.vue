@@ -72,6 +72,7 @@ export default {
   computed: {
     ...mapGetters('authorization', ['isLoggedIn']),
     currentRouteName() {
+      console.log(this.$route.name);
       return routeTitles[this.$route.name];
     }
   },
