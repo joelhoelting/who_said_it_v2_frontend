@@ -62,7 +62,7 @@
       width: 60%;
     }
     @include media-query('tabletLandscape', 'min') {
-      font-size: 2rem;
+      font-size: 1.4rem;
     }
   }
   &.btn--empty-game {

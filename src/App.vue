@@ -5,7 +5,7 @@
       <router-view />
     </transition>
     <notification-container />
-    <loader v-if="loadingOverlayActive" />
+    <loading-overlay v-if="loadingOverlayActive" />
   </div>
 </template>
 
@@ -14,14 +14,14 @@ import './assets/stylesheets/main.scss';
 import { mapActions, mapState } from 'vuex';
 
 import Header from '@/components/includes/Header';
-import Loader from '@/components/includes/Loader/LoadingOverlay';
+import LoadingOverlay from '@/components/includes/Loader/LoadingOverlay';
 import NotificationContainer from '@/components/includes/Notification';
 
 export default {
   name: 'App',
   components: {
     Header,
-    Loader,
+    LoadingOverlay,
     NotificationContainer
   },
   created() {
