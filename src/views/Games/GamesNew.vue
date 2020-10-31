@@ -4,11 +4,9 @@
       <div class="quote-container" v-if="!game.completed">
         <div class="quote-box">
           <transition name="quote-slow-fade-from-top">
-            <p
-              v-for="quote in currentQuote"
-              :key="`game-quote-${quote.id}`"
-              class="quote-box__current_quote"
-            >"{{ quote.content }}"</p>
+            <p v-for="quote in currentQuote" :key="`game-quote-${quote.id}`" class="quote-box__current_quote">
+              "{{ quote.content }}"
+            </p>
           </transition>
         </div>
         <div class="quote-progress">
@@ -16,7 +14,29 @@
         </div>
       </div>
     </transition>
-    <game-footer-bar v-if="!game.completed">
+    <footer-bar
+      v-if="!game.completed"
+      has-footer-drawer
+      :class-prop="'bottom-position-overlay'"
+      :footer-drawer-active="game.answer.submitted"
+    >
+      <div class="footer-container__progress-bar" :style="{ width: gameProgressPercentage }" />
+      <template v-slot:footer-drawer>
+        <div class="answer-overlay" v-if="game.answer.submitted" @click="triggerNextQuote">
+          <loading-animation v-if="loadingAnimationActive" />
+          <div class="answer-overlay__answer_box" v-if="!loadingAnimationActive">
+            <h6 class="answer-overlay__answer">
+              <span v-if="!loadingAnimationActive && game.answer.evaluation" class="answer-overlay__answer--correct"
+                >Correct!</span
+              >
+              <span v-if="!loadingAnimationActive && !game.answer.evaluation" class="answer-overlay__answer--incorrect"
+                >Incorrect</span
+              >
+            </h6>
+            <p class="answer-overlay__instructions">CLICK OR PRESS SPACE TO CONTINUE</p>
+          </div>
+        </div>
+      </template>
       <character-game-card
         v-for="(character, index) in game.characters"
         :key="character.id"
@@ -24,27 +44,7 @@
         :characterNumber="index + 1"
         :data-index="index"
       />
-      <transition name="fade">
-        <div class="answer-overlay" v-if="game.answer.submitted" @click="triggerNextQuote">
-          <loading-animation v-if="loadingAnimationActive" />
-          <transition name="fade">
-            <div class="answer-overlay__answer_box" v-if="!loadingAnimationActive">
-              <h6 class="answer-overlay__answer">
-                <span
-                  v-if="!loadingAnimationActive && game.answer.evaluation"
-                  class="answer-overlay__answer--correct"
-                >Correct!</span>
-                <span
-                  v-if="!loadingAnimationActive && !game.answer.evaluation"
-                  class="answer-overlay__answer--incorrect"
-                >Incorrect</span>
-              </h6>
-              <p class="answer-overlay__instructions">CLICK OR PRESS SPACE TO CONTINUE</p>
-            </div>
-          </transition>
-        </div>
-      </transition>
-    </game-footer-bar>
+    </footer-bar>
     <transition name="fade">
       <div class="postgame-container" v-if="game.completed">
         <transition name="fade">
@@ -83,7 +83,6 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 import CharacterGameCard from '@/components/pages/games/new/CharacterGameCard';
 import GameTable from '@/components/pages/games/show/GameTable';
 import FooterBar from '@/components/includes/FooterBar';
-import GameFooterBar from '@/components/includes/FooterBar/GameFooterBar';
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation';
 
 import { range } from '@/helpers/arrays';
@@ -94,7 +93,6 @@ export default {
     CharacterGameCard,
     FooterBar,
     GameTable,
-    GameFooterBar,
     LoadingAnimation
   },
   data() {
@@ -115,7 +113,7 @@ export default {
   },
   computed: {
     ...mapState(['game', 'loadingAnimationActive']),
-    ...mapGetters('game', ['getCurrentQuote', 'getGameScore']),
+    ...mapGetters('game', ['getCurrentQuote', 'getGameScore', 'gameProgressPercentage']),
     currentQuote() {
       const currentQuoteIdx = this.game.currentQuoteIdx;
       return this.game.quotes.filter((quote, idx) => idx === currentQuoteIdx);
@@ -161,16 +159,27 @@ export default {
   }
   .quote-box {
     height: 95%;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     .quote-box__current_quote {
       position: absolute;
       max-width: 1000px;
-      font-size: 2rem;
-      padding: 1em;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @include media-query('tabletLandscape', 'min') {
+        height: calc(100% - 200px);
+        padding: 1em;
+        font-size: 1.4rem;
+      }
     }
   }
   .quote-progress {
@@ -243,30 +252,43 @@ export default {
 }
 
 .footer-container {
-  .answer-overlay {
+  .footer-container__progress-bar {
     position: absolute;
-    height: calc(100% - 2px);
-    width: 100%;
+    top: 0;
     left: 0;
-    top: 2px;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    .spinner {
-      position: absolute;
+    height: 2px;
+    background: white;
+    transition: width 300ms ease;
+  }
+  .footer-container__footer-drawer {
+    &.active {
+      z-index: 1 !important;
+      bottom: 0 !important;
     }
-    .answer-overlay__answer_box {
-      text-align: center;
-      .answer-overlay__answer {
-        font-size: 4em;
-        margin: 0;
-        .answer-overlay__answer--correct {
-          color: $correct-green;
-        }
-        .answer-overlay__answer--incorrect {
-          color: $incorrect-red;
+    .answer-overlay {
+      height: calc(100%);
+      width: 100%;
+      left: 0;
+      top: 2px;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      .spinner {
+        position: absolute;
+      }
+      .answer-overlay__answer_box {
+        text-align: center;
+        .answer-overlay__answer {
+          font-size: 4em;
+          margin: 0;
+          .answer-overlay__answer--correct {
+            color: $correct-green;
+          }
+          .answer-overlay__answer--incorrect {
+            color: $incorrect-red;
+          }
         }
       }
     }

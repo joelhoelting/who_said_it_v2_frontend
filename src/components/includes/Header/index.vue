@@ -84,20 +84,6 @@ export default {
         if (this.$route.path !== '/') this.$router.push('/');
       });
     }
-  },
-  watch: {
-    mobileMenuActive: {
-      handler: function() {
-        if (this.mobileMenuActive) {
-          document.body.style.overflow = 'hidden';
-        } else {
-          setTimeout(() => {
-            document.body.style.overflow = 'visible';
-          }, 300);
-        }
-      },
-      deep: true
-    }
   }
 };
 </script>

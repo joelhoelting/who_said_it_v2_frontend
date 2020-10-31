@@ -10,8 +10,8 @@
       />
     </transition-group>
 
-    <footer-bar>
-      <div class="play-btn-slider-container" :class="isPlayDrawerVisible && 'active'">
+    <footer-bar has-footer-drawer :footer-drawer-active="charactersRequiredToStartGame === 0">
+      <template v-slot:footer-drawer>
         <button
           :class="{ disabled: isPlayButtonDisabled }"
           :disabled="isPlayButtonDisabled"
@@ -21,7 +21,7 @@
           <span v-if="!loadingAnimationActive">Play Game</span>
           <loading-animation v-if="loadingAnimationActive" />
         </button>
-      </div>
+      </template>
       <empty-or-selected-character-card v-for="(n, i) in charactersForSelectedDifficulty" :cardIdx="i" :key="i" />
     </footer-bar>
   </div>
@@ -75,9 +75,6 @@ export default {
     ...mapState('game', ['characterIds']),
     ...mapGetters('game', ['charactersRequiredToStartGame', 'charactersForSelectedDifficulty']),
     ...mapGetters('character', ['findCharacterById']),
-    isPlayDrawerVisible() {
-      return this.charactersRequiredToStartGame === 0;
-    },
     isPlayButtonDisabled() {
       return this.charactersRequiredToStartGame !== 0 || this.loadingAnimationActive;
     }
@@ -129,32 +126,6 @@ export default {
   }
   .footer-container {
     border-top: 1px solid rgba(255, 255, 255, 0.5);
-    .play-btn-slider-container {
-      height: 80px;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      opacity: 0;
-      transition: opacity 200ms ease, bottom 200ms ease 400ms;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      @include media-query('tabletLandscape', 'min') {
-        height: 100px;
-        width: 100%;
-      }
-      &.active {
-        bottom: 80px;
-        opacity: 1;
-        transition: bottom 200ms ease;
-        @include media-query('tabletLandscape', 'min') {
-          width: 100%;
-          bottom: 120px;
-        }
-      }
-    }
   }
 }
 
