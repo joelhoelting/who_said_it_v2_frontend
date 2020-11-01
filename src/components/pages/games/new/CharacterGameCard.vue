@@ -47,11 +47,11 @@ export default {
   cursor: pointer;
   transition: border 200ms ease;
   border: 2px solid #000;
-  @include media-query('tabletLandscape', 'min') {
+  @include media-query('tablet', 'min') {
     height: 100px;
     width: 100px;
   }
-  @include media-query('tabletLandscape', 'min') {
+  @include media-query('tablet', 'min') {
     &:hover {
       border: 3px solid rgba(255, 255, 255, 1);
     }

@@ -35,11 +35,10 @@ export default {
   height: 80px;
   @include media-query('tablet', 'min') {
     background: rgba(0, 0, 0, 0.2);
-    height: 100px;
+    height: 120px;
   }
   @include media-query('tabletLandscape', 'min') {
     background: rgba(0, 0, 0, 0.2);
-    height: 120px;
   }
   .footer-container__footer-drawer {
     height: 100%;
@@ -58,14 +57,15 @@ export default {
       bottom: 80px;
       opacity: 1;
       transition: opacity 300ms ease, bottom 300ms ease;
-      @include media-query('tabletLandscape', 'min') {
+      @include media-query('tablet', 'min') {
         width: 100%;
         bottom: 120px;
       }
     }
     &.bottom-position-overlay {
-      bottom: 0;
+      bottom: -60px;
       &.active {
+        bottom: 0;
         z-index: 1;
       }
     }

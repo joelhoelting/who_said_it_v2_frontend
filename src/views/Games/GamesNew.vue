@@ -22,20 +22,7 @@
     >
       <div class="footer-container__progress-bar" :style="{ width: gameProgressPercentage }" />
       <template v-slot:footer-drawer>
-        <div class="answer-overlay" v-if="game.answer.submitted" @click="triggerNextQuote">
-          <loading-animation v-if="loadingAnimationActive" />
-          <div class="answer-overlay__answer_box" v-if="!loadingAnimationActive">
-            <h6 class="answer-overlay__answer">
-              <span v-if="!loadingAnimationActive && game.answer.evaluation" class="answer-overlay__answer--correct"
-                >Correct!</span
-              >
-              <span v-if="!loadingAnimationActive && !game.answer.evaluation" class="answer-overlay__answer--incorrect"
-                >Incorrect</span
-              >
-            </h6>
-            <p class="answer-overlay__instructions">CLICK OR PRESS SPACE TO CONTINUE</p>
-          </div>
-        </div>
+        <answer-overlay />
       </template>
       <character-game-card
         v-for="(character, index) in game.characters"
@@ -81,9 +68,9 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 import CharacterGameCard from '@/components/pages/games/new/CharacterGameCard';
+import AnswerOverlay from '@/components/pages/games/new/AnswerOverlay';
 import GameTable from '@/components/pages/games/show/GameTable';
 import FooterBar from '@/components/includes/FooterBar';
-import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation';
 
 import { range } from '@/helpers/arrays';
 
@@ -91,9 +78,9 @@ export default {
   name: 'GamesNew',
   components: {
     CharacterGameCard,
+    AnswerOverlay,
     FooterBar,
-    GameTable,
-    LoadingAnimation
+    GameTable
   },
   data() {
     return {
@@ -151,8 +138,8 @@ export default {
 <style lang="scss" scoped>
 .quote-container {
   height: calc(100% - 100px);
-  @include media-query('tabletLandscape', 'min') {
-    height: calc(100% - 150px);
+  @include media-query('tablet', 'min') {
+    height: calc(100% - 140px);
   }
   @include media-query('desktop', 'min') {
     height: calc(100% - 200px);
@@ -259,39 +246,7 @@ export default {
     height: 2px;
     background: white;
     transition: width 300ms ease;
-  }
-  .footer-container__footer-drawer {
-    &.active {
-      z-index: 1 !important;
-      bottom: 0 !important;
-    }
-    .answer-overlay {
-      height: calc(100%);
-      width: 100%;
-      left: 0;
-      top: 2px;
-      background: rgba(0, 0, 0, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      .spinner {
-        position: absolute;
-      }
-      .answer-overlay__answer_box {
-        text-align: center;
-        .answer-overlay__answer {
-          font-size: 4em;
-          margin: 0;
-          .answer-overlay__answer--correct {
-            color: $correct-green;
-          }
-          .answer-overlay__answer--incorrect {
-            color: $incorrect-red;
-          }
-        }
-      }
-    }
+    z-index: 2;
   }
 }
 </style>

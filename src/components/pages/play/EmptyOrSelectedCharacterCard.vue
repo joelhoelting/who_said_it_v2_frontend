@@ -53,7 +53,7 @@ export default {
   width: 60px;
   margin: 10px;
   border-radius: 10px;
-  @include media-query('tabletLandscape', 'min') {
+  @include media-query('tablet', 'min') {
     height: 100px;
     width: 100px;
   }
@@ -65,7 +65,7 @@ export default {
     border-radius: 10px;
     position: relative;
     cursor: pointer;
-    @include media-query('tabletLandscape', 'min') {
+    @include media-query('tablet', 'min') {
       &:hover .empty-or-selected-character-card__close-icon {
         height: 30px;
         width: 30px;
