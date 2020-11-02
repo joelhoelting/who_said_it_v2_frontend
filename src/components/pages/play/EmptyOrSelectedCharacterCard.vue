@@ -39,9 +39,6 @@ export default {
   },
   methods: {
     ...mapActions('game', ['addOrRemoveCharacterFromGame'])
-  },
-  created() {
-    console.log(this.cardIdx);
   }
 };
 </script>

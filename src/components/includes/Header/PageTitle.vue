@@ -20,11 +20,8 @@
     width: auto;
   }
   .title-container__title {
-    font-size: 1.6em;
+    font-size: 2em;
     margin: 0;
-    @include media-query('tabletLandscape', 'min') {
-      font-size: 2em;
-    }
   }
 }
 </style>
