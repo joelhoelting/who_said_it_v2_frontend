@@ -34,10 +34,11 @@ export const authAPIHelper = (vuexObj, options) => {
       })
       .catch(error => {
         commit('AUTH_ERROR', error);
+        console.log(loadingAction);
 
         const notification = {
           type: 'error',
-          message: error.response.data.error
+          message: error.response ? error.response.data.error : error.message
         };
 
         setTimeout(() => {

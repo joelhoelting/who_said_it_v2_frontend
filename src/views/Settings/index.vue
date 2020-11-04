@@ -3,13 +3,13 @@
     <div class="settings-menu">
       <ul>
         <li>
-          <router-link to="/settings/profile">PROFILE</router-link>
+          <router-link to="/settings/update_email">Update Email</router-link>
         </li>
         <li>
-          <router-link to="/settings/security">SECURITY</router-link>
+          <router-link to="/settings/update_password">Update Password</router-link>
         </li>
         <li>
-          <router-link to="/settings/account">ACCOUNT</router-link>
+          <router-link to="/settings/delete_account">Delete Account</router-link>
         </li>
       </ul>
     </div>

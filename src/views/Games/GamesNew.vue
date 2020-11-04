@@ -33,29 +33,27 @@
       />
     </footer-bar>
     <transition name="fade">
-      <div class="postgame-container" v-if="game.completed">
-        <transition name="fade">
-          <div class="score-container" v-if="!showDetails">
-            <p>Your Score: {{ getGameScore }} / 10</p>
-            <div class="scoremeter">
-              <span class="scoremeter__static" :style="{ width: getGameScore * 10 + '%' }">
-                <span class="scoremeter__progress progress"></span>
-              </span>
-            </div>
-            <button class="btn btn--game-details" @click="showDetails = !showDetails">
-              <span>View Game Details</span>
-            </button>
+      <div class="postgame-container" v-if="game.completed && !showDetails">
+        <div class="score-container">
+          <p>Your Score: {{ getGameScore }} / 10</p>
+          <div class="scoremeter">
+            <span class="scoremeter__static" :style="{ width: getGameScore * 10 + '%' }">
+              <span class="scoremeter__progress progress"></span>
+            </span>
           </div>
-        </transition>
-        <transition name="fade">
-          <div class="detail-container" v-if="showDetails">
-            <game-table :gameState="game.gameState" />
-          </div>
-        </transition>
+          <button class="btn btn--game-details" @click="showDetails = !showDetails">
+            <span>View Game Details</span>
+          </button>
+        </div>
       </div>
+      <transition name="fade">
+        <div class="detail-container" v-if="game.completed && showDetails">
+          <game-table :gameState="game.gameState" />
+        </div>
+      </transition>
     </transition>
     <transition name="fade">
-      <footer-bar height="200px" v-if="game.completed">
+      <footer-bar v-if="game.completed">
         <router-link class="btn btn--start" to="/play" tag="button">
           <span>Play Again</span>
         </router-link>
@@ -145,78 +143,76 @@ export default {
     height: calc(100% - 200px);
   }
   .quote-box {
-    height: 95%;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
     align-items: center;
+    display: flex;
+    height: 95%;
     justify-content: center;
-    position: relative;
     left: 50%;
+    margin: 0 auto;
+    position: relative;
     transform: translateX(-50%);
+    width: 100%;
     .quote-box__current_quote {
-      position: absolute;
-      max-width: 1000px;
-      font-size: 1rem;
-      display: flex;
       align-items: center;
+      display: flex;
+      font-size: 1rem;
       justify-content: center;
-
+      max-width: 1000px;
+      position: absolute;
       @include media-query('tabletLandscape', 'min') {
+        font-size: 1.4rem;
         height: calc(100% - 200px);
         padding: 1em;
-        font-size: 1.4rem;
       }
     }
   }
   .quote-progress {
-    height: 5%;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    display: flex;
     align-items: center;
+    bottom: 0;
+    display: flex;
     justify-content: center;
+    height: 5%;
+    text-align: center;
+    width: 100%;
     p {
       margin: 0;
     }
   }
 }
 .postgame-container {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
+  height: calc(100% - 100px);
+  left: 0;
   padding-top: 100px;
-  height: calc(100% - 200px);
-  position: absolute;
   top: 0;
   width: 100%;
-  left: 0;
+  position: absolute;
   .score-container {
-    position: absolute;
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    position: absolute;
     width: 80%;
     p {
-      margin: 0;
       font-size: 1.4rem;
+      margin: 0;
     }
     .scoremeter {
-      height: 50px;
-      border-radius: 50px;
-      position: relative;
       background: $dark-purple;
-      margin: 0 auto;
-      overflow: hidden;
-      width: 75%;
+      border-radius: 50px;
+      height: 50px;
       margin: 1.4em 0;
+      overflow: hidden;
+      position: relative;
+      width: 75%;
       span {
         display: block;
         height: 100%;
         &.progress {
-          background: $light-purple;
           animation: animateProgressBar 1s ease-in-out;
+          background: $light-purple;
         }
       }
 
@@ -231,20 +227,25 @@ export default {
     }
   }
   .detail-container {
-    position: absolute;
     left: 0;
-    top: 100px;
+    padding-bottom: 80px;
+    top: 60px;
     width: 100%;
+    position: absolute;
+    @include media-query('tablet', 'min') {
+      padding-bottom: 120px;
+      top: 100px;
+    }
   }
 }
 
 .footer-container {
   .footer-container__progress-bar {
+    background: white;
+    height: 2px;
+    left: 0;
     position: absolute;
     top: 0;
-    left: 0;
-    height: 2px;
-    background: white;
     transition: width 300ms ease;
     z-index: 2;
   }

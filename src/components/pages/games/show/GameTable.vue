@@ -9,7 +9,7 @@
       </tr>
       <tr v-for="(el, index) in gameState" :key="index" valign="top" class="quote-row">
         <td align="left" width="10%">{{ index + 1 }}</td>
-        <td align="left" width="40%">{{ el.quote.content }}</td>
+        <td align="left" width="40%">"{{ el.quote.content }}"</td>
         <td align="left" width="25%">{{ el.correct_character.name }}</td>
         <td align="left" width="25%">
           <span :class="isAnswerCorrect(el)">{{ el.selected_character.name }}</span>
@@ -36,7 +36,13 @@ export default {
 table {
   border-collapse: separate;
   border-spacing: 0 0.6em;
+  padding-bottom: 80px;
   width: 100%;
+  font-size: 0.8rem;
+  @include media-query('tablet', 'min') {
+    padding-bottom: 120px;
+    font-size: 1rem;
+  }
   tr {
     td,
     th {
@@ -44,12 +50,13 @@ table {
     }
 
     td {
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
       span {
         &.correct {
           color: $correct-green;
         }
         &.incorrect {
-          color: white;
+          color: $incorrect-red;
         }
       }
     }

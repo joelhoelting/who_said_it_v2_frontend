@@ -119,7 +119,10 @@ export default {
     flex-wrap: wrap;
     max-width: 1200px;
     margin: 0 auto;
-    padding-bottom: 100px;
+    padding-bottom: 80px;
+    @include media-query('tablet', 'min') {
+      padding-bottom: 120px;
+    }
     @include media-query('tabletLandscape', 'min') {
       padding-bottom: 0;
     }

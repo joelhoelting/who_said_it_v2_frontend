@@ -13,9 +13,7 @@ export default {
   computed: {
     ...mapState('notification', ['notifications']),
     notificationTypeClass() {
-      return this.notifications.length > 0
-        ? `notification notification--${this.notifications[0].type}`
-        : null;
+      return this.notifications.length > 0 ? `notification notification--${this.notifications[0].type}` : null;
     }
   }
 };
@@ -27,18 +25,24 @@ export default {
   bottom: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.9);
-  height: 200px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
+  @include media-query('tablet', 'min') {
+    height: 120px;
+  }
   .notification {
-    font-size: 1.5em;
+    font-size: 1em;
     &.notification--error {
       color: $incorrect-red;
     }
     &.notification--success {
       color: $correct-green;
+    }
+    @include media-query('tablet', 'min') {
+      font-size: 1.5em;
     }
   }
 }

@@ -2,10 +2,14 @@ form.authentication {
   display: flex;
   flex-direction: column;
   background: rgba(0, 0, 0, 0.2);
-  padding: 60px 70px 70px;
-  width: 50%;
+  padding: 20px 20px 20px;
+  width: 90%;
   max-width: 600px;
   position: absolute;
+  @include media-query('tablet', 'min') {
+    padding: 60px 70px 70px;
+    width: 50%;
+  }
   .visually-hidden {
     position: absolute;
     left: -10000px;

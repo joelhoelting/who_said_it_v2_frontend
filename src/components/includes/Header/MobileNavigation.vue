@@ -13,7 +13,7 @@
     </div>
     <div class="mobile-nav__mobile-section" v-if="isLoggedIn">
       <router-link @click.native="closeMobileMenuParent" to="/settings">Settings</router-link>
-      <router-link @click.native="closeMobileMenuParent" to="/games">Statistics</router-link>
+      <router-link @click.native="closeMobileMenuParent" to="/games">History</router-link>
       <a href="/signout" @click.prevent="signOutParent">Sign Out</a>
     </div>
   </nav>

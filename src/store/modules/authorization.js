@@ -5,7 +5,10 @@ const authorizationModule = {
   namespaced: true,
   state: {
     status: '',
-    jwt: localStorage.getItem('jwt') || ''
+    jwt: localStorage.getItem('jwt') || '',
+    user: {
+      email: ''
+    }
   },
   mutations: {
     AUTH_REQUEST(state) {
