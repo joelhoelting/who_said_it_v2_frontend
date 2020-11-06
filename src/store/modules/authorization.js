@@ -11,14 +11,20 @@ const authorizationModule = {
     }
   },
   mutations: {
-    AUTH_REQUEST(state) {
+    AUTH_REQUEST_PENDING(state) {
       state.status = 'pending';
     },
-    AUTH_SUCCESS(state, jwt) {
+    AUTH_SUCCESS(state, jwt = false) {
+      if (!jwt) {
+        return (state.status = 'success');
+      }
+
       localStorage.setItem('jwt', jwt);
 
-      state.status = 'success';
-      state.jwt = jwt;
+      Object.assign(state, {
+        status: 'success',
+        jwt
+      });
     },
     AUTH_PENDING(state) {
       state.status = 'pending';
@@ -29,8 +35,10 @@ const authorizationModule = {
     SIGN_OUT(state) {
       localStorage.removeItem('jwt');
 
-      state.status = '';
-      state.jwt = '';
+      Object.assign(state, {
+        status: '',
+        jwt: ''
+      });
     }
   },
   actions: {
@@ -188,13 +196,18 @@ const authorizationModule = {
       dispatch('notification/addNotification', notification, { root: true });
       commit('SIGN_OUT');
     },
-    validateToken({ commit, dispatch }) {
+    validateToken({ commit }) {
       return new Promise(() => {
-        commit('AUTH_REQUEST');
+        commit('AUTH_REQUEST_PENDING');
 
-        authorizedAxiosInstance.get('/validate_token').catch(() => {
-          dispatch('signOut');
-        });
+        authorizedAxiosInstance
+          .get('/validate_token')
+          .then(() => {
+            commit('AUTH_SUCCESS');
+          })
+          .catch(() => {
+            commit('SIGN_OUT');
+          });
       });
     }
   },

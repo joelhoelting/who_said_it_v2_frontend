@@ -12,7 +12,7 @@ export const authAPIHelper = (vuexObj, options) => {
   let axiosInstanceType = authorized ? authorizedAxiosInstance : plainAxiosInstance;
 
   return new Promise((resolve, reject) => {
-    commit('AUTH_REQUEST');
+    commit('AUTH_REQUEST_PENDING');
 
     axiosInstanceType[httpMethod](apiRoute, payload)
       .then(response => {
@@ -34,7 +34,6 @@ export const authAPIHelper = (vuexObj, options) => {
       })
       .catch(error => {
         commit('AUTH_ERROR', error);
-        console.log(loadingAction);
 
         const notification = {
           type: 'error',
