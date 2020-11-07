@@ -14,20 +14,27 @@ const authorizationModule = {
     AUTH_REQUEST_PENDING(state) {
       state.status = 'pending';
     },
-    AUTH_SUCCESS(state, jwt = false) {
-      if (!jwt) {
-        return (state.status = 'success');
-      }
-
-      localStorage.setItem('jwt', jwt);
+    AUTH_PENDING(state) {
+      state.status = 'pending';
+    },
+    AUTH_SUCCESS_ON_APP_REFRESH(state, payload) {
+      const { user } = payload;
 
       Object.assign(state, {
         status: 'success',
-        jwt
+        user
       });
     },
-    AUTH_PENDING(state) {
-      state.status = 'pending';
+    AUTH_SUCCESS(state, payload) {
+      let { jwt, user } = payload;
+      console.log(jwt, user);
+
+      localStorage.setItem('jwt', jwt);
+      Object.assign(state, {
+        jwt,
+        status: 'success',
+        user
+      });
     },
     AUTH_ERROR(state) {
       state.status = 'error';
@@ -42,41 +49,6 @@ const authorizationModule = {
     }
   },
   actions: {
-    async signIn({ commit, dispatch }, payload) {
-      try {
-        let response = await authAPIHelper(
-          { commit, dispatch },
-          {
-            apiRoute: 'signin',
-            httpMethod: 'post',
-            payload,
-            loadingAction: 'loadingAnimation',
-            loadingDelay: 500
-          }
-        );
-
-        const { jwt } = response.data;
-        commit('AUTH_SUCCESS', jwt);
-      } catch (error) {
-        throw error;
-      }
-    },
-    async signUp({ commit, dispatch }, payload) {
-      try {
-        await authAPIHelper(
-          { commit, dispatch },
-          {
-            apiRoute: 'signup',
-            httpMethod: 'post',
-            payload,
-            loadingAction: 'loadingAnimation',
-            loadingDelay: 500
-          }
-        );
-      } catch (error) {
-        throw error;
-      }
-    },
     async confirmEmail({ commit, dispatch }, payload) {
       try {
         let response = await authAPIHelper(
@@ -90,8 +62,8 @@ const authorizationModule = {
           }
         );
 
-        const { jwt } = response.data;
-        commit('AUTH_SUCCESS', jwt);
+        const { jwt, user } = response.data;
+        commit('AUTH_SUCCESS', { jwt, user });
       } catch (error) {
         throw error;
       }
@@ -187,6 +159,41 @@ const authorizationModule = {
         throw error;
       }
     },
+    async signIn({ commit, dispatch }, payload) {
+      try {
+        let response = await authAPIHelper(
+          { commit, dispatch },
+          {
+            apiRoute: 'signin',
+            httpMethod: 'post',
+            payload,
+            loadingAction: 'loadingAnimation',
+            loadingDelay: 500
+          }
+        );
+
+        const { jwt, user } = response.data;
+        commit('AUTH_SUCCESS', { jwt, user });
+      } catch (error) {
+        throw error;
+      }
+    },
+    async signUp({ commit, dispatch }, payload) {
+      try {
+        await authAPIHelper(
+          { commit, dispatch },
+          {
+            apiRoute: 'signup',
+            httpMethod: 'post',
+            payload,
+            loadingAction: 'loadingAnimation',
+            loadingDelay: 500
+          }
+        );
+      } catch (error) {
+        throw error;
+      }
+    },
     signOut({ commit, dispatch }) {
       const notification = {
         type: 'success',
@@ -202,8 +209,9 @@ const authorizationModule = {
 
         authorizedAxiosInstance
           .get('/validate_token')
-          .then(() => {
-            commit('AUTH_SUCCESS');
+          .then(response => {
+            const { user } = response.data;
+            commit('AUTH_SUCCESS_ON_APP_REFRESH', { user });
           })
           .catch(() => {
             commit('SIGN_OUT');
