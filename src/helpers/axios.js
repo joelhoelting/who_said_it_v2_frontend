@@ -16,7 +16,7 @@ export const authAPIHelper = (vuexObj, options) => {
 
     axiosInstanceType[httpMethod](apiRoute, payload)
       .then(response => {
-        commit('AUTH_PENDING');
+        commit('AUTH_REQUEST_SUCCESS');
 
         const notification = {
           type: 'success',
@@ -28,12 +28,11 @@ export const authAPIHelper = (vuexObj, options) => {
             root: true
           });
           dispatch(`disable${loadingAction}`, null, { root: true });
-
           resolve(response);
         }, loadingDelay || 0);
       })
       .catch(error => {
-        commit('AUTH_ERROR', error);
+        commit('AUTH_REQUEST_ERROR');
 
         const notification = {
           type: 'error',

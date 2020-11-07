@@ -1,4 +1,4 @@
-import { authorizedAxiosInstance } from '@/axios';
+// import { authorizedAxiosInstance } from '@/axios';
 import { authAPIHelper } from '@/helpers/axios';
 
 const authorizationModule = {
@@ -14,30 +14,22 @@ const authorizationModule = {
     AUTH_REQUEST_PENDING(state) {
       state.status = 'pending';
     },
-    AUTH_PENDING(state) {
-      state.status = 'pending';
+    AUTH_REQUEST_ERROR(state) {
+      state.status = 'error';
     },
-    AUTH_SUCCESS_ON_APP_REFRESH(state, payload) {
-      const { user } = payload;
-
-      Object.assign(state, {
-        status: 'success',
-        user
-      });
+    AUTH_REQUEST_SUCCESS(state) {
+      state.status = 'success';
     },
-    AUTH_SUCCESS(state, payload) {
+    UPDATE_LOCAL_AUTH(state, payload) {
       let { jwt, user } = payload;
-      console.log(jwt, user);
 
-      localStorage.setItem('jwt', jwt);
+      if (jwt) localStorage.setItem('jwt', jwt);
+
       Object.assign(state, {
         jwt,
         status: 'success',
         user
       });
-    },
-    AUTH_ERROR(state) {
-      state.status = 'error';
     },
     SIGN_OUT(state) {
       localStorage.removeItem('jwt');
@@ -49,6 +41,60 @@ const authorizationModule = {
     }
   },
   actions: {
+    // Authorized Actions
+    async deleteAccount({ commit, dispatch }) {
+      try {
+        await authAPIHelper(
+          { commit, dispatch },
+          {
+            authorized: true,
+            apiRoute: 'delete_account',
+            httpMethod: 'get',
+            loadingAction: 'loadingAnimation',
+            loadingDelay: 500
+          }
+        );
+        commit('SIGN_OUT');
+      } catch (error) {
+        throw error;
+      }
+    },
+    async updatePassword({ commit, dispatch }, payload) {
+      try {
+        await authAPIHelper(
+          { commit, dispatch },
+          {
+            authorized: true,
+            apiRoute: 'update_password',
+            httpMethod: 'post',
+            payload,
+            loadingAction: 'loadingAnimation',
+            loadingDelay: 500
+          }
+        );
+      } catch (error) {
+        throw error;
+      }
+    },
+    async validateToken({ commit, dispatch }) {
+      try {
+        let response = await authAPIHelper(
+          { commit, dispatch },
+          {
+            apiRoute: 'validate_token',
+            httpMethod: 'get',
+            authorized: true,
+            loadingAction: 'loadingOverlay',
+            loadingDelay: 500
+          }
+        );
+        commit('UPDATE_LOCAL_AUTH', response.data);
+      } catch (error) {
+        commit('SIGN_OUT');
+        throw error;
+      }
+    },
+    // Non-authorized Actions
     async confirmEmail({ commit, dispatch }, payload) {
       try {
         let response = await authAPIHelper(
@@ -62,8 +108,24 @@ const authorizationModule = {
           }
         );
 
-        const { jwt, user } = response.data;
-        commit('AUTH_SUCCESS', { jwt, user });
+        commit('UPDATE_LOCAL_AUTH', response.data);
+      } catch (error) {
+        throw error;
+      }
+    },
+    async isPasswordResetTokenValid({ commit, dispatch }, payload) {
+      const { password_reset_token } = payload;
+      try {
+        await authAPIHelper(
+          { commit, dispatch },
+          {
+            apiRoute: `confirm_password_reset_token/${password_reset_token}`,
+            httpMethod: 'get',
+            payload: false,
+            loadingAction: 'loadingOverlay',
+            loadingDelay: 500
+          }
+        );
       } catch (error) {
         throw error;
       }
@@ -92,23 +154,6 @@ const authorizationModule = {
         }
       );
     },
-    async isPasswordResetTokenValid({ commit, dispatch }, payload) {
-      const { password_reset_token } = payload;
-      try {
-        await authAPIHelper(
-          { commit, dispatch },
-          {
-            apiRoute: `confirm_password_reset_token/${password_reset_token}`,
-            httpMethod: 'get',
-            payload: false,
-            loadingAction: 'loadingOverlay',
-            loadingDelay: 500
-          }
-        );
-      } catch (error) {
-        throw error;
-      }
-    },
     async resetPassword({ commit, dispatch }, payload) {
       try {
         await authAPIHelper(
@@ -125,46 +170,12 @@ const authorizationModule = {
         throw error;
       }
     },
-    async updatePassword({ commit, dispatch }, payload) {
-      try {
-        await authAPIHelper(
-          { commit, dispatch },
-          {
-            authorized: true,
-            apiRoute: 'update_password',
-            httpMethod: 'post',
-            payload,
-            loadingAction: 'loadingAnimation',
-            loadingDelay: 500
-          }
-        );
-      } catch (error) {
-        throw error;
-      }
-    },
-    async deleteAccount({ commit, dispatch }) {
-      try {
-        await authAPIHelper(
-          { commit, dispatch },
-          {
-            authorized: true,
-            apiRoute: 'delete_account',
-            httpMethod: 'get',
-            loadingAction: 'loadingAnimation',
-            loadingDelay: 500
-          }
-        );
-        commit('SIGN_OUT');
-      } catch (error) {
-        throw error;
-      }
-    },
     async signIn({ commit, dispatch }, payload) {
       try {
         let response = await authAPIHelper(
           { commit, dispatch },
           {
-            apiRoute: 'signin',
+            apiRoute: 'sign_in',
             httpMethod: 'post',
             payload,
             loadingAction: 'loadingAnimation',
@@ -172,8 +183,7 @@ const authorizationModule = {
           }
         );
 
-        const { jwt, user } = response.data;
-        commit('AUTH_SUCCESS', { jwt, user });
+        commit('UPDATE_LOCAL_AUTH', response.data);
       } catch (error) {
         throw error;
       }
@@ -183,7 +193,7 @@ const authorizationModule = {
         await authAPIHelper(
           { commit, dispatch },
           {
-            apiRoute: 'signup',
+            apiRoute: 'sign_up',
             httpMethod: 'post',
             payload,
             loadingAction: 'loadingAnimation',
@@ -194,6 +204,8 @@ const authorizationModule = {
         throw error;
       }
     },
+
+    // Non-API Actions
     signOut({ commit, dispatch }) {
       const notification = {
         type: 'success',
@@ -202,21 +214,6 @@ const authorizationModule = {
 
       dispatch('notification/addNotification', notification, { root: true });
       commit('SIGN_OUT');
-    },
-    validateToken({ commit }) {
-      return new Promise(() => {
-        commit('AUTH_REQUEST_PENDING');
-
-        authorizedAxiosInstance
-          .get('/validate_token')
-          .then(response => {
-            const { user } = response.data;
-            commit('AUTH_SUCCESS_ON_APP_REFRESH', { user });
-          })
-          .catch(() => {
-            commit('SIGN_OUT');
-          });
-      });
     }
   },
   getters: {
