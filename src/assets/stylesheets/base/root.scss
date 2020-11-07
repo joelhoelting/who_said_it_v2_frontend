@@ -15,7 +15,7 @@ body {
 }
 
 body {
-  background: rgb(135, 77, 162);
-  background: linear-gradient(45deg, rgba(135, 77, 162, 1) 0%, rgba(196, 58, 48, 1) 100%);
+  background: $app-background-backup;
+  background: $app-background;
   background-attachment: fixed;
 }

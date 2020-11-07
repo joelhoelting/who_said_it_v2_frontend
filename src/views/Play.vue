@@ -61,7 +61,6 @@ export default {
     this.fetchCharacters()
       .then(response => {
         const { characters } = response;
-        console.log('Succeeded to GET characters from API');
         this.characters = characters;
       })
       .catch(error => {

@@ -5,7 +5,9 @@
       <router-view />
     </transition>
     <notification-container />
-    <loading-overlay v-if="loadingOverlayActive" />
+    <transition name="fade">
+      <loading-overlay v-if="loadingOverlayActive" />
+    </transition>
   </div>
 </template>
 
