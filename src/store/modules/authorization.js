@@ -1,5 +1,5 @@
 // import { authorizedAxiosInstance } from '@/axios';
-import { authAPIHelper } from '@/helpers/axios';
+import { authAPIHelper } from '@/helpers/requests';
 
 const authorizationModule = {
   namespaced: true,
@@ -84,8 +84,9 @@ const authorizationModule = {
             apiRoute: 'validate_token',
             httpMethod: 'get',
             authorized: true,
-            loadingAction: 'loadingOverlay',
-            loadingDelay: 500
+            loadingAction: false,
+            loadingDelay: 500,
+            stifleNotification: true
           }
         );
         commit('UPDATE_LOCAL_AUTH', response.data);

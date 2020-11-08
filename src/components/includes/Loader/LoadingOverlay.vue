@@ -17,7 +17,6 @@ export default {
 
 <style lang="scss" scoped>
 .loader-container {
-  background: $app-background;
   position: fixed;
   top: 0;
   left: 0;
@@ -26,6 +25,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  z-index: -1;
 }
 </style>
