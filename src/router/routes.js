@@ -12,7 +12,7 @@ import GamesNew from '@/views/Games/GamesNew.vue';
 import GamesShow from '@/views/Games/GamesShow.vue';
 
 import Account from '@/views/Account';
-import GeneralAccount from '@/views/Account/GeneralAccount.vue';
+import General from '@/views/Account/General.vue';
 import UpdateEmail from '@/views/Account/UpdateEmail.vue';
 import UpdatePassword from '@/views/Account/UpdatePassword.vue';
 import DeleteAccount from '@/views/Account/DeleteAccount.vue';
@@ -65,9 +65,9 @@ export default [
     component: Account,
     children: [
       {
-        name: 'GeneralAccount',
+        name: 'General',
         path: 'general',
-        component: GeneralAccount
+        component: General
       },
       {
         name: 'UpdateEmail',

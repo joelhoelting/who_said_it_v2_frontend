@@ -4,10 +4,7 @@
       <div class="email-confirmation-modal__mesage" v-if="!loadingAnimationActive">
         <p>Confirmation email was sent to {{ email }}</p>
         <p>Please click the confirmation link to finish account setup</p>
-        <p
-          class="link"
-          @click="resendEmailConfirmation"
-        >Don't see the confirmation email? Resend Confirmation Email</p>
+        <p class="link" @click="resendEmailConfirmation">Don't see the confirmation email? Resend Confirmation Email</p>
         <slot />
       </div>
       <loading-animation v-if="loadingAnimationActive" />
@@ -54,6 +51,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
   .email-confirmation-modal__mesage {
     text-align: center;
     position: absolute;
