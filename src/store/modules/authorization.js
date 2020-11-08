@@ -7,6 +7,7 @@ const authorizationModule = {
     status: '',
     jwt: localStorage.getItem('jwt') || '',
     user: {
+      created_at: '',
       email: ''
     }
   },
@@ -22,7 +23,6 @@ const authorizationModule = {
     },
     UPDATE_LOCAL_AUTH(state, payload) {
       let { jwt, user } = payload;
-
       if (jwt) localStorage.setItem('jwt', jwt);
 
       Object.assign(state, {

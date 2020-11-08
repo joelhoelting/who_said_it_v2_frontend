@@ -109,7 +109,7 @@ export default {
       await this.$recaptchaLoaded();
 
       // Execute reCAPTCHA with action "signup".
-      const token = await this.$recaptcha('signin');
+      const token = await this.$recaptcha('sign_in');
 
       let { email, password } = this;
 

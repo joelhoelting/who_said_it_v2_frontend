@@ -74,7 +74,7 @@ export default {
         }
       })
       .catch(() => {
-        this.$router.push('/signin');
+        this.$router.push('/sign_in');
       });
   },
   computed: {
@@ -115,7 +115,7 @@ export default {
             token
           }
         }).then(() => {
-          this.$router.push('/signin');
+          this.$router.push('/sign_in');
         });
       } else {
         this.addNotification({

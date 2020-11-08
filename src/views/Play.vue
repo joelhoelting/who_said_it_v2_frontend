@@ -9,7 +9,6 @@
         :data-index="index"
       />
     </transition-group>
-
     <footer-bar has-footer-drawer :footer-drawer-active="charactersRequiredToStartGame === 0">
       <template v-slot:footer-drawer>
         <button

@@ -1,16 +1,24 @@
 <template>
   <div class="general-panel">
-    {{ this.authorization.user.email }}
+    <p class="title center underline">User Information</p>
+    <p>Email Address: {{ authorization.user.email }}</p>
+    <p>Account Creation Date: {{ accountCreationDate }}</p>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
+
+import { stringifyDateFromString } from '@/helpers/dates';
 
 export default {
-  name: 'GeneralAccount',
+  name: 'General',
   computed: {
-    ...mapState(['authorization'])
+    ...mapState(['authorization']),
+    ...mapGetters('authorization', ['accountCreationDate']),
+    accountCreationDate() {
+      return this.authorization.user.created_at ? stringifyDateFromString(this.authorization.user.created_at) : '';
+    }
   }
 };
 </script>
@@ -19,5 +27,8 @@ export default {
 .general-panel {
   background: rgba(0, 0, 0, 0.2);
   padding: 2em;
+  .title {
+    margin-bottom: 2em;
+  }
 }
 </style>

@@ -28,7 +28,9 @@ export default {
   },
   created() {
     if (this.authorization.jwt) {
-      this.validateToken();
+      this.validateToken().catch(() => {
+        this.$router.push('/sign_in');
+      });
     }
   },
   computed: {

@@ -35,7 +35,7 @@
           <loading-animation v-if="loadingAnimationActive" />
         </button>
         <div class="auth-options">
-          <router-link to="/signin" tag="a">
+          <router-link to="/sign_in" tag="a">
             <span>Already have an account? Sign In</span>
           </router-link>
         </div>
@@ -113,7 +113,7 @@ export default {
       await this.$recaptchaLoaded();
 
       // Execute reCAPTCHA with action "signup".
-      const token = await this.$recaptcha('signup');
+      const token = await this.$recaptcha('sign_up');
 
       let { email, password, password_confirmation } = this;
 

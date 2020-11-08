@@ -1,5 +1,5 @@
 <template>
-  <div class="account-container">
+  <div class="account-container" v-if="isLoggedIn">
     <nav class="account-menu">
       <ul>
         <li>
@@ -36,7 +36,7 @@ export default {
   },
   mounted() {
     if (!this.isLoggedIn) {
-      this.$router.push('/signin');
+      this.$router.push('/sign_in');
     }
     this.currentRoute = this.$route.name;
   },
