@@ -11,10 +11,11 @@ import Games from '@/views/Games';
 import GamesNew from '@/views/Games/GamesNew.vue';
 import GamesShow from '@/views/Games/GamesShow.vue';
 
-import Settings from '@/views/Settings';
-import UpdateEmail from '@/views/Settings/UpdateEmail.vue';
-import UpdatePassword from '@/views/Settings/UpdatePassword.vue';
-import DeleteAccount from '@/views/Settings/DeleteAccount.vue';
+import Account from '@/views/Account';
+import GeneralAccount from '@/views/Account/GeneralAccount.vue';
+import UpdateEmail from '@/views/Account/UpdateEmail.vue';
+import UpdatePassword from '@/views/Account/UpdatePassword.vue';
+import DeleteAccount from '@/views/Account/DeleteAccount.vue';
 
 const withPrefix = (prefix, routes) =>
   routes.map(route => {
@@ -58,11 +59,16 @@ export default [
     }
   ]),
   {
-    name: 'Settings',
-    path: '/settings',
-    redirect: '/settings/update_email',
-    component: Settings,
+    name: 'Account',
+    path: '/account',
+    redirect: '/account/general',
+    component: Account,
     children: [
+      {
+        name: 'GeneralAccount',
+        path: 'general',
+        component: GeneralAccount
+      },
       {
         name: 'UpdateEmail',
         path: 'update_email',

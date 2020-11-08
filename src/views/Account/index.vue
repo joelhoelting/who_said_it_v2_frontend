@@ -1,19 +1,22 @@
 <template>
-  <div class="settings-container">
-    <div class="settings-menu">
+  <div class="account-container">
+    <nav class="account-menu">
       <ul>
         <li>
-          <router-link to="/settings/update_email">Update Email</router-link>
+          <router-link to="/account/general">General</router-link>
         </li>
         <li>
-          <router-link to="/settings/update_password">Update Password</router-link>
+          <router-link to="/account/update_email">Update Email</router-link>
         </li>
         <li>
-          <router-link to="/settings/delete_account">Delete Account</router-link>
+          <router-link to="/account/update_password">Update Password</router-link>
+        </li>
+        <li>
+          <router-link to="/account/delete_account">Delete Account</router-link>
         </li>
       </ul>
-    </div>
-    <div class="settings-slot">
+    </nav>
+    <div class="account-slot">
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
@@ -22,10 +25,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
-  name: 'Settings',
+  name: 'account',
   data() {
     return {
       currentRoute: ''
@@ -41,17 +44,20 @@ export default {
     this.currentRoute = this.$route.name;
   },
   computed: {
+    ...mapState(['authorization']),
     ...mapGetters('authorization', ['isLoggedIn'])
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.settings-menu {
+.account-menu {
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
   width: 300px;
-  border-right: 1px solid white;
+  @include media-query('tablet', 'max') {
+    display: none;
+  }
   ul {
     margin: 0;
     padding: 0;
@@ -59,6 +65,12 @@ export default {
       list-style-type: none;
       height: 80px;
       width: 100%;
+      &.account-menu_email-address {
+        h6 {
+          text-align: center;
+          margin: 0;
+        }
+      }
       a {
         height: 100%;
         width: 100%;
@@ -78,13 +90,13 @@ export default {
     }
   }
 }
-.settings-slot {
+.account-slot {
   height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  .settings-background {
+  .account-background {
     background: $opaque-black-background;
     height: 75%;
     width: 80%;

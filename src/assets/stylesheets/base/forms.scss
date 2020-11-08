@@ -5,18 +5,9 @@ form.authentication {
   padding: 20px 20px 20px;
   width: 90%;
   max-width: 600px;
-  position: absolute;
   @include media-query('tablet', 'min') {
     padding: 60px 70px 70px;
-    width: 50%;
-  }
-  .visually-hidden {
-    position: absolute;
-    left: -10000px;
-    top: auto;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
+    min-width: 600px;
   }
   .form-title {
     text-align: center;

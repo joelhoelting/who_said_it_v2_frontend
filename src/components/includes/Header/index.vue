@@ -25,7 +25,7 @@
         <router-link to="/sign_up">Sign Up</router-link>
       </div>
       <div v-if="isLoggedIn">
-        <router-link to="/settings">Settings</router-link>
+        <router-link to="/account">Account</router-link>
         <router-link to="/games">History</router-link>
         <a href="/sign_out" @click.prevent="signOut">Sign Out</a>
       </div>

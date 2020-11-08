@@ -3,7 +3,6 @@
     <transition name="fade">
       <form class="authentication" @submit.prevent="localSignIn" v-if="!emailConfirmation.sent">
         <h2 class="form-title">Sign In</h2>
-        <!-- <label class="visually-hidden" for="email">Email Address</label> -->
         <input
           :class="errors.email ? 'error' : ''"
           type="email"
@@ -11,7 +10,6 @@
           id="email"
           placeholder="Email Address"
         />
-        <!-- <label class="visually-hidden" for="password">Password</label> -->
         <input
           :class="errors.password ? 'error' : ''"
           type="password"

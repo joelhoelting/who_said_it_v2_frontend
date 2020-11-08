@@ -110,23 +110,26 @@ export default {
   methods: {
     ...mapActions('game', ['triggerNextQuote', 'submitAnswer']),
     handleKeyboardFunctionality(e) {
-      let spacebarPressed = e.keyCode === 32;
-      let numberPressed = parseInt(String.fromCharCode(e.keyCode));
+      const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      if (width > 1050) {
+        let spacebarPressed = e.keyCode === 32;
+        let numberPressed = parseInt(String.fromCharCode(e.keyCode));
 
-      const {
-        characters,
-        answer: { submitted }
-      } = this.game;
+        const {
+          characters,
+          answer: { submitted }
+        } = this.game;
 
-      // Use numbers on keyboard to select characters
-      if (!submitted && this.possibleKeyPressValues.includes(numberPressed)) {
-        let selectedCharacterIdx = numberPressed - 1;
-        this.submitAnswer(characters[selectedCharacterIdx]);
-      }
+        // Use numbers on keyboard to select characters
+        if (!submitted && this.possibleKeyPressValues.includes(numberPressed)) {
+          let selectedCharacterIdx = numberPressed - 1;
+          this.submitAnswer(characters[selectedCharacterIdx]);
+        }
 
-      // Use spacebar to continue to next question
-      if (submitted && spacebarPressed) {
-        this.triggerNextQuote();
+        // Use spacebar to continue to next question
+        if (submitted && spacebarPressed) {
+          this.triggerNextQuote();
+        }
       }
     }
   }

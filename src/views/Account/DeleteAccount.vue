@@ -1,5 +1,5 @@
 <template>
-  <div class="settings-background">
+  <div class="delete-account-wrapper">
     <div class="delete-account" v-if="!loadingAnimationActive && !deletionPending">
       <transition name="fade">
         <div class="delete-account__request" v-if="!confirmationMsg" @click="toggleConfirmationMsg">
@@ -48,7 +48,7 @@ export default {
 
       this.deleteAccount()
         .then(() => {
-          this.$router.push('/signup');
+          this.$router.push('/sign_up');
         })
         .catch(() => {
           this.deletionPending = false;

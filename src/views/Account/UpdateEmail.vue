@@ -1,6 +1,6 @@
 <template>
   <form class="authentication" @submit.prevent="localUpdatePassword">
-    <h2 class="center">Update Password</h2>
+    <h2 class="center">Update Email</h2>
     <input
       :class="errors.original_password ? 'error' : ''"
       type="password"
@@ -43,7 +43,7 @@ import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue'
 import { isValidAuthForm } from '@/helpers/validations';
 
 export default {
-  name: 'Security',
+  name: 'UpdateEmail',
   components: {
     LoadingAnimation
   },
