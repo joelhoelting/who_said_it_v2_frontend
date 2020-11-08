@@ -8,8 +8,8 @@
       <router-link @click.native="closeMobileMenuParent" to="/play">Play Game</router-link>
     </div>
     <div class="mobile-nav__mobile-section" v-if="!isLoggedIn">
-      <router-link @click.native="closeMobileMenuParent" to="/signin">Sign In</router-link>
-      <router-link @click.native="closeMobileMenuParent" to="/signup">Sign Up</router-link>
+      <router-link @click.native="closeMobileMenuParent" to="/sign_in">Sign In</router-link>
+      <router-link @click.native="closeMobileMenuParent" to="/sign_up">Sign Up</router-link>
     </div>
     <div class="mobile-nav__mobile-section" v-if="isLoggedIn">
       <router-link @click.native="closeMobileMenuParent" to="/settings">Settings</router-link>

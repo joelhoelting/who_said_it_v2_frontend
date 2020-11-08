@@ -1,8 +1,8 @@
 import Home from '@/views/Home.vue';
 import Play from '@/views/Play.vue';
 
-import Signin from '@/views/Authentication/Signin.vue';
-import Signup from '@/views/Authentication/Signup.vue';
+import SignIn from '@/views/Authentication/SignIn.vue';
+import SignUp from '@/views/Authentication/SignUp.vue';
 import EmailConfirmation from '@/views/Authentication/EmailConfirmation.vue';
 import PasswordResetRequest from '@/views/Authentication/PasswordResetRequest.vue';
 import PasswordReset from '@/views/Authentication/PasswordReset.vue';
@@ -25,8 +25,8 @@ const withPrefix = (prefix, routes) =>
 export default [
   { name: 'Home', path: '/', component: Home },
   { name: 'Play', path: '/play', component: Play },
-  { name: 'SignIn', path: '/signin', component: Signin },
-  { name: 'SignUp', path: '/signup', component: Signup },
+  { name: 'SignIn', path: '/sign_in', component: SignIn },
+  { name: 'SignUp', path: '/sign_up', component: SignUp },
   { name: 'ConfirmEmail', path: '/confirm_email/:token', component: EmailConfirmation },
   ...withPrefix('/password_reset', [
     {

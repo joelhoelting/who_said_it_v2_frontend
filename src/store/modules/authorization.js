@@ -104,7 +104,7 @@ const authorizationModule = {
             apiRoute: 'confirm_email',
             httpMethod: 'post',
             payload,
-            loadingAction: 'loadingOverlay',
+            loadingAction: 'loadingUnderlay',
             loadingDelay: 500
           }
         );
@@ -123,7 +123,7 @@ const authorizationModule = {
             apiRoute: `confirm_password_reset_token/${password_reset_token}`,
             httpMethod: 'get',
             payload: false,
-            loadingAction: 'loadingOverlay',
+            loadingAction: 'loadingUnderlay',
             loadingDelay: 500
           }
         );
@@ -155,9 +155,9 @@ const authorizationModule = {
         }
       );
     },
-    async resetPassword({ commit, dispatch }, payload) {
+    resetPassword({ commit, dispatch }, payload) {
       try {
-        await authAPIHelper(
+        authAPIHelper(
           { commit, dispatch },
           {
             apiRoute: 'reset_password',

@@ -4,7 +4,7 @@ export const authAPIHelper = (vuexObj, options) => {
   const { commit, dispatch } = vuexObj;
   let { authorized, apiRoute, httpMethod, payload, loadingAction, loadingDelay, stifleNotification = false } = options;
 
-  // loadingAction variations: 'loadingAnimation', 'loadingOverlay
+  // loadingAction variations: 'loadingAnimation', 'loadingUnderlay
   if (loadingAction) {
     loadingAction = loadingAction.charAt(0).toUpperCase() + loadingAction.slice(1);
     dispatch(`enable${loadingAction}`, null, { root: true });

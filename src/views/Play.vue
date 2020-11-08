@@ -70,7 +70,7 @@ export default {
       });
   },
   computed: {
-    ...mapState(['loadingOverlayActive', 'loadingAnimationActive']),
+    ...mapState(['loadingUnderlayActive', 'loadingAnimationActive']),
     ...mapState('game', ['characterIds']),
     ...mapGetters('game', ['charactersRequiredToStartGame', 'charactersForSelectedDifficulty']),
     ...mapGetters('character', ['findCharacterById']),

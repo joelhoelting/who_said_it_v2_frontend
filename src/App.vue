@@ -6,7 +6,7 @@
     </transition>
     <notification-container />
     <transition name="fade">
-      <loading-overlay v-if="loadingOverlayActive" />
+      <loading-underlay v-if="loadingUnderlayActive" />
     </transition>
   </div>
 </template>
@@ -16,14 +16,14 @@ import './assets/stylesheets/main.scss';
 import { mapActions, mapState } from 'vuex';
 
 import Header from '@/components/includes/Header';
-import LoadingOverlay from '@/components/includes/Loader/LoadingOverlay';
+import LoadingUnderlay from '@/components/includes/Loader/LoadingUnderlay';
 import NotificationContainer from '@/components/includes/Notification';
 
 export default {
   name: 'App',
   components: {
     Header,
-    LoadingOverlay,
+    LoadingUnderlay,
     NotificationContainer
   },
   created() {
@@ -32,7 +32,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['loadingOverlayActive', 'authorization'])
+    ...mapState(['loadingUnderlayActive', 'authorization'])
   },
   methods: {
     ...mapActions('authorization', ['validateToken'])

@@ -137,7 +137,7 @@ const characterModule = {
       });
     },
     fetchUserGame({ dispatch }, id) {
-      dispatch('enableLoadingOverlay', null, { root: true });
+      dispatch('enableLoadingUnderlay', null, { root: true });
 
       return new Promise((resolve, reject) => {
         authorizedAxiosInstance
@@ -145,20 +145,20 @@ const characterModule = {
           .then(response => {
             setTimeout(() => {
               resolve(response);
-              dispatch('disableLoadingOverlay', null, { root: true });
+              dispatch('disableLoadingUnderlay', null, { root: true });
             }, 500);
           })
           .catch(error => {
             setTimeout(() => {
               reject(error);
-              dispatch('disableLoadingOverlay', null, { root: true });
+              dispatch('disableLoadingUnderlay', null, { root: true });
               console.error('Notification: Connection Failure: Please check your connection');
             }, 500);
           });
       });
     },
     fetchUserGames({ dispatch }) {
-      dispatch('enableLoadingOverlay', null, { root: true });
+      dispatch('enableLoadingUnderlay', null, { root: true });
 
       return new Promise((resolve, reject) => {
         authorizedAxiosInstance
@@ -166,13 +166,13 @@ const characterModule = {
           .then(response => {
             setTimeout(() => {
               resolve(response);
-              dispatch('disableLoadingOverlay', null, { root: true });
+              dispatch('disableLoadingUnderlay', null, { root: true });
             }, 500);
           })
           .catch(error => {
             setTimeout(() => {
               reject(error);
-              dispatch('disableLoadingOverlay', null, { root: true });
+              dispatch('disableLoadingUnderlay', null, { root: true });
               console.error('Notification: Connection Failure: Please check your connection');
             }, 500);
           });

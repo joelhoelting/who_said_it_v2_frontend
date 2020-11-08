@@ -21,13 +21,13 @@
         <page-title v-if="currentRouteName">{{ currentRouteName }}</page-title>
       </transition>
       <div v-if="!isLoggedIn">
-        <router-link to="/signin">Sign In</router-link>
-        <router-link to="/signup">Sign Up</router-link>
+        <router-link to="/sign_in">Sign In</router-link>
+        <router-link to="/sign_up">Sign Up</router-link>
       </div>
       <div v-if="isLoggedIn">
         <router-link to="/settings">Settings</router-link>
         <router-link to="/games">History</router-link>
-        <a href="/signout" @click.prevent="signOut">Sign Out</a>
+        <a href="/sign_out" @click.prevent="signOut">Sign Out</a>
       </div>
     </nav>
   </header>
@@ -55,6 +55,7 @@ export default {
   computed: {
     ...mapGetters('authorization', ['isLoggedIn']),
     currentRouteName() {
+      console.log(this.$route.name);
       return routeTitles[this.$route.name];
     }
   },

@@ -1,11 +1,7 @@
 <template>
   <div class="container flex-center-container">
     <transition name="fade">
-      <form
-        v-if="!loadingOverlayActive"
-        class="authentication"
-        @submit.prevent="localResetPassword"
-      >
+      <form v-if="!loadingUnderlayActive" class="authentication" @submit.prevent="localResetPassword">
         <h2 class="form-title">Reset Password</h2>
         <input
           :class="errors.password ? 'error' : ''"
@@ -83,7 +79,7 @@ export default {
   },
   computed: {
     ...mapGetters('authorization', ['isLoggedIn']),
-    ...mapState(['loadingAnimationActive', 'loadingOverlayActive'])
+    ...mapState(['loadingAnimationActive', 'loadingUnderlayActive'])
   },
   methods: {
     ...mapActions({
@@ -101,7 +97,7 @@ export default {
     async localResetPassword() {
       await this.$recaptchaLoaded();
 
-      // Execute reCAPTCHA with action "signup".
+      // Execute reCAPTCHA with action "reset_password".
       const token = await this.$recaptcha('reset_password');
 
       let { password, password_confirmation, password_reset_token } = this;

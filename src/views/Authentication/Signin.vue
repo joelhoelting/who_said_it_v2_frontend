@@ -93,7 +93,7 @@ export default {
   },
   computed: {
     ...mapGetters('authorization', ['isLoggedIn']),
-    ...mapState(['loadingOverlayActive', 'loadingAnimationActive'])
+    ...mapState(['loadingUnderlayActive', 'loadingAnimationActive'])
   },
   methods: {
     ...mapActions({

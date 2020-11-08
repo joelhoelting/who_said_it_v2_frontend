@@ -1,7 +1,7 @@
 <template>
   <div class="container offset-header">
     <transition name="fade">
-      <table border="0" v-if="games.length > 0 && !loadingOverlayActive">
+      <table border="0" v-if="games.length > 0 && !loadingUnderlayActive">
         <tr>
           <th
             align="left"
@@ -11,11 +11,7 @@
             @click="sortGames('date')"
           >
             Date / Time
-            <img
-              v-if="filters.date !== 'neutral'"
-              class="sort_arrow"
-              :src="isFilterArrowActive('date')"
-            />
+            <img v-if="filters.date !== 'neutral'" class="sort_arrow" :src="isFilterArrowActive('date')" />
           </th>
           <th
             align="left"
@@ -25,11 +21,7 @@
             @click="sortGames('difficulty')"
           >
             Difficulty
-            <img
-              v-if="filters.difficulty !== 'neutral'"
-              class="sort_arrow"
-              :src="isFilterArrowActive('difficulty')"
-            />
+            <img v-if="filters.difficulty !== 'neutral'" class="sort_arrow" :src="isFilterArrowActive('difficulty')" />
           </th>
           <th align="left" width="30%">Characters</th>
           <th
@@ -40,11 +32,7 @@
             @click="sortGames('score')"
           >
             Score
-            <img
-              v-if="filters.score !== 'neutral'"
-              class="sort_arrow"
-              :src="isFilterArrowActive('score')"
-            />
+            <img v-if="filters.score !== 'neutral'" class="sort_arrow" :src="isFilterArrowActive('score')" />
           </th>
         </tr>
         <router-link
@@ -69,7 +57,7 @@
       </table>
     </transition>
     <transition name="fade">
-      <div class="empty-games" v-if="games.length === 0 && !loadingOverlayActive">
+      <div class="empty-games" v-if="games.length === 0 && !loadingUnderlayActive">
         <p>You have no games</p>
         <router-link class="btn btn--empty-game" to="/play" tag="button">Play Game</router-link>
       </div>
@@ -118,7 +106,7 @@ export default {
       });
   },
   computed: {
-    ...mapState(['loadingOverlayActive']),
+    ...mapState(['loadingUnderlayActive']),
     ...mapGetters('authorization', ['isLoggedIn'])
   },
   methods: {

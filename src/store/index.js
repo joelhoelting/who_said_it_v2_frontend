@@ -16,15 +16,15 @@ export default new Vuex.Store({
     notification
   },
   state: {
-    loadingOverlayActive: false,
+    loadingUnderlayActive: false,
     loadingAnimationActive: false
   },
   mutations: {
-    ENABLE_LOADING_OVERLAY(state) {
-      state.loadingOverlayActive = true;
+    ENABLE_LOADING_UNDERLAY(state) {
+      state.loadingUnderlayActive = true;
     },
-    DISABLE_LOADING_OVERLAY(state) {
-      state.loadingOverlayActive = false;
+    DISABLE_LOADING_UNDERLAY(state) {
+      state.loadingUnderlayActive = false;
     },
     ENABLE_LOADING_ANIMATION(state) {
       state.loadingAnimationActive = true;
@@ -34,11 +34,11 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    enableLoadingOverlay({ commit }) {
-      commit('ENABLE_LOADING_OVERLAY');
+    enableLoadingUnderlay({ commit }) {
+      commit('ENABLE_LOADING_UNDERLAY');
     },
-    disableLoadingOverlay({ commit }) {
-      commit('DISABLE_LOADING_OVERLAY');
+    disableLoadingUnderlay({ commit }) {
+      commit('DISABLE_LOADING_UNDERLAY');
     },
     enableLoadingAnimation({ commit }) {
       commit('ENABLE_LOADING_ANIMATION');
