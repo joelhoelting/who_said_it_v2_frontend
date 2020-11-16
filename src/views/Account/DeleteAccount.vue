@@ -1,5 +1,5 @@
 <template>
-  <div class="delete-account-wrapper">
+  <div class="account-panel">
     <div class="delete-account" v-if="!loadingAnimationActive && !deletionPending">
       <transition name="fade">
         <div class="delete-account__request" v-if="!confirmationMsg" @click="toggleConfirmationMsg">

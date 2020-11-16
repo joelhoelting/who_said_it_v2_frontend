@@ -1,6 +1,6 @@
 <template>
-  <div class="general-panel">
-    <p class="title center underline">User Information</p>
+  <div class="account-panel">
+    <h2 class="title center">User Information</h2>
     <p>Email Address: {{ authorization.user.email }}</p>
     <p>Account Creation Date: {{ accountCreationDate }}</p>
   </div>
@@ -24,11 +24,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.general-panel {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 2em;
-  .title {
-    margin-bottom: 2em;
-  }
+h2 {
+  margin-bottom: 2em;
 }
 </style>

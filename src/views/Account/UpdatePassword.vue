@@ -78,11 +78,7 @@ export default {
             password,
             password_confirmation
           }
-        })
-          .then(() => {
-            console.log('success');
-          })
-          .catch(error => console.error(error));
+        });
       } else {
         this.addNotification({
           type: 'error',

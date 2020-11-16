@@ -59,22 +59,21 @@ const authorizationModule = {
         throw error;
       }
     },
-    async updatePassword({ commit, dispatch }, payload) {
-      try {
-        await authAPIHelper(
-          { commit, dispatch },
-          {
-            authorized: true,
-            apiRoute: 'update_password',
-            httpMethod: 'post',
-            payload,
-            loadingAction: 'loadingAnimation',
-            loadingDelay: 500
-          }
-        );
-      } catch (error) {
-        throw error;
-      }
+    updateEmail({ commit, dispatch }, payload) {
+      console.log('hello');
+    },
+    updatePassword({ commit, dispatch }, payload) {
+      authAPIHelper(
+        { commit, dispatch },
+        {
+          authorized: true,
+          apiRoute: 'update_password',
+          httpMethod: 'post',
+          payload,
+          loadingAction: 'loadingAnimation',
+          loadingDelay: 500
+        }
+      );
     },
     async validateToken({ commit, dispatch }) {
       try {
@@ -205,7 +204,6 @@ const authorizationModule = {
         throw error;
       }
     },
-
     // Non-API Actions
     signOut({ commit, dispatch }) {
       const notification = {

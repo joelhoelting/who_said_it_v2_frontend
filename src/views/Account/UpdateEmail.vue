@@ -1,26 +1,13 @@
 <template>
-  <form class="authentication" @submit.prevent="localUpdatePassword">
+  <form class="authentication" @submit.prevent="localUpdateEmail">
     <h2 class="center">Update Email</h2>
+    <p class="center">Current Email Address: {{ authorization.user.email }}</p>
     <input
-      :class="errors.original_password ? 'error' : ''"
-      type="password"
-      v-model="original_password"
-      id="password"
-      placeholder="Original Password"
-    />
-    <input
-      :class="errors.password ? 'error' : ''"
-      type="password"
-      v-model="password"
-      id="password"
-      placeholder="New Password"
-    />
-    <input
-      :class="errors.password_confirmation ? 'error' : ''"
-      type="password"
-      v-model="password_confirmation"
-      id="password"
-      placeholder="Confirm New Password"
+      :class="errors.email ? 'error' : ''"
+      type="email"
+      v-model="email"
+      id="email"
+      placeholder="New Email Address"
     />
     <button
       class="btn"
@@ -38,6 +25,8 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
+import { initializeVueReCaptcha } from '@/helpers/recaptcha';
+
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 
 import { isValidAuthForm } from '@/helpers/validations';
@@ -50,39 +39,44 @@ export default {
   data() {
     return {
       errors: {
-        original_password: false,
-        password: false,
-        password_confirmation: false,
+        email: false,
         errorsArray: []
       },
-      original_password: 'someThing123$',
-      password: 'someThing1234$',
-      password_confirmation: 'someThing1234$'
+      email: 'test1@test.com'
     };
   },
+  created() {
+    if (this.$recaptchaInstance) {
+      this.$recaptchaInstance.showBadge();
+    } else {
+      initializeVueReCaptcha();
+    }
+  },
   computed: {
-    ...mapState(['loadingAnimationActive'])
+    ...mapState(['authorization', 'loadingAnimationActive'])
   },
   methods: {
     ...mapActions({
       addNotification: 'notification/addNotification',
-      updatePassword: 'authorization/updatePassword'
+      updateEmail: 'authorization/updateEmail'
     }),
-    localUpdatePassword() {
-      let { original_password, password, password_confirmation } = this;
+    async localUpdateEmail() {
+      await this.$recaptchaLoaded();
 
-      if (isValidAuthForm(this, { original_password, password, password_confirmation })) {
-        this.updatePassword({
+      // Execute reCAPTCHA with action "update_email".
+      const token = await this.$recaptcha('update_email');
+
+      let { email } = this;
+
+      if (isValidAuthForm(this, { email })) {
+        this.updateEmail({
           auth: {
-            original_password,
-            password,
-            password_confirmation
+            email
+          },
+          recaptcha: {
+            token
           }
-        })
-          .then(() => {
-            console.log('success');
-          })
-          .catch(error => console.error(error));
+        });
       } else {
         this.addNotification({
           type: 'error',

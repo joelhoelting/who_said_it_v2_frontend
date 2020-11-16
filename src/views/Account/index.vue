@@ -49,6 +49,7 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped></style>
 
 <style lang="scss" scoped>
 .account-menu {
@@ -96,15 +97,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  .account-background {
-    background: $opaque-black-background;
-    height: 75%;
-    width: 80%;
-    padding: 0 5%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  .account-panel {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4em;
   }
 }
 </style>
