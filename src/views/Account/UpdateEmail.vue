@@ -52,6 +52,9 @@ export default {
       initializeVueReCaptcha();
     }
   },
+  destroyed() {
+    this.$recaptchaInstance.hideBadge();
+  },
   computed: {
     ...mapState(['authorization', 'loadingAnimationActive'])
   },

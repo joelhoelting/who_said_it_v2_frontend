@@ -67,7 +67,7 @@ export default {
         password: false,
         errorsArray: []
       },
-      email: 'test@test.com',
+      email: 'joel@joelhoelting.com',
       password: 'someThing123$',
       emailConfirmation: {
         sent: false,

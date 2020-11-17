@@ -1,19 +1,13 @@
 <template>
   <div class="account-panel">
-    <div class="delete-account" v-if="!loadingAnimationActive && !deletionPending">
-      <transition name="fade">
-        <div class="delete-account__request" v-if="!confirmationMsg" @click="toggleConfirmationMsg">
-          <h2>Delete Account</h2>
-          <button class="btn btn--warning">Delete Your Account</button>
-        </div>
-      </transition>
-      <transition name="fade">
-        <div class="delete-account__confirmation" v-if="confirmationMsg">
-          <p>Are you sure you want to delete your account?</p>
-          <button class="btn btn-confirmation" @click="localDeleteAccount">Yes</button>
-          <button class="btn btn-confirmation" @click="toggleConfirmationMsg">No</button>
-        </div>
-      </transition>
+    <div class="delete-account delete-account__request" v-if="!confirmationMsg">
+      <h2>Delete Account</h2>
+      <button class="btn btn--warning" @click="toggleConfirmationMsg">Delete Your Account</button>
+    </div>
+    <div class="delete-account delete-account__confirmation" v-if="confirmationMsg">
+      <p>Are you sure you want to delete your account?</p>
+      <button class="btn btn-confirmation" @click="localDeleteAccount">Yes</button>
+      <button class="btn btn-confirmation" @click="toggleConfirmationMsg">No</button>
     </div>
     <loading-animation v-if="loadingAnimationActive && deletionPending" />
   </div>
@@ -61,16 +55,8 @@ export default {
 <style lang="scss" scoped>
 .delete-account {
   text-align: center;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .delete-account__confirmation {
-    position: absolute;
-    .btn-confirmation {
-      margin: 0 1em;
-    }
+  .btn-confirmation {
+    margin: 0 1em;
   }
 }
 </style>

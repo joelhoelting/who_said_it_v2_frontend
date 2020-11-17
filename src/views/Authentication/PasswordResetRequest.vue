@@ -45,7 +45,7 @@ export default {
         email: false,
         errorsArray: []
       },
-      email: 'test@test.com',
+      email: 'joel@joelhoelting.com',
       passwordReset: {
         sent: false,
         email: ''

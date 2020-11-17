@@ -60,6 +60,9 @@ export default {
       password_confirmation: 'someThing1234$'
     };
   },
+  destroyed() {
+    this.$recaptchaInstance.hideBadge();
+  },
   computed: {
     ...mapState(['loadingAnimationActive'])
   },
