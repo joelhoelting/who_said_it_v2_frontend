@@ -1,13 +1,15 @@
 <template>
   <div class="account-panel">
-    <div class="delete-account delete-account__request" v-if="!confirmationMsg">
+    <div class="delete-account">
       <h2>Delete Account</h2>
-      <button class="btn btn--warning" @click="toggleConfirmationMsg">Delete Your Account</button>
-    </div>
-    <div class="delete-account delete-account__confirmation" v-if="confirmationMsg">
-      <p>Are you sure you want to delete your account?</p>
-      <button class="btn btn-confirmation" @click="localDeleteAccount">Yes</button>
-      <button class="btn btn-confirmation" @click="toggleConfirmationMsg">No</button>
+      <label for="delete">
+        <span>type "delete"</span>
+        <input v-model="deletionInput" class="standard-input" name="delete" id="delete" type="text" />
+      </label>
+      <button :class="{ disabled: isDeleteButtonDisabled }" :disabled="isDeleteButtonDisabled" class="btn btn--warning">
+        <span v-if="!loadingAnimationActive">Delete</span>
+        <loading-animation v-if="loadingAnimationActive" />
+      </button>
     </div>
     <loading-animation v-if="loadingAnimationActive && deletionPending" />
   </div>
@@ -25,18 +27,18 @@ export default {
   },
   data() {
     return {
-      confirmationMsg: false,
-      deletionPending: false
+      deletionPending: false,
+      deletionInput: ''
     };
   },
   computed: {
-    ...mapState(['loadingAnimationActive'])
+    ...mapState(['loadingAnimationActive']),
+    isDeleteButtonDisabled() {
+      return this.deletionInput !== 'delete';
+    }
   },
   methods: {
     ...mapActions('authorization', ['deleteAccount']),
-    toggleConfirmationMsg() {
-      this.confirmationMsg = !this.confirmationMsg;
-    },
     localDeleteAccount() {
       this.deletionPending = true;
 
@@ -54,9 +56,21 @@ export default {
 
 <style lang="scss" scoped>
 .delete-account {
-  text-align: center;
-  .btn-confirmation {
-    margin: 0 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    margin-top: 0;
+  }
+  label {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 1em;
+    span {
+      margin: 0.5em 0;
+    }
   }
 }
 </style>
