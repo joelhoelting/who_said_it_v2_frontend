@@ -1,6 +1,6 @@
 <template>
   <div class="account-panel">
-    <h2 class="title center">User Information</h2>
+    <h2 class="title center">Account Information</h2>
     <p>Email Address: {{ authorization.user.email }}</p>
     <p>Account Creation Date: {{ accountCreationDate }}</p>
   </div>

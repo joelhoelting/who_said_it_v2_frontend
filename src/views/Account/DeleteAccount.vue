@@ -6,12 +6,16 @@
         <span>type "delete"</span>
         <input v-model="deletionInput" class="standard-input" name="delete" id="delete" type="text" />
       </label>
-      <button :class="{ disabled: isDeleteButtonDisabled }" :disabled="isDeleteButtonDisabled" class="btn btn--warning">
+      <button
+        :class="{ disabled: isDeleteButtonDisabled }"
+        :disabled="isDeleteButtonDisabled"
+        class="btn btn--warning"
+        @click="localDeleteAccount"
+      >
         <span v-if="!loadingAnimationActive">Delete</span>
         <loading-animation v-if="loadingAnimationActive" />
       </button>
     </div>
-    <loading-animation v-if="loadingAnimationActive && deletionPending" />
   </div>
 </template>
 
@@ -27,8 +31,7 @@ export default {
   },
   data() {
     return {
-      deletionPending: false,
-      deletionInput: ''
+      deletionInput: 'delete'
     };
   },
   computed: {
@@ -40,15 +43,11 @@ export default {
   methods: {
     ...mapActions('authorization', ['deleteAccount']),
     localDeleteAccount() {
-      this.deletionPending = true;
+      console.log('hello');
 
-      this.deleteAccount()
-        .then(() => {
-          this.$router.push('/sign_up');
-        })
-        .catch(() => {
-          this.deletionPending = false;
-        });
+      this.deleteAccount().then(() => {
+        this.$router.push('/sign_up');
+      });
     }
   }
 };

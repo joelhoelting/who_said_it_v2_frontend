@@ -38,6 +38,8 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
+import { initializeVueReCaptcha } from '@/helpers/recaptcha';
+
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 
 import { isValidAuthForm } from '@/helpers/validations';
@@ -59,6 +61,13 @@ export default {
       password: 'someThing1234$',
       password_confirmation: 'someThing1234$'
     };
+  },
+  created() {
+    if (this.$recaptchaInstance) {
+      this.$recaptchaInstance.showBadge();
+    } else {
+      initializeVueReCaptcha();
+    }
   },
   destroyed() {
     this.$recaptchaInstance.hideBadge();

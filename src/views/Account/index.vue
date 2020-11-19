@@ -49,7 +49,6 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped></style>
 
 <style lang="scss" scoped>
 .account-menu {
@@ -100,6 +99,7 @@ export default {
   .account-panel {
     background: rgba(0, 0, 0, 0.2);
     padding: 4em;
+    min-width: 400px;
   }
 }
 </style>
