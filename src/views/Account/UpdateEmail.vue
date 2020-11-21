@@ -1,31 +1,33 @@
 <template>
-  <form class="authentication" @submit.prevent="localUpdateEmail">
-    <h2 class="center">Update Email</h2>
-    <p class="center">Current Email Address: {{ authorization.user.email }}</p>
-    <input
-      :class="errors.email ? 'error' : ''"
-      type="email"
-      v-model="email"
-      id="email"
-      placeholder="New Email Address"
-    />
-    <button
-      class="btn"
-      :class="{ disabled: loadingAnimationActive }"
-      :disabled="loadingAnimationActive"
-      type="submit"
-      value="Submit"
-    >
-      <span v-if="!loadingAnimationActive">Submit</span>
-      <loading-animation v-if="loadingAnimationActive" />
-    </button>
-  </form>
+  <recaptcha-wrapper>
+    <form class="authentication" @submit.prevent="localUpdateEmail">
+      <h2 class="center">Update Email</h2>
+      <p class="center">Current Email Address: {{ authorization.user.email }}</p>
+      <input
+        :class="errors.email ? 'error' : ''"
+        type="email"
+        v-model="email"
+        id="email"
+        placeholder="New Email Address"
+      />
+      <button
+        class="btn"
+        :class="{ disabled: loadingAnimationActive }"
+        :disabled="loadingAnimationActive"
+        type="submit"
+        value="Submit"
+      >
+        <span v-if="!loadingAnimationActive">Submit</span>
+        <loading-animation v-if="loadingAnimationActive" />
+      </button>
+    </form>
+  </recaptcha-wrapper>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import { initializeVueReCaptcha } from '@/helpers/recaptcha';
+import RecaptchaWrapper from '@/components/hoc/RecaptchaWrapper';
 
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 
@@ -34,7 +36,8 @@ import { isValidAuthForm } from '@/helpers/validations';
 export default {
   name: 'UpdateEmail',
   components: {
-    LoadingAnimation
+    LoadingAnimation,
+    RecaptchaWrapper
   },
   data() {
     return {
@@ -44,16 +47,6 @@ export default {
       },
       email: 'test1@test.com'
     };
-  },
-  created() {
-    if (this.$recaptchaInstance) {
-      this.$recaptchaInstance.showBadge();
-    } else {
-      initializeVueReCaptcha();
-    }
-  },
-  destroyed() {
-    this.$recaptchaInstance.hideBadge();
   },
   computed: {
     ...mapState(['authorization', 'loadingAnimationActive'])

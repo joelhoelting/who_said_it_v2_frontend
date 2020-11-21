@@ -60,7 +60,17 @@ const authorizationModule = {
       }
     },
     updateEmail({ commit, dispatch }, payload) {
-      console.log('hello');
+      authAPIHelper(
+        { commit, dispatch },
+        {
+          authorized: true,
+          apiRoute: 'update_email',
+          httpMethod: 'post',
+          payload,
+          loadingAction: 'loadingAnimation',
+          loadingDelay: 500
+        }
+      );
     },
     updatePassword({ commit, dispatch }, payload) {
       authAPIHelper(

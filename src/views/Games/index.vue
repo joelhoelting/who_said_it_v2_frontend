@@ -69,6 +69,7 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 import { sortGamesByProperty, updateFilters } from '@/helpers/games';
+import { setState } from '@/helpers/state';
 
 import gamesMixin from '@/mixins/games';
 import datesMixin from '@/mixins/dates.js';
@@ -115,7 +116,7 @@ export default {
       let { filters, direction } = updateFilters(filterArg, this.filters);
       let games = sortGamesByProperty(filterArg, direction, this.games);
 
-      this.setState({ filters, games });
+      setState(this, { filters, games });
     },
     isFilterArrowActive(filterProp) {
       let filterState = this.filters[filterProp];
@@ -123,9 +124,6 @@ export default {
       if (filterState === 'neutral') return false;
 
       return require(`@/assets/images/icons/${filterState}_arrow.png`);
-    },
-    setState(obj) {
-      Object.assign(this, obj);
     }
   }
 };

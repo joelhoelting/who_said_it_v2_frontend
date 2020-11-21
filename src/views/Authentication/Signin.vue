@@ -1,53 +1,55 @@
 <template>
-  <div class="container flex-center-container">
-    <transition name="fade">
-      <form class="authentication" @submit.prevent="localSignIn" v-if="!emailConfirmation.sent">
-        <h2 class="form-title">Sign In</h2>
-        <input
-          :class="errors.email ? 'error' : ''"
-          type="email"
-          v-model="email"
-          id="email"
-          placeholder="Email Address"
-        />
-        <input
-          :class="errors.password ? 'error' : ''"
-          type="password"
-          v-model="password"
-          id="password"
-          placeholder="Password"
-        />
-        <button
-          class="btn"
-          :class="{ disabled: loadingAnimationActive }"
-          :disabled="loadingAnimationActive"
-          type="submit"
-          value="Submit"
-        >
-          <span v-if="!loadingAnimationActive">Submit</span>
-          <loading-animation v-if="loadingAnimationActive" />
-        </button>
-        <div class="auth-options">
-          <router-link to="/password_reset" tag="a">
-            <span>Forgot Password?</span>
-          </router-link>
-          <br />
-          <router-link to="/signup" tag="a">
-            <span>Don't have an account? Sign Up now</span>
-          </router-link>
-        </div>
-      </form>
-      <email-confirmation-modal :email="emailConfirmation.email" v-else>
-        <p @click="toggleEmailConfirmationMsg" class="link">Email already confirmed? Sign in</p>
-      </email-confirmation-modal>
-    </transition>
-  </div>
+  <recaptcha-wrapper>
+    <div class="container flex-center-container">
+      <transition name="fade">
+        <form class="authentication" @submit.prevent="localSignIn" v-if="!emailConfirmation.sent">
+          <h2 class="form-title">Sign In</h2>
+          <input
+            :class="errors.email ? 'error' : ''"
+            type="email"
+            v-model="email"
+            id="email"
+            placeholder="Email Address"
+          />
+          <input
+            :class="errors.password ? 'error' : ''"
+            type="password"
+            v-model="password"
+            id="password"
+            placeholder="Password"
+          />
+          <button
+            class="btn"
+            :class="{ disabled: loadingAnimationActive }"
+            :disabled="loadingAnimationActive"
+            type="submit"
+            value="Submit"
+          >
+            <span v-if="!loadingAnimationActive">Submit</span>
+            <loading-animation v-if="loadingAnimationActive" />
+          </button>
+          <div class="auth-options">
+            <router-link to="/password_reset" tag="a">
+              <span>Forgot Password?</span>
+            </router-link>
+            <br />
+            <router-link to="/signup" tag="a">
+              <span>Don't have an account? Sign Up now</span>
+            </router-link>
+          </div>
+        </form>
+        <email-confirmation-modal :email="emailConfirmation.email" v-else>
+          <p @click="toggleEmailConfirmationMsg" class="link">Email already confirmed? Sign in</p>
+        </email-confirmation-modal>
+      </transition>
+    </div>
+  </recaptcha-wrapper>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 
-import { initializeVueReCaptcha } from '@/helpers/recaptcha';
+import RecaptchaWrapper from '@/components/hoc/RecaptchaWrapper';
 
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 import EmailConfirmationModal from '@/components/includes/EmailConfirmationModal';
@@ -58,7 +60,12 @@ export default {
   name: 'SignIn',
   components: {
     LoadingAnimation,
-    EmailConfirmationModal
+    EmailConfirmationModal,
+    RecaptchaWrapper
+  },
+  props: {
+    data: String,
+    status: Object
   },
   data() {
     return {
@@ -74,20 +81,6 @@ export default {
         email: ''
       }
     };
-  },
-  created() {
-    if (this.isLoggedIn) {
-      this.$router.push('/');
-    }
-
-    if (this.$recaptchaInstance) {
-      this.$recaptchaInstance.showBadge();
-    } else {
-      initializeVueReCaptcha();
-    }
-  },
-  destroyed() {
-    this.$recaptchaInstance.hideBadge();
   },
   computed: {
     ...mapGetters('authorization', ['isLoggedIn']),
@@ -106,9 +99,10 @@ export default {
       };
     },
     async localSignIn() {
+      // Comes from RecaptchaComponent
       await this.$recaptchaLoaded();
 
-      // Execute reCAPTCHA with action "signup".
+      // Execute reCAPTCHA with action "sign_in".
       const token = await this.$recaptcha('sign_in');
 
       let { email, password } = this;
