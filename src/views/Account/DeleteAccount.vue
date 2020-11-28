@@ -43,8 +43,6 @@ export default {
   methods: {
     ...mapActions('authorization', ['deleteAccount']),
     localDeleteAccount() {
-      console.log('hello');
-
       this.deleteAccount().then(() => {
         this.$router.push('/sign_up');
       });

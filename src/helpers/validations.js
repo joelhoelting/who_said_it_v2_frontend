@@ -47,9 +47,13 @@ export const isValidAuthForm = (originalThis, options) => {
     errors.password = false;
   }
 
-  // Password Confirmation
-  if (presentKeys.includes('password_confirmation') && options.password !== options.password_confirmation) {
-    addError('password_confirmation', 'Passwords do not match');
+  // Password Confirmation & Update Password
+  if (presentKeys.includes('password_confirmation')) {
+    if (options.password !== options.password_confirmation) {
+      addError('password_confirmation', 'Passwords do not match');
+    } else if (options.original_password === options.password) {
+      addError('password', 'New password must be different');
+    }
   } else {
     errors.password_confirmation = false;
   }
