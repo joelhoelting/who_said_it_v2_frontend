@@ -8,11 +8,11 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   name: 'EmailConfirmation',
   async created() {
-    const confirmation_token = this.$route.params.token;
+    const email_confirmation_token = this.$route.params.token;
 
     if (this.isLoggedIn) return this.$router.push('/');
 
-    this.confirmEmail({ confirmation_token })
+    this.confirmEmail({ user: { email_confirmation_token } })
       .then(() => {
         this.$router.push('/play');
       })

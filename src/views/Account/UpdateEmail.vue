@@ -66,7 +66,7 @@ export default {
 
       if (isValidAuthForm(this, { email })) {
         this.updateEmail({
-          auth: {
+          user: {
             email
           },
           recaptcha: {

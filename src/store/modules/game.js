@@ -108,11 +108,14 @@ const characterModule = {
       return new Promise((resolve, reject) => {
         axiosInstance
           .post('/games', {
-            characters: characterIds,
-            difficulty
+            game: {
+              difficulty,
+              characters: characterIds
+            }
           })
           .then(response => {
             const { id, game_quotes } = response.data;
+            console.log(response.data);
             const gameObj = {
               id,
               characters,
@@ -218,19 +221,21 @@ const characterModule = {
       return new Promise((resolve, reject) => {
         plainAxiosInstance
           .patch(`/games/${state.id}`, {
-            answer: {
-              character_id: character.id,
-              quote_id: getters.getCurrentQuote.id,
-              quote_idx: state.currentQuoteIdx
+            game: {
+              answer: {
+                character_id: character.id,
+                quote_id: getters.getCurrentQuote.id,
+                quote_idx: state.currentQuoteIdx
+              }
             }
           })
           .then(response => {
-            const { correct_character, evaluation } = response.data;
+            const { correct_character_id, evaluation } = response.data.state[state.currentQuoteIdx];
 
             let answerObj = {
               evaluation,
               selected_character: character,
-              correct_character: rootGetters['character/findCharacterById'](correct_character.id),
+              correct_character: rootGetters['character/findCharacterById'](correct_character_id),
               quote: getters.getCurrentQuote
             };
 

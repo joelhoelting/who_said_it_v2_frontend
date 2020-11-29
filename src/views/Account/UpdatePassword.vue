@@ -81,7 +81,7 @@ export default {
 
       if (isValidAuthForm(this, { original_password, password, password_confirmation })) {
         this.updatePassword({
-          auth: {
+          user: {
             original_password,
             password,
             password_confirmation

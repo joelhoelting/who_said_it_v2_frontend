@@ -99,7 +99,7 @@ export default {
         this.clearErrors();
 
         this.requestPasswordReset({
-          auth: {
+          user: {
             email
           },
           recaptcha: {

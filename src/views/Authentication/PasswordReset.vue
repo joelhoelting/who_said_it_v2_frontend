@@ -112,7 +112,7 @@ export default {
         this.clearErrors();
 
         this.resetPassword({
-          auth: {
+          user: {
             password,
             password_confirmation,
             password_reset_token

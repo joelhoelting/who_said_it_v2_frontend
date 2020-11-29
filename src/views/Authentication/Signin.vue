@@ -74,7 +74,7 @@ export default {
         password: false,
         errorsArray: []
       },
-      email: 'joel@joelhoelting.com',
+      email: 'test@test.com',
       password: 'someThing123$',
       emailConfirmation: {
         sent: false,
@@ -109,7 +109,7 @@ export default {
 
       if (isValidAuthForm(this, { email, password })) {
         this.signIn({
-          auth: {
+          user: {
             email,
             password
           },

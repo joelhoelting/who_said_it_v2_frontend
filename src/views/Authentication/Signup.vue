@@ -72,7 +72,7 @@ export default {
         password_confirmation: false,
         errorsArray: []
       },
-      email: 'joel@joelhoelting.com',
+      email: 'test@test.com',
       password: 'someThing123$',
       password_confirmation: 'someThing123$',
       emailConfirmation: {
@@ -110,7 +110,7 @@ export default {
         this.clearErrors();
 
         this.signUp({
-          auth: {
+          user: {
             email,
             password,
             password_confirmation

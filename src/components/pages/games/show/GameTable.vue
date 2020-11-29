@@ -7,8 +7,8 @@
         <th align="left" width="25%">Correct Answer</th>
         <th align="left" width="25%">Your Answer</th>
       </tr>
-      <tr v-for="(el, index) in gameState" :key="index" valign="top" class="quote-row">
-        <td align="left" width="10%">{{ index + 1 }}</td>
+      <tr v-for="(el, idx) in gameState" :key="idx" valign="top" class="quote-row">
+        <td align="left" width="10%">{{ idx + 1 }}</td>
         <td align="left" width="40%">"{{ el.quote.content }}"</td>
         <td align="left" width="25%">{{ el.correct_character.name }}</td>
         <td align="left" width="25%">
