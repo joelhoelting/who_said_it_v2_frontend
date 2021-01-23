@@ -1,0 +1,6 @@
+version: '3.7'
+services:
+  app:
+    image: joelhoelting/who_said_it_v2_frontend
+    build: .
+    
