@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import authorization from '@/store/modules/authorization.js';
-import character from '@/store/modules/character.js';
-import game from '@/store/modules/game.js';
+import authorization from '@/store/modules/authorization';
+import character from '@/store/modules/character';
+import game from '@/store/modules/game';
+import notification from '@/store/modules/notification';
 
 Vue.use(Vuex);
 
@@ -11,18 +12,19 @@ export default new Vuex.Store({
   modules: {
     authorization,
     character,
-    game
+    game,
+    notification
   },
   state: {
-    loadingOverlayActive: false,
+    loadingUnderlayActive: false,
     loadingAnimationActive: false
   },
   mutations: {
-    ENABLE_LOADING_OVERLAY(state) {
-      state.loadingOverlayActive = true;
+    ENABLE_LOADING_UNDERLAY(state) {
+      state.loadingUnderlayActive = true;
     },
-    DISABLE_LOADING_OVERLAY(state) {
-      state.loadingOverlayActive = false;
+    DISABLE_LOADING_UNDERLAY(state) {
+      state.loadingUnderlayActive = false;
     },
     ENABLE_LOADING_ANIMATION(state) {
       state.loadingAnimationActive = true;
@@ -32,11 +34,11 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    enableLoadingOverlay({ commit }) {
-      commit('ENABLE_LOADING_OVERLAY');
+    enableLoadingUnderlay({ commit }) {
+      commit('ENABLE_LOADING_UNDERLAY');
     },
-    disableLoadingOverlay({ commit }) {
-      commit('DISABLE_LOADING_OVERLAY');
+    disableLoadingUnderlay({ commit }) {
+      commit('DISABLE_LOADING_UNDERLAY');
     },
     enableLoadingAnimation({ commit }) {
       commit('ENABLE_LOADING_ANIMATION');

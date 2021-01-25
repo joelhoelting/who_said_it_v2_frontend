@@ -24,6 +24,5 @@ describe('Router functionality', () => {
     router.push('/play');
     expect(wrapper.find(Play).exists()).toBe(true);
     expect(wrapper.text()).toContain('counter');
-    // expect(wrapper.find(Play).exists()).toBe(true);
   });
 });

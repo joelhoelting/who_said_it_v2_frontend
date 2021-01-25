@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  dev:
+    image: node:14.15.4
+    volumes:
+      - nodemodules:/usr/src/app/node_modules
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    command: npm start
+    ports:
+      - 8080:8080
+volumes:
+  nodemodules:
+    external: true
+

@@ -2,14 +2,14 @@
   <transition name="fade">
     <table v-if="gameState.length > 0">
       <tr>
-        <th align="left">#</th>
-        <th align="left">Quote</th>
-        <th align="left">Correct Answer</th>
-        <th align="left">Your Answer</th>
+        <th align="left" width="10%">#</th>
+        <th align="left" width="40%">Quote</th>
+        <th align="left" width="25%">Correct Answer</th>
+        <th align="left" width="25%">Your Answer</th>
       </tr>
-      <tr v-for="(el, index) in gameState" :key="index" valign="top">
-        <td align="left" width="10%">{{ index + 1 }}</td>
-        <td align="left" width="40%">{{ el.quote.content }}</td>
+      <tr v-for="(el, idx) in gameState" :key="idx" valign="top" class="quote-row">
+        <td align="left" width="10%">{{ idx + 1 }}</td>
+        <td align="left" width="40%">"{{ el.quote.content }}"</td>
         <td align="left" width="25%">{{ el.correct_character.name }}</td>
         <td align="left" width="25%">
           <span :class="isAnswerCorrect(el)">{{ el.selected_character.name }}</span>
@@ -34,21 +34,36 @@ export default {
 
 <style lang="scss" scoped>
 table {
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 0.6em;
+  padding-bottom: 80px;
   width: 100%;
+  font-size: 0.8rem;
+  @include media-query('tablet', 'min') {
+    padding-bottom: 120px;
+    font-size: 1rem;
+  }
   tr {
-    border-bottom: 1px solid #fff;
-    th,
+    td,
+    th {
+      padding: 0.8em 1em;
+    }
+
     td {
-      padding: 15px 20px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
       span {
         &.correct {
           color: $correct-green;
         }
         &.incorrect {
-          color: white;
+          color: $incorrect-red;
         }
       }
+    }
+
+    &.quote-row {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
     }
   }
 }

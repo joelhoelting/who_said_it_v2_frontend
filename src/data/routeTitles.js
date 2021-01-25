@@ -1,7 +1,8 @@
 export default {
-  Home: false,
+  Account: 'Account',
   Play: 'Select Characters',
-  GameNew: 'Who Said It?',
+  GamesIndex: 'Game History',
+  GamesNew: 'Who Said It?',
   SignIn: 'Who Said It?',
   SignUp: 'Who Said It?'
 };

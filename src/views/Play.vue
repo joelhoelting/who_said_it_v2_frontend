@@ -1,12 +1,7 @@
 <template>
   <div class="container offset-header">
     <difficulty-toolbar />
-    <transition-group
-      class="card-container"
-      tag="div"
-      @before-enter="cardBeforeEnter"
-      @enter="cardEnter"
-    >
+    <transition-group class="card-container" tag="div" @before-enter="cardBeforeEnter" @enter="cardEnter">
       <character-select-card
         v-for="(character, index) in characters"
         :key="character.id"
@@ -14,16 +9,19 @@
         :data-index="index"
       />
     </transition-group>
-    <footer-bar height="200px">
-      <button
-        :class="{ disabled: isButtonDisabled }"
-        :disabled="isButtonDisabled"
-        @click="startGame"
-        class="btn btn--start"
-      >
-        <span v-if="!loadingAnimationActive">{{ playButtonMsg }}</span>
-        <loading-animation v-if="loadingAnimationActive" />
-      </button>
+    <footer-bar has-footer-drawer :footer-drawer-active="charactersRequiredToStartGame === 0">
+      <template v-slot:footer-drawer>
+        <button
+          :class="{ disabled: isPlayButtonDisabled }"
+          :disabled="isPlayButtonDisabled"
+          @click="startGame"
+          class="btn btn--start"
+        >
+          <span v-if="!loadingAnimationActive">Play Game</span>
+          <loading-animation v-if="loadingAnimationActive" />
+        </button>
+      </template>
+      <empty-or-selected-character-card v-for="(n, i) in charactersForSelectedDifficulty" :cardIdx="i" :key="i" />
     </footer-bar>
   </div>
 </template>
@@ -34,17 +32,22 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 
 import LoadingAnimation from '@/components/includes/Loader/LoadingAnimation.vue';
 import CharacterSelectCard from '@/components/pages/play/CharacterSelectCard.vue';
+import EmptyOrSelectedCharacterCard from '@/components/pages/play/EmptyOrSelectedCharacterCard.vue';
 import DifficultyToolbar from '@/components/pages/play/DifficultyToolbar.vue';
 import FooterBar from '@/components/includes/FooterBar';
+
+import imagesMixin from '@/mixins/images.js';
 
 export default {
   name: 'Play',
   components: {
     CharacterSelectCard,
+    EmptyOrSelectedCharacterCard,
     DifficultyToolbar,
     LoadingAnimation,
     FooterBar
   },
+  mixins: [imagesMixin],
   data() {
     return {
       characters: []
@@ -56,37 +59,33 @@ export default {
     // Fetch characters (character module)
     this.fetchCharacters()
       .then(response => {
-        const { characters, delay } = response;
-        console.log('Succeeded to GET characters from API');
-        setTimeout(() => {
-          this.characters = characters;
-        }, delay);
+        const { characters } = response;
+        this.characters = characters;
       })
       .catch(error => {
-        const { characters, delay } = error;
+        const { characters } = error;
         console.log('Failed to GET characters, using local character data');
-        setTimeout(() => {
-          this.characters = characters;
-        }, delay);
+        this.characters = characters;
       });
   },
   computed: {
-    ...mapState(['loadingOverlayActive', 'loadingAnimationActive']),
-    ...mapGetters('game', ['charactersRequiredToStartGame']),
-    isButtonDisabled() {
+    ...mapState(['loadingUnderlayActive', 'loadingAnimationActive']),
+    ...mapState('game', ['characterIds']),
+    ...mapGetters('game', ['charactersRequiredToStartGame', 'charactersForSelectedDifficulty']),
+    ...mapGetters('character', ['findCharacterById']),
+    isPlayButtonDisabled() {
       return this.charactersRequiredToStartGame !== 0 || this.loadingAnimationActive;
-    },
-    playButtonMsg() {
-      if (this.loadingAnimationActive) {
-        return 'Loading...';
-      }
-
-      return this.isButtonDisabled ? `Select ${this.charactersRequiredToStartGame} Characters` : 'Play Game';
     }
   },
   methods: {
     ...mapActions('character', ['fetchCharacters']),
-    ...mapActions('game', ['createGame', 'resetGameState']),
+    ...mapActions('game', ['addOrRemoveCharacterFromGame', 'createGame', 'resetGameState']),
+    getSelectedCharacterImage(index) {
+      if (this.findCharacterById(this.characterIds[index])) {
+        const getCharacterSlug = this.findCharacterById(this.characterIds[index]).slug;
+        return this.getCharacterBackgroundImageMixin(getCharacterSlug, '0,0,0,0.2');
+      }
+    },
     cardBeforeEnter(el) {
       el.style.opacity = 0;
       el.style.left = '50px';
@@ -116,6 +115,32 @@ export default {
   .card-container {
     display: flex;
     flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+    @include media-query('tablet', 'min') {
+      padding-bottom: 120px;
+    }
+    @include media-query('tabletLandscape', 'min') {
+      padding-bottom: 0;
+    }
+  }
+  .footer-container {
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.6);
+  }
+
+  100% {
+    transform: scale(1);
   }
 }
 </style>

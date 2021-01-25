@@ -1,0 +1,11 @@
+.mobile {
+  @include media-query('tabletLandscape', 'min') {
+    display: none !important;
+  }
+}
+
+.desktop {
+  @include media-query('tabletLandscape', 'max') {
+    display: none !important;
+  }
+}

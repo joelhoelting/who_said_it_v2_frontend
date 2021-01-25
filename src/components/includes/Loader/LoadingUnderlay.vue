@@ -8,7 +8,7 @@
 import LoadingAnimation from './LoadingAnimation.vue';
 
 export default {
-  name: 'LoadingOverlay',
+  name: 'LoadingUnderlay',
   components: {
     LoadingAnimation
   }
@@ -24,6 +24,7 @@ export default {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
   z-index: -1;
 }
 </style>

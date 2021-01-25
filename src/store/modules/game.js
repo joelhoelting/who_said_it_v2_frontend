@@ -18,251 +18,14 @@ const getDefaultState = () => {
         slug: 'god'
       }
     ],
-    characterIds: [5, 6],
+    characterIds: [],
     currentQuoteIdx: 0,
-    quotes: [
-      {
-        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
-        id: 204
-      },
-      {
-        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
-        id: 204
-      },
-      {
-        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
-        id: 204
-      },
-      {
-        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
-        id: 204
-      },
-      {
-        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
-        id: 204
-      },
-      {
-        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
-        id: 204
-      },
-      {
-        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
-        id: 204
-      },
-      {
-        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
-        id: 204
-      },
-      {
-        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
-        id: 204
-      },
-      {
-        content: '"He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed."',
-        id: 204
-      }
-    ],
+    quotes: [],
     answer: {
       submitted: false,
       evaluation: Boolean
     },
-    gameState: [
-      // {
-      //   correct_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   },
-      //   evaluation: true,
-      //   quote: {
-      //     content:
-      //       'If a man beats his male or female slave with a rod and the slave dies as a direct result, he must be punished, but he is not to be punished if the slave gets up after a day or two, since the slave is his property.',
-      //     id: 181
-      //   },
-      //   selected_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   }
-      // },
-      // {
-      //   correct_character: {
-      //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
-      //     id: 5,
-      //     name: 'George Carlin',
-      //     slug: 'george_carlin'
-      //   },
-      //   evaluation: false,
-      //   quote: {
-      //     content:
-      //       'When you’re born you get a ticket to the freak show. When you’re born in America, you get a front-row seat.',
-      //     id: 153
-      //   },
-      //   selected_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   }
-      // },
-      // {
-      //   correct_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   },
-      //   evaluation: false,
-      //   quote: {
-      //     content: 'Eye for eye, tooth for tooth, hand for hand, foot for foot.',
-      //     id: 192
-      //   },
-      //   selected_character: {
-      //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
-      //     id: 5,
-      //     name: 'George Carlin',
-      //     slug: 'george_carlin'
-      //   }
-      // },
-      // {
-      //   correct_character: {
-      //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
-      //     id: 5,
-      //     name: 'George Carlin',
-      //     slug: 'george_carlin'
-      //   },
-      //   evaluation: false,
-      //   quote: {
-      //     content: 'You can’t fight City Hall, but you can goddamn sure blow it up.',
-      //     id: 145
-      //   },
-      //   selected_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   }
-      // },
-      // {
-      //   correct_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   },
-      //   evaluation: false,
-      //   quote: {
-      //     content:
-      //       "And that thou mayest tell in the ears of thy son, and of thy son's son, what things I have wrought in Egypt, and my signs which I have done among them; that ye may know how that I am the LORD.",
-      //     id: 190
-      //   },
-      //   selected_character: {
-      //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
-      //     id: 5,
-      //     name: 'George Carlin',
-      //     slug: 'george_carlin'
-      //   }
-      // },
-      // {
-      //   correct_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   },
-      //   evaluation: true,
-      //   quote: {
-      //     content: 'He that sacrificeth unto any god, save unto the LORD only, he shall be utterly destroyed.',
-      //     id: 204
-      //   },
-      //   selected_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   }
-      // },
-      // {
-      //   correct_character: {
-      //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
-      //     id: 5,
-      //     name: 'George Carlin',
-      //     slug: 'george_carlin'
-      //   },
-      //   evaluation: true,
-      //   quote: {
-      //     content:
-      //       'If it’s true that our species is alone in the universe, then I’d have to say that the universe aimed rather low and settled for very little.',
-      //     id: 146
-      //   },
-      //   selected_character: {
-      //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
-      //     id: 5,
-      //     name: 'George Carlin',
-      //     slug: 'george_carlin'
-      //   }
-      // },
-      // {
-      //   correct_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   },
-      //   evaluation: true,
-      //   quote: {
-      //     content:
-      //       'And I say unto thee, Let my son go, that he may serve me: and if thou refuse to let him go, behold, I will slay thy son, even thy firstborn.',
-      //     id: 187
-      //   },
-      //   selected_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   }
-      // },
-      // {
-      //   correct_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   },
-      //   evaluation: false,
-      //   quote: {
-      //     content: 'Thou shalt not suffer a witch to live.',
-      //     id: 203
-      //   },
-      //   selected_character: {
-      //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
-      //     id: 5,
-      //     name: 'George Carlin',
-      //     slug: 'george_carlin'
-      //   }
-      // },
-      // {
-      //   correct_character: {
-      //     description: 'Stand-up Comedian, renowned cynic. Made the bald ponytail fashionable again.',
-      //     id: 5,
-      //     name: 'George Carlin',
-      //     slug: 'george_carlin'
-      //   },
-      //   evaluation: false,
-      //   quote: {
-      //     content: 'God bless the homicidal maniacs. They make life worthwhile.',
-      //     id: 155
-      //   },
-      //   selected_character: {
-      //     description: 'Allegedly created the universe in 6 days. Known to get into fits of jealous rage.',
-      //     id: 6,
-      //     name: 'God',
-      //     slug: 'god'
-      //   }
-      // }
-    ],
+    gameState: [],
     inProgress: false,
     completed: false
   };
@@ -345,11 +108,14 @@ const characterModule = {
       return new Promise((resolve, reject) => {
         axiosInstance
           .post('/games', {
-            characters: characterIds,
-            difficulty
+            game: {
+              difficulty,
+              characters: characterIds
+            }
           })
           .then(response => {
             const { id, game_quotes } = response.data;
+            console.log(response.data);
             const gameObj = {
               id,
               characters,
@@ -374,7 +140,7 @@ const characterModule = {
       });
     },
     fetchUserGame({ dispatch }, id) {
-      dispatch('enableLoadingOverlay', null, { root: true });
+      dispatch('enableLoadingUnderlay', null, { root: true });
 
       return new Promise((resolve, reject) => {
         authorizedAxiosInstance
@@ -382,20 +148,20 @@ const characterModule = {
           .then(response => {
             setTimeout(() => {
               resolve(response);
-              dispatch('disableLoadingOverlay', null, { root: true });
+              dispatch('disableLoadingUnderlay', null, { root: true });
             }, 500);
           })
           .catch(error => {
             setTimeout(() => {
               reject(error);
-              dispatch('disableLoadingOverlay', null, { root: true });
+              dispatch('disableLoadingUnderlay', null, { root: true });
               console.error('Notification: Connection Failure: Please check your connection');
             }, 500);
           });
       });
     },
     fetchUserGames({ dispatch }) {
-      dispatch('enableLoadingOverlay', null, { root: true });
+      dispatch('enableLoadingUnderlay', null, { root: true });
 
       return new Promise((resolve, reject) => {
         authorizedAxiosInstance
@@ -403,13 +169,13 @@ const characterModule = {
           .then(response => {
             setTimeout(() => {
               resolve(response);
-              dispatch('disableLoadingOverlay', null, { root: true });
+              dispatch('disableLoadingUnderlay', null, { root: true });
             }, 500);
           })
           .catch(error => {
             setTimeout(() => {
               reject(error);
-              dispatch('disableLoadingOverlay', null, { root: true });
+              dispatch('disableLoadingUnderlay', null, { root: true });
               console.error('Notification: Connection Failure: Please check your connection');
             }, 500);
           });
@@ -455,19 +221,21 @@ const characterModule = {
       return new Promise((resolve, reject) => {
         plainAxiosInstance
           .patch(`/games/${state.id}`, {
-            answer: {
-              character_id: character.id,
-              quote_id: getters.getCurrentQuote.id,
-              quote_idx: state.currentQuoteIdx
+            game: {
+              answer: {
+                character_id: character.id,
+                quote_id: getters.getCurrentQuote.id,
+                quote_idx: state.currentQuoteIdx
+              }
             }
           })
           .then(response => {
-            const { correct_character, evaluation } = response.data;
+            const { correct_character_id, evaluation } = response.data.state[state.currentQuoteIdx];
 
             let answerObj = {
               evaluation,
               selected_character: character,
-              correct_character: rootGetters['character/findCharacterById'](correct_character.id),
+              correct_character: rootGetters['character/findCharacterById'](correct_character_id),
               quote: getters.getCurrentQuote
             };
 
@@ -512,6 +280,9 @@ const characterModule = {
     charactersRequiredToStartGame: state => {
       const currentCharLength = state.characterIds.length;
       return difficultyRules[state.difficulty] - currentCharLength;
+    },
+    charactersForSelectedDifficulty: state => {
+      return difficultyRules[state.difficulty];
     },
     gameProgressPercentage: state => `${(state.currentQuoteIdx + 1) * 10}%`,
     getCurrentQuote: state => state.quotes[state.currentQuoteIdx],

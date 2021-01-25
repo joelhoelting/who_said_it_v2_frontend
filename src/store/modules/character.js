@@ -16,7 +16,7 @@ const characterModule = {
       let characterCount = state.characters.length;
 
       if (characterCount === 0) {
-        dispatch('enableLoadingOverlay', null, { root: true });
+        dispatch('enableLoadingUnderlay', null, { root: true });
 
         return new Promise((resolve, reject) => {
           plainAxiosInstance
@@ -26,24 +26,22 @@ const characterModule = {
               commit('SET_CHARACTERS', characters);
 
               setTimeout(() => {
+                dispatch('disableLoadingUnderlay', null, { root: true });
                 resolve({
-                  characters,
-                  delay: 0
+                  characters
                 });
-                dispatch('disableLoadingOverlay', null, { root: true });
               }, 500);
             })
             .catch(error => {
               commit('SET_CHARACTERS', charactersBackup);
 
               const errorObj = Object.assign(new Error(error), {
-                characters: charactersBackup,
-                delay: 0
+                characters: charactersBackup
               });
 
               setTimeout(() => {
+                dispatch('disableLoadingUnderlay', null, { root: true });
                 reject(errorObj);
-                dispatch('disableLoadingOverlay', null, { root: true });
               }, 500);
             });
         });

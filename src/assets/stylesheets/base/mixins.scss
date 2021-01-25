@@ -1,0 +1,28 @@
+$breakpoints: (
+  phone: 375,
+  phoneLarge: 414,
+  phoneXL: 550,
+  tablet: 768,
+  tabletLandscape: 1050,
+  desktopSmall: 1250,
+  desktop: 1440,
+  desktopLarge: 1920,
+  desktopXLarge: 2048
+);
+
+// Usage
+// @include media-query('tablet', 'min') {
+//   position: fixed
+// }
+
+@mixin media-query($breakpoint, $direction) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    @media (#{$direction}-width: #{$breakpoint-value}px) {
+      @content;
+    }
+  } @else {
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
