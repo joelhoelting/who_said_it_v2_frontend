@@ -10,14 +10,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - |
-        if [ "$BRANCH_NAME" = "master" ]; then
-          npx vue-cli-service build --mode production
-        elif [ "$BRANCH_NAME" = "develop" ]; then
-          npx vue-cli-service build --mode staging
-        fi
-      - echo "Build Successful -- Deploy Beginning"
-      - |
+      - npx vue-cli-service build --mode production
+      - echo "Build successful -- Deployment beginning"
         if [ $CODEBUILD_BUILD_SUCCEEDING -eq 1 ]; then
           if [ "$BRANCH_NAME" = "master" ]; then
             echo "Syncing files with AWS w/ Cache Control Headers"
