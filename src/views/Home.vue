@@ -19,14 +19,14 @@ export default {
     this.animateCTA();
   },
   components: {
-    AnimatedTitle,
+    AnimatedTitle
   },
   methods: {
     animateCTA() {
       const { ctaRef } = this.$refs;
       gsap.fromTo(ctaRef, { opacity: 0, top: '100px' }, { opacity: 1, duration: 1, top: 0, ease: 'power2.out' });
-    },
-  },
+    }
+  }
 };
 </script>
 
