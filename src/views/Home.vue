@@ -3,7 +3,7 @@
     <AnimatedTitle class="desktop" />
     <img class="title-mobile mobile" :src="require('@/assets/images/logos/who_said_it_logo.svg')" />
     <div ref="ctaRef" class="cta-container">
-      <h1 class="center">The Game of Deciding Who Said What test</h1>
+      <h1 class="center">The Game of Deciding Who Said What</h1>
       <router-link class="btn btn--shadow btn--play" to="/play" tag="button">Play Game</router-link>
     </div>
   </div>
