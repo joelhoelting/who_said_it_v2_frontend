@@ -50,7 +50,7 @@ export default {
         email: false,
         errorsArray: []
       },
-      email: 'joel@joelhoelting.com',
+      email: '',
       passwordReset: {
         sent: false,
         email: ''

@@ -62,8 +62,8 @@ export default {
         password_confirmation: false,
         errorsArray: []
       },
-      password: 'someThing1234$',
-      password_confirmation: 'someThing1234$',
+      password: '',
+      password_confirmation: '',
       password_reset_token: '',
       passwordResetTokenValid: false
     };
