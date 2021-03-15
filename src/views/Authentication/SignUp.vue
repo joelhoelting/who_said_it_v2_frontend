@@ -74,7 +74,7 @@ export default {
       },
       email: '',
       password: '',
-      password_confirmation: 'someThing123$',
+      password_confirmation: '',
       emailConfirmation: {
         sent: false,
         email: ''
